@@ -46,6 +46,7 @@ export const executeCode = async (
         },
         body: JSON.stringify({
           language_id: 50, // C (GCC 9.2.0)
+          compiler_options: '-lm',
           source_code: encodeBase64(code),
           stdin: encodeBase64(tc.input),
         }),
@@ -97,6 +98,7 @@ export const executeCustomCode = async (code: string, input: string): Promise<{ 
       },
       body: JSON.stringify({
         language_id: 50, // C (GCC 9.2.0)
+          compiler_options: '-lm',
         source_code: encodeBase64(code),
         stdin: encodeBase64(input),
       }),
