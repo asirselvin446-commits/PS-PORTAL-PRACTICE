@@ -93,7 +93,7 @@ export default function App() {
     if (activeProblem && userName) {
       const passedCode = localStorage.getItem(`passed_code_${userName}_${activeProblem.id}`);
       if (passedCode !== null) {
-        if (newCode !== passedCode) {
+        if (newCode.trim() !== passedCode.trim()) {
           if (solvedProblems.has(activeProblem.id)) {
             const newSolved = new Set(solvedProblems);
             newSolved.delete(activeProblem.id);
@@ -111,6 +111,11 @@ export default function App() {
             newSolved.add(activeProblem.id);
             setSolvedProblems(newSolved);
             localStorage.setItem(`solved_${userName}`, JSON.stringify(Array.from(newSolved)));
+            
+            const newAttempted = new Set(attemptedProblems);
+            newAttempted.delete(activeProblem.id);
+            setAttemptedProblems(newAttempted);
+            localStorage.setItem(`attempted_${userName}`, JSON.stringify(Array.from(newAttempted)));
           }
         }
       }
@@ -122,7 +127,8 @@ export default function App() {
     
     // Load saved code for this problem if it exists
     const savedCode = localStorage.getItem(`code_${userName}_${problem.id}`);
-    setCode(savedCode || problem.starterCode);
+    const passedCode = localStorage.getItem(`passed_code_${userName}_${problem.id}`);
+    setCode(savedCode || passedCode || problem.starterCode);
     
     setResults(null);
     setError(null);
