@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TestResult, ExecutionResult } from '../utils/executor';
-import { CheckCircle2, XCircle, Terminal, Loader2, AlertTriangle, Cpu, Clock, HardDrive, Info } from 'lucide-react';
+import { CheckCircle2, XCircle, Eye, EyeOff, Terminal, Loader2, AlertTriangle, Cpu, Clock, HardDrive, Info } from 'lucide-react';
 
 interface ConsoleProps {
   results: TestResult[] | null;
@@ -13,6 +13,20 @@ interface ConsoleProps {
 }
 
 export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isCustomRun, customOutput, customInput, setCustomInput }) => {
+  const [revealedTests, setRevealedTests] = useState<Set<number>>(new Set());
+
+  const toggleReveal = (index: number) => {
+    setRevealedTests((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
   const renderExecutionDetails = (res: ExecutionResult) => {
     return (
       <div className="mt-4 border-t border-gray-800 pt-3 flex flex-wrap gap-4 text-xs">
@@ -111,6 +125,8 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
         ) : results ? (
           <div className="space-y-4">
             {results.map((result) => {
+              const isRevealed = revealedTests.has(result.index);
+              
               return (
                 <div
                   key={result.index}
@@ -135,10 +151,19 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
                       </div>
                     )}
 
-                    
+                    {result.hidden && (
+                      <button 
+                        onClick={() => toggleReveal(result.index)}
+                        className="flex items-center gap-1 text-xs text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors px-2 py-0.5 rounded-full ml-auto cursor-pointer"
+                        title={isRevealed ? "Hide test case" : "Reveal test case"}
+                      >
+                        {isRevealed ? <Eye size={12} /> : <EyeOff size={12} />}
+                        {isRevealed ? 'Revealed' : 'Hidden Test'}
+                      </button>
+                    )}
                   </div>
 
-                  {!result.hidden && (
+                  {(!result.hidden || isRevealed) && (
                     <div className="space-y-2 text-xs mt-3">
                       <div>
                         <span className="text-gray-500">Input:</span>
@@ -163,7 +188,7 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
                     </div>
                   )}
 
-                  {result.hidden && !result.passed && (
+                  {result.hidden && !isRevealed && !result.passed && (
                     <div className="mt-2 text-xs text-red-400 bg-[#0d0d0d] p-1.5 rounded">
                       Hidden test case failed. Check your logic.
                     </div>
