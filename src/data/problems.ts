@@ -1040,5 +1040,46 @@ export const problems: Problem[] = [
         "hidden": true
       }
     ]
+  },
+  {
+    "id": "fibonacci-series",
+    "title": "Fibonacci Series",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n    <p>Generate the first <strong>N</strong> terms of the Fibonacci series.</p>\n    <p>In a Fibonacci series, the next number is the sum of the two preceding ones. The sequence starts with 0 and 1.</p>\n    <br/>\n    <p><strong>Sample Input:</strong></p>\n    <pre>5</pre>\n    <p><strong>Sample Output:</strong></p>\n    <pre>0 1 1 2 3</pre>\n  ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "0 1 1 2 3",
+        "hidden": false
+      },
+      {
+        "input": "1",
+        "expected": "0",
+        "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "0 1",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "0 1 1 2 3 5 8 13 21 34",
+        "hidden": true
+      },
+      {
+        "input": "20",
+        "expected": "0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181",
+        "hidden": true
+      },
+      {
+        "input": "7",
+        "expected": "0 1 1 2 3 5 8",
+        "hidden": true
+      }
+    ]
   }
 ];
