@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { CodeEditor } from './components/CodeEditor';
+import { CodeEditor, EditorMarker } from './components/CodeEditor';
 import { Console } from './components/Console';
 import { problems, Problem } from './data/problems';
-import { executeCode, executeCustomCode, TestResult } from './utils/executor';
+import { executeCode, executeCustomCode, TestResult, ExecutionResult, CompilerOptions } from './utils/executor';
 import { generateReport } from './utils/report';
 import { ArrowLeft, Play, LayoutList, Trophy, CheckCircle, FileDown, CheckCircle2, LogOut } from 'lucide-react';
 
@@ -24,7 +24,9 @@ export default function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [isCustomRun, setIsCustomRun] = useState(false);
   const [customInput, setCustomInput] = useState('');
-  const [customOutput, setCustomOutput] = useState<string | null>(null);
+  const [customOutput, setCustomOutput] = useState<ExecutionResult | null>(null);
+  const [compilerStandard, setCompilerStandard] = useState<string>('c99');
+  const [editorMarkers, setEditorMarkers] = useState<EditorMarker[]>([]);
   
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [solvedProblems, setSolvedProblems] = useState<Set<string>>(new Set());
@@ -134,6 +136,7 @@ export default function App() {
     setError(null);
     setIsCustomRun(false);
     setCustomOutput(null);
+    setEditorMarkers([]);
     setView('solve');
   };
 
@@ -145,10 +148,38 @@ export default function App() {
     setActiveProblem(null);
   };
 
+  
+  const parseCompilerOutputToMarkers = (output: string) => {
+    const regex = /prog\.c:(\d+):(\d+):\s+(error|warning):\s+(.*)/g;
+    const regex2 = /main\.c:(\d+):(\d+):\s+(error|warning):\s+(.*)/g;
+    const regex3 = /source_file\.c:(\d+):(\d+):\s+(error|warning):\s+(.*)/g;
+    let match;
+    const newMarkers: EditorMarker[] = [];
+    
+    const parseMatches = (r: RegExp) => {
+      while ((match = r.exec(output)) !== null) {
+        newMarkers.push({
+          startLineNumber: parseInt(match[1]),
+          startColumn: parseInt(match[2]),
+          endLineNumber: parseInt(match[1]),
+          endColumn: parseInt(match[2]) + 5,
+          message: match[4],
+          severity: match[3] === 'error' ? 8 : 4 // 8 = Error, 4 = Warning
+        });
+      }
+    };
+    
+    parseMatches(regex);
+    parseMatches(regex2);
+    parseMatches(regex3);
+    setEditorMarkers(newMarkers);
+  };
+
   const handleRunCustom = async () => {
     if (!activeProblem || !userName) return;
     
     setIsRunning(true);
+    setEditorMarkers([]);
     setIsCustomRun(true);
     setResults(null);
     setError(null);
@@ -157,16 +188,19 @@ export default function App() {
     // Save code to local storage
     localStorage.setItem(`code_${userName}_${activeProblem.id}`, code);
 
-    const { success, output, error } = await executeCustomCode(code, customInput);
+    const result = await executeCustomCode(code, customInput, { standard: compilerStandard });
 
     setIsRunning(false);
     
-    if (!success) {
-      setError(error || 'An unknown error occurred');
+    if (!result.success && !result.compile_output && !result.stderr && !result.output) {
+      setError(result.error || 'An unknown error occurred');
       return;
     }
 
-    setCustomOutput(output || null);
+    setCustomOutput(result);
+    if (result.compile_output || result.stderr) {
+      parseCompilerOutputToMarkers((result.compile_output || '') + '\n' + (result.stderr || ''));
+    }
   };
 
   const handleSubmitCode = async () => {
@@ -184,7 +218,8 @@ export default function App() {
     const { success, results, error } = await executeCode(
       code,
       activeProblem.functionName,
-      activeProblem.testCases
+      activeProblem.testCases,
+      { standard: compilerStandard }
     );
 
     setIsRunning(false);
@@ -201,6 +236,15 @@ export default function App() {
     }
 
     setResults(results || null);
+    
+    // Find the first error result if any
+    if (results) {
+      const failed = results.find(r => !r.passed);
+      if (failed && failed.error) {
+        parseCompilerOutputToMarkers(failed.error);
+      }
+    }
+
 
     if (results) {
       const allPassed = results.every((r) => r.passed);
@@ -409,9 +453,21 @@ export default function App() {
             {activeProblem?.title}
           </h1>
         </div>
+        
         <div className="flex items-center gap-3">
+          <select 
+            value={compilerStandard} 
+            onChange={(e) => setCompilerStandard(e.target.value)}
+            className="bg-[#2d2d2d] text-white text-sm border border-gray-700 rounded px-2 py-1.5 focus:outline-none focus:border-blue-500"
+          >
+            <option value="c89">C89</option>
+            <option value="c99">C99</option>
+            <option value="c11">C11</option>
+            <option value="c17">C17</option>
+            <option value="c2x">C23</option>
+          </select>
           <button
-            onClick={handleRunCustom}
+onClick={handleRunCustom}
             disabled={isRunning}
             className="flex items-center gap-2 px-4 py-1.5 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded shadow-sm transition-colors"
           >
@@ -444,7 +500,7 @@ export default function App() {
         {/* Right Panel: Editor and Console */}
         <div className="flex-1 flex flex-col min-w-0">
           <div className="flex-[2] min-h-0">
-            <CodeEditor value={code} onChange={handleCodeChange} language="c" />
+            <CodeEditor value={code} onChange={handleCodeChange} language="c" onRun={handleRunCustom} onSubmit={handleSubmitCode} markers={editorMarkers} />
           </div>
           <div className="flex-1 min-h-0">
             <Console 

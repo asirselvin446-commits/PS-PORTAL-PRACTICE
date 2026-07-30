@@ -682,28 +682,33 @@ export const problems: Problem[] = [
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
-        "input": "100\n80",
-        "expected": "You are allowed to sit in the exam",
+        "input": "100\n75\nY",
+        "expected": "75\nAllowed",
         "hidden": false
       },
       {
-        "input": "200\n149",
-        "expected": "You are not allowed to sit in the exam\nApply for Condonation",
-        "hidden": false
-      },
-      {
-        "input": "50\n37",
-        "expected": "You are not allowed to sit in the exam\nApply for Condonation",
+        "input": "100\n60\nN",
+        "expected": "60\nNot Allowed",
         "hidden": true
       },
       {
-        "input": "100\n50",
-        "expected": "You are not allowed to sit in the exam\nNot eligible for Condonation",
+        "input": "100\n90\nN",
+        "expected": "90\nAllowed",
         "hidden": true
       },
       {
-        "input": "100\n75",
-        "expected": "You are allowed to sit in the exam",
+        "input": "100\n60\nY",
+        "expected": "60\nAllowed",
+        "hidden": true
+      },
+      {
+        "input": "150\n112\nN",
+        "expected": "74\nNot Allowed",
+        "hidden": true
+      },
+      {
+        "input": "200\n150\nY",
+        "expected": "75\nAllowed",
         "hidden": true
       }
     ]
@@ -725,7 +730,7 @@ export const problems: Problem[] = [
       {
         "input": "22000",
         "expected": "49500.00",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "10000",
@@ -735,6 +740,16 @@ export const problems: Problem[] = [
       {
         "input": "15000",
         "expected": "32250.00",
+        "hidden": true
+      },
+      {
+        "input": "20000",
+        "expected": "43000.00",
+        "hidden": true
+      },
+      {
+        "input": "5000",
+        "expected": "10000.00",
         "hidden": true
       }
     ]
@@ -756,7 +771,7 @@ export const problems: Problem[] = [
       {
         "input": "7376\n75",
         "expected": "Level:25\n98.00",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "4000\n40",
@@ -766,6 +781,16 @@ export const problems: Problem[] = [
       {
         "input": "16000\n80",
         "expected": "Level:100\n200.00",
+        "hidden": true
+      },
+      {
+        "input": "5000\n50",
+        "expected": "Level:25\n100.00",
+        "hidden": true
+      },
+      {
+        "input": "9999\n100",
+        "expected": "Level:25\n99.00",
         "hidden": true
       }
     ]
@@ -787,7 +812,7 @@ export const problems: Problem[] = [
       {
         "input": "5\n0",
         "expected": "1",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "1\n5",
@@ -797,6 +822,16 @@ export const problems: Problem[] = [
       {
         "input": "3\n4",
         "expected": "81",
+        "hidden": true
+      },
+      {
+        "input": "2\n10",
+        "expected": "1024",
+        "hidden": true
+      },
+      {
+        "input": "0\n5",
+        "expected": "0",
         "hidden": true
       }
     ]
@@ -818,11 +853,26 @@ export const problems: Problem[] = [
       {
         "input": "35000\n5",
         "expected": "36750",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "100000\n10",
         "expected": "110000",
+        "hidden": true
+      },
+      {
+        "input": "1000\n100",
+        "expected": "2000",
+        "hidden": true
+      },
+      {
+        "input": "42500\n12",
+        "expected": "47600",
+        "hidden": true
+      },
+      {
+        "input": "25000\n0",
+        "expected": "25000",
         "hidden": true
       }
     ]
@@ -844,7 +894,7 @@ export const problems: Problem[] = [
       {
         "input": "M\nD\n2",
         "expected": "Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Commercial use",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "L\nE\n3",
@@ -859,6 +909,11 @@ export const problems: Problem[] = [
       {
         "input": "S\nZ\n1",
         "expected": "Vehicle Size: Small\nInvalid fuel type.",
+        "hidden": true
+      },
+      {
+        "input": "S\nG\n1",
+        "expected": "Vehicle Size: Small\nFuel Type: Gasoline\nPurpose: Personal Use",
         "hidden": true
       }
     ]
@@ -880,7 +935,7 @@ export const problems: Problem[] = [
       {
         "input": "7000",
         "expected": "$350.00",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "60000",
@@ -895,6 +950,11 @@ export const problems: Problem[] = [
       {
         "input": "50000",
         "expected": "$5000.00",
+        "hidden": true
+      },
+      {
+        "input": "9999",
+        "expected": "$499.95",
         "hidden": true
       }
     ]
@@ -916,7 +976,7 @@ export const problems: Problem[] = [
       {
         "input": "36893",
         "expected": "36893 is a 5-digit number",
-        "hidden": false
+        "hidden": true
       },
       {
         "input": "-12345",
@@ -934,13 +994,8 @@ export const problems: Problem[] = [
         "hidden": true
       },
       {
-        "input": "-9999",
-        "expected": "-9999 is not a 5-digit number",
-        "hidden": true
-      },
-      {
-        "input": "-10000",
-        "expected": "-10000 is a 5-digit number",
+        "input": "99999",
+        "expected": "99999 is a 5-digit number",
         "hidden": true
       }
     ]
@@ -972,6 +1027,16 @@ export const problems: Problem[] = [
       {
         "input": "6\n2",
         "expected": "6",
+        "hidden": true
+      },
+      {
+        "input": "5\n5",
+        "expected": "8",
+        "hidden": true
+      },
+      {
+        "input": "0\n5",
+        "expected": "0",
         "hidden": true
       }
     ]
