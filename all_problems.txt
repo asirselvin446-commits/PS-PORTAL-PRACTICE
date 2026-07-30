@@ -1,0 +1,269 @@
+
+--- Problem: prime-range ---
+<p>A prime number is a natural number greater than 1 that is not a product of two smaller natural numbers.</p>
+      <p>Write a C program that reads two integers, <code>start</code> and <code>end</code>, and prints all prime numbers between <code>start</code> and <code>end</code> (inclusive), separated by spaces.</p>
+      <p><strong>Note:</strong> You should use a <code>for</code> loop to iterate through the range and check for primality.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>2 5</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>2 3 5</pre>
+Input: 2 5 | Expected: 2 3 5
+Input: 10 20 | Expected: 11 13 17 19
+Input: 1 10 | Expected: 2 3 5 7
+Input: 20 30 | Expected: 23 29
+Input: 100 120 | Expected: 101 103 107 109 113
+Input: 50 60 | Expected: 53 59
+
+--- Problem: collatz-sequence ---
+<p>The Collatz sequence applies to positive integers:</p>
+      <ul>
+        <li>If <em>n</em> is even, divide it by 2.</li>
+        <li>If <em>n</em> is odd, multiply it by 3 and add 1.</li>
+      </ul>
+      <p>Write a C program that reads an integer <code>n</code> and prints the number of steps it takes to reach 1.</p>
+      <p><strong>Note:</strong> This is a great place to practice loops (like <code>while</code> or <code>for</code>) to simulate the sequence!</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>10</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>6</pre>
+Input: 10 | Expected: 6
+Input: 1 | Expected: 0
+Input: 12 | Expected: 9
+Input: 27 | Expected: 111
+Input: 50 | Expected: 24
+Input: 15 | Expected: 17
+
+--- Problem: harshad-number ---
+<p>A Harshad number is an integer that is divisible by the sum of its digits.</p>
+      <p>Write a C program that reads a positive integer <code>n</code> and prints whether it is a Harshad number. Output format: "<code>[n] is a harshad number</code>" or "<code>[n] is not a harshad number</code>".</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>36</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>36 is a harshad number</pre>
+Input: 36 | Expected: 36 is a harshad number
+Input: 15 | Expected: 15 is not a harshad number
+Input: 18 | Expected: 18 is a harshad number
+Input: 19 | Expected: 19 is not a harshad number
+Input: 100 | Expected: 100 is a harshad number
+Input: 21 | Expected: 21 is a harshad number
+
+--- Problem: product-of-digit ---
+<p>Write a C program that reads an integer <code>n</code> and prints the product of its digits.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>65</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>30</pre>
+Input: 65 | Expected: 30
+Input: 123 | Expected: 6
+Input: 90 | Expected: 0
+Input: 456 | Expected: 120
+Input: 1111 | Expected: 1
+Input: 7 | Expected: 7
+
+--- Problem: strong-number ---
+<p>A Strong number is a number whose sum of the factorial of its digits is equal to the number itself.</p>
+      <p>Write a C program that reads an integer <code>n</code> and prints whether it is a strong number. Output format: "<code>[n] is a Strong number</code>" or "<code>[n] is not a Strong number</code>".</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>145</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>145 is a Strong number</pre>
+Input: 145 | Expected: 145 is a Strong number
+Input: 2 | Expected: 2 is a Strong number
+Input: 10 | Expected: 10 is not a Strong number
+Input: 40585 | Expected: 40585 is a Strong number
+Input: 150 | Expected: 150 is not a Strong number
+Input: 1 | Expected: 1 is a Strong number
+
+--- Problem: palindrome-number ---
+<p>A palindrome number reads the same forwards and backwards.</p>
+      <p>Write a C program that reads an integer <code>n</code> and prints whether it is a palindrome. Output format: "<code>[n] is a palindrome number</code>" or "<code>[n] is not a palindrome number</code>".</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>232</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>232 is a palindrome number</pre>
+Input: 232 | Expected: 232 is a palindrome number
+Input: 123 | Expected: 123 is not a palindrome number
+Input: 1221 | Expected: 1221 is a palindrome number
+Input: 10 | Expected: 10 is not a palindrome number
+Input: 5 | Expected: 5 is a palindrome number
+Input: 888 | Expected: 888 is a palindrome number
+
+--- Problem: armstrong-number ---
+<p>An Armstrong number of 3 digits is an integer such that the sum of the cubes of its digits is equal to the number itself. Generalizing, for an n-digit number, the sum of its digits each raised to the power n equals the number.</p>
+      <p>Write a C program that reads an integer <code>n</code> and prints whether it is an Armstrong number. Output format: "<code>[n] is a armstrong number</code>" or "<code>[n] is not a armstrong number</code>".</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>153</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>153 is a armstrong number</pre>
+Input: 153 | Expected: 153 is a armstrong number
+Input: 370 | Expected: 370 is a armstrong number
+Input: 123 | Expected: 123 is not a armstrong number
+Input: 9474 | Expected: 9474 is a armstrong number
+Input: 9475 | Expected: 9475 is not a armstrong number
+Input: 371 | Expected: 371 is a armstrong number
+
+--- Problem: twin-primes ---
+<p>Twin primes are pairs of primes which differ by 2. (e.g., 3 and 5, 11 and 13).</p>
+      <p>Write a C program that reads two integers <code>start</code> and <code>end</code>, and prints twin prime pairs in the given range. Output format for each pair: "<code>(prime1 prime2 )</code>" on a new line.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>1 20</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>(3 5 )
+(5 7 )
+(11 13 )
+(17 19 )
+</pre>
+Input: 1 20 | Expected: (3 5 )\n(5 7 )\n(11 13 )\n(17 19 )\n
+Input: 20 40 | Expected: (29 31 )\n
+Input: 40 50 | Expected: (41 43 )\n
+Input: 1 10 | Expected: (3 5 )\n(5 7 )\n
+Input: 50 75 | Expected: (59 61 )\n(71 73 )\n
+Input: 10 20 | Expected: (11 13 )\n(17 19 )\n
+
+--- Problem: working-with-character ---
+<p>Write a C program that reads a single character. If the character is lowercase, it should print its uppercase version. If it is uppercase, it should print its lowercase version. If it is not an alphabet character, print "It is not a alphabet".</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>A</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>a</pre>
+Input: A | Expected: a
+Input: b | Expected: B
+Input: $ | Expected: It is not a alphabet
+Input: Z | Expected: z
+Input: 9 | Expected: It is not a alphabet
+Input: m | Expected: M
+
+--- Problem: pattern-stars ---
+<p>Write a C program that reads an integer <code>n</code> and prints a right-angled triangle pattern of stars with <code>n</code> rows. Each row should contain stars separated by a space, and a trailing space at the end of each row.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>3</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>* 
+* * 
+* * * 
+</pre>
+Input: 3 | Expected: * \n* * \n* * * \n
+Input: 5 | Expected: * \n* * \n* * * \n* * * * \n* * * * * \n
+Input: 1 | Expected: * \n
+Input: 2 | Expected: * \n* * \n
+Input: 4 | Expected: * \n* * \n* * * \n* * * * \n
+Input: 6 | Expected: * \n* * \n* * * \n* * * * \n* * * * * \n* * * * * * \n
+
+--- Problem: sum-of-digits ---
+<p>Write a C program that reads a positive integer <code>n</code> and prints the sum of its digits.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>231456</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>21</pre>
+Input: 231456 | Expected: 21
+Input: 123 | Expected: 6
+Input: 9090 | Expected: 18
+Input: 5 | Expected: 5
+Input: 999 | Expected: 27
+Input: 1000 | Expected: 1
+
+--- Problem: alphabet-check ---
+<p>Craft a program to check whether a given character is an alphabet or not. The program should prompt the user to enter a character, then it should determine if the entered character is an alphabet or not.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>T</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>T is an Alphabet.</pre>
+Input: T | Expected: T is an Alphabet.
+Input: 7 | Expected: 7 is not an Alphabet.
+Input: a | Expected: a is an Alphabet.
+Input: ! | Expected: ! is not an Alphabet.
+Input: z | Expected: z is an Alphabet.
+Input:   | Expected:   is not an Alphabet.
+
+--- Problem: number-comparison ---
+<p>Tom, a math teacher, wants to create a simple program to compare two numbers provided by his students. By providing this tool, he aims to help his students understand basic number comparison concepts and improve their problem-solving skills.</p>
+      <p>Craft a program that prompts the user to input two numbers and then determines which one is greater, lesser, or if they are equal.</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>10
+5</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>10 is greater than 5.</pre>
+Input: 10\n5 | Expected: 10 is greater than 5.
+Input: 7\n12 | Expected: 12 is greater than 7.
+Input: 8\n8 | Expected: 8 is equal to 8.
+Input: -5\n-10 | Expected: -5 is greater than -10.
+Input: 0\n0 | Expected: 0 is equal to 0.
+Input: -20\n5 | Expected: 5 is greater than -20.
+
+--- Problem: battery-status ---
+<p>Craft a program that prompts the user to enter an integer and that determines the status of a battery based on its charge level.</p>
+      <p>Determine the status of the battery based on the charge level using statements:</p>
+      <ul>
+        <li>If the charge level is less than or equal to 20, the status is <strong>Low</strong></li>
+        <li>If the charge level is greater than or equal to 21 and less than or equal to 70, the status is <strong>Medium</strong></li>
+        <li>If the charge level is greater than or equal to 71 and less than or equal to 95, the status is <strong>Almost Full</strong></li>
+        <li>If the charge level is greater than or equal to 96 and less than or equal to 100, the status is <strong>Full</strong></li>
+        <li>If the charge level is less than 0 or greater than 100, print <strong>Invalid charge level</strong></li>
+      </ul>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>40</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>Medium</pre>
+Input: 40 | Expected: Medium
+Input: 85 | Expected: Almost Full
+Input: 10 | Expected: Low
+Input: 100 | Expected: Full
+Input: 105 | Expected: Invalid charge level
+Input: -5 | Expected: Invalid charge level
+
+--- Problem: train-speed ---
+<p>Get two inputs:</p>
+      <ul>
+        <li>One to enter the Distance traveled by the train in Kilometers</li>
+        <li>Another is to enter the time taken by the train to cover the above distance (in hours)</li>
+      </ul>
+      <p>Find the speed of the train and display it with 2 decimal places. And comment on the speed by displaying:</p>
+      <ul>
+        <li><strong>Very slow</strong> if speed is less than 50 km/hr</li>
+        <li><strong>Over speed</strong> if speed is greater than 120 km/hr</li>
+        <li><strong>Average speed</strong> if the speed is normal</li>
+      </ul>
+      <p>Hint: speed = distance / time</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>150
+2</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>75.00
+Average speed</pre>
+Input: 150\n2 | Expected: 75.00\nAverage speed
+Input: 200\n5 | Expected: 40.00\nVery slow
+Input: 300\n2 | Expected: 150.00\nOver speed
+Input: 120\n2 | Expected: 60.00\nAverage speed
+Input: 240\n2 | Expected: 120.00\nAverage speed
+Input: 50\n1 | Expected: 50.00\nAverage speed
+
+--- Problem: shipping-cost ---
+<p>Imagine you're the lead developer for an online store, tasked with designing a program to calculate shipping costs for orders.</p>
+      <p>The store offers two shipping options: free shipping for orders totaling over $50, and a flat shipping fee of $5 for orders below that threshold.</p>
+      <p>Implement the shipping cost calculation logic. If the order total is over $50, the program should output "Shipping is free." Otherwise, it should output "Shipping fee: $5." Handle the Negative value as "Invalid Amount."</p>
+      <br/>
+      <p><strong>Sample Input 1:</strong></p>
+      <pre>10</pre>
+      <p><strong>Sample Output 1:</strong></p>
+      <pre>10.00 Shipping fee is $5.</pre>
+Input: 10 | Expected: 10.00 Shipping fee is $5.
+Input: 70 | Expected: 70.00 Shipping is free.
+Input: -5 | Expected: Invalid Amount.
+Input: 50 | Expected: 50.00 Shipping fee is $5.
+Input: 100 | Expected: 100.00 Shipping is free.
+Input: 0 | Expected: Invalid Amount.

@@ -1,0 +1,8 @@
+{
+  "name": "CodeChallenge",
+  "description": "A HackerRank-style coding challenge platform focusing on for loops and basic algorithms, featuring hidden test cases.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
