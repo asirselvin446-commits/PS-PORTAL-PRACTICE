@@ -1460,5 +1460,282 @@ export const problems: Problem[] = [
         "hidden": true
       }
     ]
+  },
+  {
+    "id": "prime-range",
+    "title": "1. Prime number with ranges",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>10 20</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>11 13 17 19</pre>\n    ",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10 20",
+        "expected": "11 13 17 19",
+        "hidden": false
+      },
+      {
+        "input": "1 10",
+        "expected": "2 3 5 7",
+        "hidden": true
+      },
+      {
+        "input": "20 30",
+        "expected": "23 29",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "collatz-sequence",
+    "title": "2. Collatz sequence",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Print the Collatz sequence for a given number N. The sequence stops when it reaches 1.</p>\n    ",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6",
+        "expected": "6 3 10 5 16 8 4 2 1",
+        "hidden": false
+      },
+      {
+        "input": "3",
+        "expected": "3 10 5 16 8 4 2 1",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "harshad-number",
+    "title": "4. Harshad Number",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Check if a number is a Harshad Number (divisible by the sum of its digits).</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "18",
+        "expected": "Harshad Number",
+        "hidden": false
+      },
+      {
+        "input": "19",
+        "expected": "Not a Harshad Number",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "product-of-digit",
+    "title": "5. Product of a digit",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Calculate the product of digits of a given number.</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "123",
+        "expected": "6",
+        "hidden": false
+      },
+      {
+        "input": "45",
+        "expected": "20",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "0",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "strong-number",
+    "title": "10. Strong number",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Check if a number is a Strong number (sum of factorials of digits equals the number).</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "145",
+        "expected": "Strong Number",
+        "hidden": false
+      },
+      {
+        "input": "123",
+        "expected": "Not a Strong Number",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "palindrome-number",
+    "title": "12. Palindrome or not",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Check if a given number is a Palindrome.</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "121",
+        "expected": "Palindrome",
+        "hidden": false
+      },
+      {
+        "input": "123",
+        "expected": "Not a Palindrome",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "armstrong-number",
+    "title": "13. Armstrong number",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Check if a given number is an Armstrong number (sum of its own digits raised to the power of the number of digits equals the number).</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "153",
+        "expected": "Armstrong Number",
+        "hidden": false
+      },
+      {
+        "input": "123",
+        "expected": "Not an Armstrong Number",
+        "hidden": true
+      },
+      {
+        "input": "9474",
+        "expected": "Armstrong Number",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "twin-primes",
+    "title": "16. Twin Primes",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Check if two given numbers are Twin Primes (both are prime and their absolute difference is 2).</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "3 5",
+        "expected": "Twin Primes",
+        "hidden": false
+      },
+      {
+        "input": "5 7",
+        "expected": "Twin Primes",
+        "hidden": true
+      },
+      {
+        "input": "7 9",
+        "expected": "Not Twin Primes",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "working-with-character",
+    "title": "3. Working with character",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "<p>Read a character and check if it is a vowel or consonant.</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "a",
+        "expected": "Vowel",
+        "hidden": false
+      },
+      {
+        "input": "b",
+        "expected": "Consonant",
+        "hidden": true
+      },
+      {
+        "input": "E",
+        "expected": "Vowel",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "pattern-stars",
+    "title": "6. Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Print a right-angled triangle pattern of stars with N rows.</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "3",
+        "expected": "*\n**\n***",
+        "hidden": false
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "sum-of-digits",
+    "title": "14. Sum of a digit",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Calculate the sum of digits of a given number.</p>",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "123",
+        "expected": "6",
+        "hidden": false
+      },
+      {
+        "input": "456",
+        "expected": "15",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
+  },
+  {
+    "id": "fibonacci-series",
+    "title": "Fibonacci Series",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Generate the first <strong>N</strong> terms of the Fibonacci series.</p>\n      <p>In a Fibonacci series, the next number is the sum of the two preceding ones. The sequence starts with 0 and 1.</p>\n    ",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "0 1 1 2 3",
+        "hidden": false
+      },
+      {
+        "input": "1",
+        "expected": "0",
+        "hidden": true
+      },
+      {
+        "input": "7",
+        "expected": "0 1 1 2 3 5 8",
+        "hidden": true
+      }
+    ],
+    "functionName": "main"
   }
 ];
