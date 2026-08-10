@@ -1081,5 +1081,876 @@ export const problems: Problem[] = [
         "hidden": true
       }
     ]
+  },
+  {
+    "id": "l2-p1-roman-numeral",
+    "title": "1. Roman Numeral",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to convert an integer into a Roman numeral. The input number will be between 1 and 40.</p>\n      <p>If the input is outside this range, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>IV</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "IV\n",
+        "hidden": false
+      },
+      {
+        "input": "1",
+        "expected": "I\n",
+        "hidden": true
+      },
+      {
+        "input": "9",
+        "expected": "IX\n",
+        "hidden": true
+      },
+      {
+        "input": "19",
+        "expected": "XIX\n",
+        "hidden": true
+      },
+      {
+        "input": "34",
+        "expected": "XXXIV\n",
+        "hidden": true
+      },
+      {
+        "input": "40",
+        "expected": "XL\n",
+        "hidden": true
+      },
+      {
+        "input": "45",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p2-square-pattern",
+    "title": "2. Square Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to print a square pattern of '#' characters with size N.</p>\n      <p>If N is less than or equal to 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre># # # # \n# # # # \n# # # # \n# # # # \n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "# # # # \n# # # # \n# # # # \n# # # # \n",
+        "hidden": false
+      },
+      {
+        "input": "1",
+        "expected": "# \n",
+        "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "# # \n# # \n",
+        "hidden": true
+      },
+      {
+        "input": "5",
+        "expected": "# # # # # \n# # # # # \n# # # # # \n# # # # # \n# # # # # \n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "-2",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p3-perfect-number",
+    "title": "3. Perfect Number",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to check if a number is a perfect number (if perfect it will print the largest proper divisor else it will print the given number).</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>3</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6",
+        "expected": "3\n",
+        "hidden": false
+      },
+      {
+        "input": "10",
+        "expected": "10\n",
+        "hidden": true
+      },
+      {
+        "input": "28",
+        "expected": "14\n",
+        "hidden": true
+      },
+      {
+        "input": "12",
+        "expected": "12\n",
+        "hidden": true
+      },
+      {
+        "input": "496",
+        "expected": "248\n",
+        "hidden": true
+      },
+      {
+        "input": "5",
+        "expected": "5\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p4-prime-range",
+    "title": "4. Prime number between range",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <p>Numbers should be separated by a space.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>10 20</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>11 13 17 19 \n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10\n20",
+        "expected": "11 13 17 19 \n",
+        "hidden": false
+      },
+      {
+        "input": "1\n10",
+        "expected": "2 3 5 7 \n",
+        "hidden": true
+      },
+      {
+        "input": "20\n30",
+        "expected": "23 29 \n",
+        "hidden": true
+      },
+      {
+        "input": "50\n60",
+        "expected": "53 59 \n",
+        "hidden": true
+      },
+      {
+        "input": "90\n100",
+        "expected": "97 \n",
+        "hidden": true
+      },
+      {
+        "input": "2\n5",
+        "expected": "2 3 5 \n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p5-harmonic-series",
+    "title": "5. Harmonic Series",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to print the sum of the harmonic series up to N terms: 1 + 1/2 + 1/3 + ... + 1/N.</p>\n      <p>If N <= 0, print <code>Invalid input</code>. Format the output to 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>2.28</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "2.28\n",
+        "hidden": false
+      },
+      {
+        "input": "1",
+        "expected": "1.00\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "2.93\n",
+        "hidden": true
+      },
+      {
+        "input": "100",
+        "expected": "5.19\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "-5",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p6-handshaking",
+    "title": "6. Handshaking Theorem",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to calculate the total number of handshakes possible for N people.</p>\n      <p>If N < 2, print <code>At least 2 people are needed for a handshake.</code></p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>10</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "10\n",
+        "hidden": false
+      },
+      {
+        "input": "2",
+        "expected": "1\n",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "At least 2 people are needed for a handshake.\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "45\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "At least 2 people are needed for a handshake.\n",
+        "hidden": true
+      },
+      {
+        "input": "100",
+        "expected": "4950\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p7-odd-even-sequence",
+    "title": "7. Odd and Even Sequence",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Take an integer N. If N is odd, print odd numbers from 1 to N. If N is even, print even numbers from 2 to N. If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>9</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>1 3 5 7 9 </pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "9",
+        "expected": "1 3 5 7 9 ",
+        "hidden": false
+      },
+      {
+        "input": "8",
+        "expected": "2 4 6 8 ",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "1 ",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "2 4 6 8 10 ",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "-3",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p8-odd-even-sum",
+    "title": "8. Odd and Even Number Sum",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>For a given integer N, print all even numbers strictly less than N, followed by their sum. Then, print all odd numbers strictly less than N, followed by their sum.</p>\n      <p>If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "8",
+        "expected": "2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16\n",
+        "hidden": false
+      },
+      {
+        "input": "7",
+        "expected": "2 4 6 \nEven Sum = 12\nOdd numbers less than 7: 1 3 5 \nOdd Sum = 9\n",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "\nEven Sum = 0\nOdd numbers less than 1: \nOdd Sum = 0\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "2 4 6 8 \nEven Sum = 20\nOdd numbers less than 10: 1 3 5 7 9 \nOdd Sum = 25\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "15",
+        "expected": "2 4 6 8 10 12 14 \nEven Sum = 56\nOdd numbers less than 15: 1 3 5 7 9 11 13 \nOdd Sum = 49\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p9-odd-even-squares",
+    "title": "9. Odd and Even Squares",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Take N as input. If N is even, print the squares of even numbers up to N. If N is odd, print the squares of odd numbers up to N. If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>4 16 36 64 </pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "8",
+        "expected": "4 16 36 64 ",
+        "hidden": false
+      },
+      {
+        "input": "7",
+        "expected": "1 9 25 49 ",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "1 ",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "4 16 36 64 100 ",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "-5",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p10-perfect-square",
+    "title": "10. Perfect Square",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Check if a given number is a perfect square. If it is negative, print <code>Not a Perfect Square</code>.</p>\n      <p>Print <code>Perfect Square</code> if it is, otherwise <code>Not a Perfect Square</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>Perfect Square\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "25",
+        "expected": "Perfect Square\n",
+        "hidden": false
+      },
+      {
+        "input": "10",
+        "expected": "Not a Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "-4",
+        "expected": "Not a Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "144",
+        "expected": "Perfect Square\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p11-pyramid-pattern",
+    "title": "11. Pyramid Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Print a pyramid pattern of alphabets. Take N as the number of rows. Check valid input range (1 to 26), else print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>A\nAB\nABC\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "3",
+        "expected": "A\nAB\nABC\n",
+        "hidden": false
+      },
+      {
+        "input": "5",
+        "expected": "A\nAB\nABC\nABCD\nABCDE\n",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "A\n",
+        "hidden": true
+      },
+      {
+        "input": "26",
+        "expected": "A\nAB\nABC\nABCD\nABCDE\nABCDEF\nABCDEFG\nABCDEFGH\nABCDEFGHI\nABCDEFGHIJ\nABCDEFGHIJK\nABCDEFGHIJKL\nABCDEFGHIJKLM\nABCDEFGHIJKLMN\nABCDEFGHIJKLMNO\nABCDEFGHIJKLMNOP\nABCDEFGHIJKLMNOPQ\nABCDEFGHIJKLMNOPQR\nABCDEFGHIJKLMNOPQRS\nABCDEFGHIJKLMNOPQRST\nABCDEFGHIJKLMNOPQRSTU\nABCDEFGHIJKLMNOPQRSTUV\nABCDEFGHIJKLMNOPQRSTUVW\nABCDEFGHIJKLMNOPQRSTUVWX\nABCDEFGHIJKLMNOPQRSTUVWXY\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n",
+        "hidden": true
+      },
+      {
+        "input": "27",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p12-strong-number",
+    "title": "12. Strong Number or Not",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Check if a number is a Strong number (sum of factorials of digits equals the number). If input is less than 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>145</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>Strong Number\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "145",
+        "expected": "Strong Number\n",
+        "hidden": false
+      },
+      {
+        "input": "2",
+        "expected": "Strong Number\n",
+        "hidden": true
+      },
+      {
+        "input": "123",
+        "expected": "Not a Strong Number\n",
+        "hidden": true
+      },
+      {
+        "input": "-5",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "40585",
+        "expected": "Strong Number\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "Not a Strong Number\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p13-start-pattern",
+    "title": "13. Start Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program that takes two inputs: number of rows (N) and starting stars (S). If N <= 0 or S <= 0, print <code>Invalid input</code>. For odd rows, print S stars. For even rows, print S*2 stars.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>7\n3</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>***\n******\n***\n******\n***\n******\n***\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n3",
+        "expected": "***\n******\n***\n******\n***\n******\n***\n",
+        "hidden": false
+      },
+      {
+        "input": "4\n2",
+        "expected": "**\n****\n**\n****\n",
+        "hidden": true
+      },
+      {
+        "input": "1\n5",
+        "expected": "*****\n",
+        "hidden": true
+      },
+      {
+        "input": "0\n3",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "3\n0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "5\n1",
+        "expected": "*\n**\n*\n**\n*\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p14-pattern-sum",
+    "title": "14. Pattern Sum",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a program to generate a pattern of numbers starting from 9 and decreasing by 1 each time per row. Each row should start from 9 and contain one more digit than the previous row. After printing all the rows, print the sum of all the numbers formed in each row.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>1094\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "3",
+        "expected": "1094\n",
+        "hidden": false
+      },
+      {
+        "input": "4",
+        "expected": "10970\n",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "9\n",
+        "hidden": true
+      },
+      {
+        "input": "5",
+        "expected": "109735\n",
+        "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "107\n",
+        "hidden": true
+      },
+      {
+        "input": "6",
+        "expected": "1097389\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p15-remove-first-last-digit",
+    "title": "15. Remove First and Last Digit",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Write a C program to remove the first and last digit of a number and print the result. If the number becomes 0 or invalid after removal, print 0.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>73627</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>362\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "73627",
+        "expected": "362\n",
+        "hidden": false
+      },
+      {
+        "input": "12",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "123",
+        "expected": "2\n",
+        "hidden": true
+      },
+      {
+        "input": "9009",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "5",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "87654321",
+        "expected": "765432\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p16-take-n-numbers",
+    "title": "16. Multiply 1-digit or 2-digit numbers",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Take N numbers as input. If N <= 0, print <code>Invalid input</code>.</p>\n      <p>Only 1-digit or 2-digit numbers (0 to 99 and -99 to -1) should be included in the multiplication. Ignore numbers with 3 or more digits. If no valid numbers, print <code>0</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4\n2\n12\n123\n2</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>48\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4\n2\n12\n123\n2",
+        "expected": "48\n",
+        "hidden": false
+      },
+      {
+        "input": "0",
+        "expected": "Invalid input\n",
+        "hidden": true
+      },
+      {
+        "input": "3\n100\n-5\n10",
+        "expected": "-50\n",
+        "hidden": true
+      },
+      {
+        "input": "2\n1000\n-500",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "5\n-1\n-2\n-3\n-4\n-5",
+        "expected": "-120\n",
+        "hidden": true
+      },
+      {
+        "input": "-2",
+        "expected": "Invalid input\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p17-process-digits",
+    "title": "17. Process Digits",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Process a number digit by digit from left to right. If the first digit is 9, skip printing it. For other digits, if the digit is 9, print 0, else print digit + 1.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>234</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>345</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "234",
+        "expected": "345",
+        "hidden": false
+      },
+      {
+        "input": "9876",
+        "expected": "987",
+        "hidden": true
+      },
+      {
+        "input": "934",
+        "expected": "45",
+        "hidden": true
+      },
+      {
+        "input": "999",
+        "expected": "00",
+        "hidden": true
+      },
+      {
+        "input": "100",
+        "expected": "2",
+        "hidden": true
+      },
+      {
+        "input": "9019",
+        "expected": "120",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p18-perfect-cube",
+    "title": "18. Perfect Cube Format",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Take N as input and print the cube format for N, N+1, and N+2.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>5*5*5 = 125\n6*6*6 = 216\n7*7*7 = 343\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "5*5*5 = 125\n6*6*6 = 216\n7*7*7 = 343\n",
+        "hidden": false
+      },
+      {
+        "input": "1",
+        "expected": "1*1*1 = 1\n2*2*2 = 8\n3*3*3 = 27\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "10*10*10 = 1000\n11*11*11 = 1331\n12*12*12 = 1728\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "0*0*0 = 0\n1*1*1 = 1\n2*2*2 = 8\n",
+        "hidden": true
+      },
+      {
+        "input": "12",
+        "expected": "12*12*12 = 1728\n13*13*13 = 2197\n14*14*14 = 2744\n",
+        "hidden": true
+      },
+      {
+        "input": "9",
+        "expected": "9*9*9 = 729\n10*10*10 = 1000\n11*11*11 = 1331\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p19-multiples-pattern",
+    "title": "19. Multiples of 5 Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Print a pattern containing multiples of 5, based on the input N.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>5 \n5 10 \n5 10 15 \n5 10 15 20 \n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n",
+        "hidden": false
+      },
+      {
+        "input": "2",
+        "expected": "5 \n5 10 \n",
+        "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "5 \n",
+        "hidden": true
+      },
+      {
+        "input": "5",
+        "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n5 10 15 20 25 \n",
+        "hidden": true
+      },
+      {
+        "input": "6",
+        "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n5 10 15 20 25 \n5 10 15 20 25 30 \n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p20-repeated-digits",
+    "title": "20. Sum of Repeated Digits",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Given a digit and a count, calculate the sum of terms formed by repeating the digit.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>3 5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>37035\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "3\n5",
+        "expected": "37035\n",
+        "hidden": false
+      },
+      {
+        "input": "1\n4",
+        "expected": "1234\n",
+        "hidden": true
+      },
+      {
+        "input": "5\n3",
+        "expected": "615\n",
+        "hidden": true
+      },
+      {
+        "input": "9\n2",
+        "expected": "108\n",
+        "hidden": true
+      },
+      {
+        "input": "2\n6",
+        "expected": "246912\n",
+        "hidden": true
+      },
+      {
+        "input": "7\n1",
+        "expected": "7\n",
+        "hidden": true
+      }
+    ]
+  },
+  {
+    "id": "l2-p21-collatz-steps",
+    "title": "21. Bitwise Collatz Steps",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "\n      <p>Count the number of steps required to reach 1 for a given integer N using the Collatz conjecture logic (modified using bitwise operations).</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>8\n</pre>\n    ",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6",
+        "expected": "8\n",
+        "hidden": false
+      },
+      {
+        "input": "3",
+        "expected": "7\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "6\n",
+        "hidden": true
+      },
+      {
+        "input": "16",
+        "expected": "4\n",
+        "hidden": true
+      },
+      {
+        "input": "27",
+        "expected": "111\n",
+        "hidden": true
+      },
+      {
+        "input": "11",
+        "expected": "14\n",
+        "hidden": true
+      }
+    ]
   }
 ];
