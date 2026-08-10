@@ -17,457 +17,6 @@ export interface Problem {
 
 export const problems: Problem[] = [
   {
-    "id": "prime-range",
-    "title": "1. Prime number with ranges",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "\n      <p>A prime number is a natural number greater than 1 that is not a product of two smaller natural numbers.</p>\n      <p>Write a C program that reads two integers, <code>start</code> and <code>end</code>, and prints all prime numbers between <code>start</code> and <code>end</code> (inclusive), separated by spaces.</p>\n      <p><strong>Note:</strong> You should use a <code>for</code> loop to iterate through the range and check for primality.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2 5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>2 3 5</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "2 5",
-        "expected": "2 3 5",
-        "hidden": false
-      },
-      {
-        "input": "10 20",
-        "expected": "11 13 17 19",
-        "hidden": true
-      },
-      {
-        "input": "1 10",
-        "expected": "2 3 5 7",
-        "hidden": true
-      },
-      {
-        "input": "20 30",
-        "expected": "23 29",
-        "hidden": true
-      },
-      {
-        "input": "100 120",
-        "expected": "101 103 107 109 113",
-        "hidden": true
-      },
-      {
-        "input": "50 60",
-        "expected": "53 59",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "collatz-sequence",
-    "title": "2. Collatz sequence",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "\n      <p>The Collatz sequence applies to positive integers:</p>\n      <ul>\n        <li>If <em>n</em> is even, divide it by 2.</li>\n        <li>If <em>n</em> is odd, multiply it by 3 and add 1.</li>\n      </ul>\n      <p>Write a C program that reads an integer <code>n</code> and prints the number of steps it takes to reach 1.</p>\n      <p><strong>Note:</strong> This is a great place to practice loops (like <code>while</code> or <code>for</code>) to simulate the sequence!</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "10",
-        "expected": "6",
-        "hidden": false
-      },
-      {
-        "input": "1",
-        "expected": "0",
-        "hidden": true
-      },
-      {
-        "input": "12",
-        "expected": "9",
-        "hidden": true
-      },
-      {
-        "input": "27",
-        "expected": "111",
-        "hidden": true
-      },
-      {
-        "input": "50",
-        "expected": "24",
-        "hidden": true
-      },
-      {
-        "input": "15",
-        "expected": "17",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "harshad-number",
-    "title": "4. Harshad Number",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "\n      <p>A Harshad number is an integer that is divisible by the sum of its digits.</p>\n      <p>Write a C program that reads a positive integer <code>n</code> and prints whether it is a Harshad number. Output format: \"<code>[n] is a harshad number</code>\" or \"<code>[n] is not a harshad number</code>\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>36</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>36 is a harshad number</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "36",
-        "expected": "36 is a harshad number",
-        "hidden": false
-      },
-      {
-        "input": "15",
-        "expected": "15 is not a harshad number",
-        "hidden": true
-      },
-      {
-        "input": "18",
-        "expected": "18 is a harshad number",
-        "hidden": true
-      },
-      {
-        "input": "19",
-        "expected": "19 is not a harshad number",
-        "hidden": true
-      },
-      {
-        "input": "100",
-        "expected": "100 is a harshad number",
-        "hidden": true
-      },
-      {
-        "input": "21",
-        "expected": "21 is a harshad number",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "product-of-digit",
-    "title": "5. Product of a digit",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "\n      <p>Write a C program that reads an integer <code>n</code> and prints the product of its digits.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>65</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>30</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "65",
-        "expected": "30",
-        "hidden": false
-      },
-      {
-        "input": "123",
-        "expected": "6",
-        "hidden": true
-      },
-      {
-        "input": "90",
-        "expected": "0",
-        "hidden": true
-      },
-      {
-        "input": "456",
-        "expected": "120",
-        "hidden": true
-      },
-      {
-        "input": "1111",
-        "expected": "1",
-        "hidden": true
-      },
-      {
-        "input": "7",
-        "expected": "7",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "strong-number",
-    "title": "10. Strong number",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "\n      <p>A Strong number is a number whose sum of the factorial of its digits is equal to the number itself.</p>\n      <p>Write a C program that reads an integer <code>n</code> and prints whether it is a strong number. Output format: \"<code>[n] is a Strong number</code>\" or \"<code>[n] is not a Strong number</code>\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>145</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>145 is a Strong number</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "145",
-        "expected": "145 is a Strong number",
-        "hidden": false
-      },
-      {
-        "input": "2",
-        "expected": "2 is a Strong number",
-        "hidden": true
-      },
-      {
-        "input": "10",
-        "expected": "10 is not a Strong number",
-        "hidden": true
-      },
-      {
-        "input": "40585",
-        "expected": "40585 is a Strong number",
-        "hidden": true
-      },
-      {
-        "input": "150",
-        "expected": "150 is not a Strong number",
-        "hidden": true
-      },
-      {
-        "input": "1",
-        "expected": "1 is a Strong number",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "palindrome-number",
-    "title": "12. Palindrome or not",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "\n      <p>A palindrome number reads the same forwards and backwards.</p>\n      <p>Write a C program that reads an integer <code>n</code> and prints whether it is a palindrome. Output format: \"<code>[n] is a palindrome number</code>\" or \"<code>[n] is not a palindrome number</code>\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>232</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>232 is a palindrome number</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "232",
-        "expected": "232 is a palindrome number",
-        "hidden": false
-      },
-      {
-        "input": "123",
-        "expected": "123 is not a palindrome number",
-        "hidden": true
-      },
-      {
-        "input": "1221",
-        "expected": "1221 is a palindrome number",
-        "hidden": true
-      },
-      {
-        "input": "10",
-        "expected": "10 is not a palindrome number",
-        "hidden": true
-      },
-      {
-        "input": "5",
-        "expected": "5 is a palindrome number",
-        "hidden": true
-      },
-      {
-        "input": "888",
-        "expected": "888 is a palindrome number",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "armstrong-number",
-    "title": "13. Armstrong number",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "\n      <p>An Armstrong number of 3 digits is an integer such that the sum of the cubes of its digits is equal to the number itself. Generalizing, for an n-digit number, the sum of its digits each raised to the power n equals the number.</p>\n      <p>Write a C program that reads an integer <code>n</code> and prints whether it is an Armstrong number. Output format: \"<code>[n] is a armstrong number</code>\" or \"<code>[n] is not a armstrong number</code>\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>153</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>153 is a armstrong number</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "153",
-        "expected": "153 is a armstrong number",
-        "hidden": false
-      },
-      {
-        "input": "370",
-        "expected": "370 is a armstrong number",
-        "hidden": true
-      },
-      {
-        "input": "123",
-        "expected": "123 is not a armstrong number",
-        "hidden": true
-      },
-      {
-        "input": "9474",
-        "expected": "9474 is a armstrong number",
-        "hidden": true
-      },
-      {
-        "input": "9475",
-        "expected": "9475 is not a armstrong number",
-        "hidden": true
-      },
-      {
-        "input": "371",
-        "expected": "371 is a armstrong number",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "twin-primes",
-    "title": "16. Twin Primes",
-    "difficulty": "Hard",
-    "level": 2,
-    "description": "\n      <p>Twin primes are pairs of primes which differ by 2. (e.g., 3 and 5, 11 and 13).</p>\n      <p>Write a C program that reads two integers <code>start</code> and <code>end</code>, and prints twin prime pairs in the given range. Output format for each pair: \"<code>(prime1 prime2 )</code>\" on a new line.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1 20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>(3 5 )\n(5 7 )\n(11 13 )\n(17 19 )\n</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "1 20",
-        "expected": "(3 5 )\n(5 7 )\n(11 13 )\n(17 19 )\n",
-        "hidden": false
-      },
-      {
-        "input": "20 40",
-        "expected": "(29 31 )\n",
-        "hidden": true
-      },
-      {
-        "input": "40 50",
-        "expected": "(41 43 )\n",
-        "hidden": true
-      },
-      {
-        "input": "1 10",
-        "expected": "(3 5 )\n(5 7 )\n",
-        "hidden": true
-      },
-      {
-        "input": "50 75",
-        "expected": "(59 61 )\n(71 73 )\n",
-        "hidden": true
-      },
-      {
-        "input": "10 20",
-        "expected": "(11 13 )\n(17 19 )\n",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "working-with-character",
-    "title": "3. Working with character",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "\n      <p>Write a C program that reads a single character. If the character is lowercase, it should print its uppercase version. If it is uppercase, it should print its lowercase version. If it is not an alphabet character, print \"It is not a alphabet\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>A</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>a</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "A",
-        "expected": "a",
-        "hidden": false
-      },
-      {
-        "input": "b",
-        "expected": "B",
-        "hidden": true
-      },
-      {
-        "input": "$",
-        "expected": "It is not a alphabet",
-        "hidden": true
-      },
-      {
-        "input": "Z",
-        "expected": "z",
-        "hidden": true
-      },
-      {
-        "input": "9",
-        "expected": "It is not a alphabet",
-        "hidden": true
-      },
-      {
-        "input": "m",
-        "expected": "M",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "pattern-stars",
-    "title": "6. Pattern",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "\n      <p>Write a C program that reads an integer <code>n</code> and prints a right-angled triangle pattern of stars with <code>n</code> rows. Each row should contain stars separated by a space, and a trailing space at the end of each row.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>* \n* * \n* * * \n</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "3",
-        "expected": "* \n* * \n* * * \n",
-        "hidden": false
-      },
-      {
-        "input": "5",
-        "expected": "* \n* * \n* * * \n* * * * \n* * * * * \n",
-        "hidden": true
-      },
-      {
-        "input": "1",
-        "expected": "* \n",
-        "hidden": true
-      },
-      {
-        "input": "2",
-        "expected": "* \n* * \n",
-        "hidden": true
-      },
-      {
-        "input": "4",
-        "expected": "* \n* * \n* * * \n* * * * \n",
-        "hidden": true
-      },
-      {
-        "input": "6",
-        "expected": "* \n* * \n* * * \n* * * * \n* * * * * \n* * * * * * \n",
-        "hidden": true
-      }
-    ]
-  },
-  {
-    "id": "sum-of-digits",
-    "title": "14. Sum of a digit",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "\n      <p>Write a C program that reads a positive integer <code>n</code> and prints the sum of its digits.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>231456</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>21</pre>\n    ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "231456",
-        "expected": "21",
-        "hidden": false
-      },
-      {
-        "input": "123",
-        "expected": "6",
-        "hidden": true
-      },
-      {
-        "input": "9090",
-        "expected": "18",
-        "hidden": true
-      },
-      {
-        "input": "5",
-        "expected": "5",
-        "hidden": true
-      },
-      {
-        "input": "999",
-        "expected": "27",
-        "hidden": true
-      },
-      {
-        "input": "1000",
-        "expected": "1",
-        "hidden": true
-      }
-    ]
-  },
-  {
     "id": "alphabet-check",
     "title": "1. Alphabet Check",
     "difficulty": "Easy",
@@ -1042,47 +591,6 @@ export const problems: Problem[] = [
     ]
   },
   {
-    "id": "fibonacci-series",
-    "title": "Fibonacci Series",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "\n    <p>Generate the first <strong>N</strong> terms of the Fibonacci series.</p>\n    <p>In a Fibonacci series, the next number is the sum of the two preceding ones. The sequence starts with 0 and 1.</p>\n    <br/>\n    <p><strong>Sample Input:</strong></p>\n    <pre>5</pre>\n    <p><strong>Sample Output:</strong></p>\n    <pre>0 1 1 2 3</pre>\n  ",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "5",
-        "expected": "0 1 1 2 3",
-        "hidden": false
-      },
-      {
-        "input": "1",
-        "expected": "0",
-        "hidden": true
-      },
-      {
-        "input": "2",
-        "expected": "0 1",
-        "hidden": true
-      },
-      {
-        "input": "10",
-        "expected": "0 1 1 2 3 5 8 13 21 34",
-        "hidden": true
-      },
-      {
-        "input": "20",
-        "expected": "0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181",
-        "hidden": true
-      },
-      {
-        "input": "7",
-        "expected": "0 1 1 2 3 5 8",
-        "hidden": true
-      }
-    ]
-  },
-  {
     "id": "l2-p1-roman-numeral",
     "title": "1. Roman Numeral",
     "difficulty": "Medium",
@@ -1390,22 +898,22 @@ export const problems: Problem[] = [
     "testCases": [
       {
         "input": "8",
-        "expected": "2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16\n",
+        "expected": "Even numbers less than 8: 2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16\n",
         "hidden": false
       },
       {
         "input": "7",
-        "expected": "2 4 6 \nEven Sum = 12\nOdd numbers less than 7: 1 3 5 \nOdd Sum = 9\n",
+        "expected": "Even numbers less than 7: 2 4 6 \nEven Sum = 12\nOdd numbers less than 7: 1 3 5 \nOdd Sum = 9\n",
         "hidden": true
       },
       {
         "input": "1",
-        "expected": "\nEven Sum = 0\nOdd numbers less than 1: \nOdd Sum = 0\n",
+        "expected": "Even numbers less than 1: \nEven Sum = 0\nOdd numbers less than 1: \nOdd Sum = 0\n",
         "hidden": true
       },
       {
         "input": "10",
-        "expected": "2 4 6 8 \nEven Sum = 20\nOdd numbers less than 10: 1 3 5 7 9 \nOdd Sum = 25\n",
+        "expected": "Even numbers less than 10: 2 4 6 8 \nEven Sum = 20\nOdd numbers less than 10: 1 3 5 7 9 \nOdd Sum = 25\n",
         "hidden": true
       },
       {
@@ -1415,7 +923,7 @@ export const problems: Problem[] = [
       },
       {
         "input": "15",
-        "expected": "2 4 6 8 10 12 14 \nEven Sum = 56\nOdd numbers less than 15: 1 3 5 7 9 11 13 \nOdd Sum = 49\n",
+        "expected": "Even numbers less than 15: 2 4 6 8 10 12 14 \nEven Sum = 56\nOdd numbers less than 15: 1 3 5 7 9 11 13 \nOdd Sum = 49\n",
         "hidden": true
       }
     ]
@@ -1482,7 +990,7 @@ export const problems: Problem[] = [
       },
       {
         "input": "0",
-        "expected": "Perfect Square\n",
+        "expected": "Invalid input\n",
         "hidden": true
       },
       {
@@ -1492,7 +1000,7 @@ export const problems: Problem[] = [
       },
       {
         "input": "-4",
-        "expected": "Not a Perfect Square\n",
+        "expected": "Invalid input\n",
         "hidden": true
       },
       {
@@ -1779,7 +1287,7 @@ export const problems: Problem[] = [
       },
       {
         "input": "100",
-        "expected": "2",
+        "expected": "211",
         "hidden": true
       },
       {
