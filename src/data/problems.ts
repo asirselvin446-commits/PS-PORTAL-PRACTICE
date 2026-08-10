@@ -2,6 +2,7 @@ export interface TestCase {
   input: string;
   expected: string;
   hidden: boolean;
+  matchType?: 'exact' | 'numeric' | 'regex' | 'normalized';
 }
 
 export interface Problem {
@@ -28,32 +29,38 @@ export const problems: Problem[] = [
       {
         "input": "T",
         "expected": "T is an Alphabet.",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "7",
         "expected": "7 is not an Alphabet.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "a",
         "expected": "a is an Alphabet.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "!",
         "expected": "! is not an Alphabet.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "z",
         "expected": "z is an Alphabet.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": " ",
         "expected": "  is not an Alphabet.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -69,32 +76,38 @@ export const problems: Problem[] = [
       {
         "input": "10\n5",
         "expected": "10 is greater than 5.",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "7\n12",
         "expected": "12 is greater than 7.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "8\n8",
         "expected": "8 is equal to 8.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-5\n-10",
         "expected": "-5 is greater than -10.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0\n0",
         "expected": "0 is equal to 0.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-20\n5",
         "expected": "5 is greater than -20.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -110,32 +123,38 @@ export const problems: Problem[] = [
       {
         "input": "40",
         "expected": "Medium",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "85",
         "expected": "Almost Full",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "Low",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100",
         "expected": "Full",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "105",
         "expected": "Invalid charge level",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-5",
         "expected": "Invalid charge level",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -151,32 +170,38 @@ export const problems: Problem[] = [
       {
         "input": "150\n2",
         "expected": "75.00\nAverage speed",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "200\n5",
         "expected": "40.00\nVery slow",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "300\n2",
         "expected": "150.00\nOver speed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "120\n2",
         "expected": "60.00\nAverage speed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "240\n2",
         "expected": "120.00\nAverage speed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "50\n1",
         "expected": "50.00\nAverage speed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -192,32 +217,38 @@ export const problems: Problem[] = [
       {
         "input": "10",
         "expected": "10.00 Shipping fee is $5.",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "70",
         "expected": "70.00 Shipping is free.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-5",
         "expected": "Invalid Amount.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "50",
         "expected": "50.00 Shipping fee is $5.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100",
         "expected": "100.00 Shipping is free.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid Amount.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -233,32 +264,38 @@ export const problems: Problem[] = [
       {
         "input": "100\n75\nY",
         "expected": "75\nAllowed",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "100\n60\nN",
         "expected": "60\nNot Allowed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100\n90\nN",
         "expected": "90\nAllowed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100\n60\nY",
         "expected": "60\nAllowed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "150\n112\nN",
         "expected": "74\nNot Allowed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "200\n150\nY",
         "expected": "75\nAllowed",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -274,32 +311,38 @@ export const problems: Problem[] = [
       {
         "input": "45678",
         "expected": "102775.50",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "22000",
         "expected": "49500.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "10000",
         "expected": "20000.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "15000",
         "expected": "32250.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "20000",
         "expected": "43000.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5000",
         "expected": "10000.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -315,32 +358,38 @@ export const problems: Problem[] = [
       {
         "input": "11000\n100",
         "expected": "Level:50\n110.00",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "7376\n75",
         "expected": "Level:25\n98.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "4000\n40",
         "expected": "Level:0\n100.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "16000\n80",
         "expected": "Level:100\n200.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "5000\n50",
         "expected": "Level:25\n100.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9999\n100",
         "expected": "Level:25\n99.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -356,32 +405,38 @@ export const problems: Problem[] = [
       {
         "input": "2\n3",
         "expected": "8",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "5\n0",
         "expected": "1",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1\n5",
         "expected": "1",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "3\n4",
         "expected": "81",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "2\n10",
         "expected": "1024",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "0\n5",
         "expected": "0",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -397,32 +452,38 @@ export const problems: Problem[] = [
       {
         "input": "50000\n20",
         "expected": "60000",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "35000\n5",
         "expected": "36750",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "100000\n10",
         "expected": "110000",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1000\n100",
         "expected": "2000",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "42500\n12",
         "expected": "47600",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "25000\n0",
         "expected": "25000",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -438,32 +499,38 @@ export const problems: Problem[] = [
       {
         "input": "S\nG\nE",
         "expected": "Vehicle Size: Small\nFuel Type: Gasoline\nInvalid purpose.",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "M\nD\n2",
         "expected": "Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Commercial use",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "L\nE\n3",
         "expected": "Vehicle Size: Large\nFuel Type: Electric\nPurpose: Public Transport",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "X\nG\n1",
         "expected": "Invalid vehicle size.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "S\nZ\n1",
         "expected": "Vehicle Size: Small\nInvalid fuel type.",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "S\nG\n1",
         "expected": "Vehicle Size: Small\nFuel Type: Gasoline\nPurpose: Personal Use",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -479,32 +546,38 @@ export const problems: Problem[] = [
       {
         "input": "12000",
         "expected": "$1200.00",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "7000",
         "expected": "$350.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "60000",
         "expected": "$12000.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10000",
         "expected": "$1000.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "50000",
         "expected": "$5000.00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9999",
         "expected": "$499.95",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -520,32 +593,38 @@ export const problems: Problem[] = [
       {
         "input": "345",
         "expected": "345 is not a 5-digit number",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "36893",
         "expected": "36893 is a 5-digit number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-12345",
         "expected": "-12345 is a 5-digit number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10000",
         "expected": "10000 is a 5-digit number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9999",
         "expected": "9999 is not a 5-digit number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "99999",
         "expected": "99999 is a 5-digit number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -561,32 +640,38 @@ export const problems: Problem[] = [
       {
         "input": "13\n4",
         "expected": "26",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "3\n3",
         "expected": "3",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5\n7",
         "expected": "11",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "6\n2",
         "expected": "6",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5\n5",
         "expected": "8",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "0\n5",
         "expected": "0",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -602,67 +687,80 @@ export const problems: Problem[] = [
       {
         "input": "4",
         "expected": "IV\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "I\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9",
         "expected": "IX\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "19",
         "expected": "XIX\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "34",
         "expected": "XXXIV\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "40",
         "expected": "XL\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "45",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "X\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "20",
         "expected": "XX\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "39",
         "expected": "XXXIX\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "14",
         "expected": "XIV\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "24",
         "expected": "XXIV\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -678,37 +776,44 @@ export const problems: Problem[] = [
       {
         "input": "4",
         "expected": "# # # # \n# # # # \n# # # # \n# # # # \n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "# \n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "# # \n# # \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "5",
         "expected": "# # # # # \n# # # # # \n# # # # # \n# # # # # \n# # # # # \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-2",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -724,42 +829,50 @@ export const problems: Problem[] = [
       {
         "input": "6",
         "expected": "3\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "10",
         "expected": "10\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "28",
         "expected": "14\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "12",
         "expected": "12\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "496",
         "expected": "248\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5",
         "expected": "5\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1",
         "expected": "1\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "8128",
         "expected": "4064\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -775,77 +888,92 @@ export const problems: Problem[] = [
       {
         "input": "10\n20",
         "expected": "11 13 17 19 \n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1\n10",
         "expected": "2 3 5 7 \n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "20\n30",
         "expected": "23 29 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "50\n60",
         "expected": "53 59 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "90\n100",
         "expected": "97 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2\n5",
         "expected": "2 3 5 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10 20",
         "expected": "11 13 17 19 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "1 10",
         "expected": "2 3 5 7 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "20 30",
         "expected": "23 29 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "50 60",
         "expected": "53 59 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "90 100",
         "expected": "97 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2 5",
         "expected": "2 3 5 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2 2",
         "expected": "2 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10 10",
         "expected": "\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "1 100",
         "expected": "2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -861,37 +989,44 @@ export const problems: Problem[] = [
       {
         "input": "5",
         "expected": "2.28\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "1.00\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "2.93\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100",
         "expected": "5.19\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-5",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "1.50\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -907,37 +1042,44 @@ export const problems: Problem[] = [
       {
         "input": "5",
         "expected": "10\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "1\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "At least 2 people are needed for a handshake.\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "45\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "At least 2 people are needed for a handshake.\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100",
         "expected": "4950\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "3",
         "expected": "3\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -953,42 +1095,50 @@ export const problems: Problem[] = [
       {
         "input": "9",
         "expected": "1 3 5 7 9 ",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "8",
         "expected": "2 4 6 8 ",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "1 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "2 4 6 8 10 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-3",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "2 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "3",
         "expected": "1 3 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1004,42 +1154,50 @@ export const problems: Problem[] = [
       {
         "input": "8",
         "expected": "Even numbers less than 8: 2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "7",
         "expected": "Even numbers less than 7: 2 4 6 \nEven Sum = 12\nOdd numbers less than 7: 1 3 5 \nOdd Sum = 9\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "Even numbers less than 1: \nEven Sum = 0\nOdd numbers less than 1: \nOdd Sum = 0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "Even numbers less than 10: 2 4 6 8 \nEven Sum = 20\nOdd numbers less than 10: 1 3 5 7 9 \nOdd Sum = 25\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "15",
         "expected": "Even numbers less than 15: 2 4 6 8 10 12 14 \nEven Sum = 56\nOdd numbers less than 15: 1 3 5 7 9 11 13 \nOdd Sum = 49\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "Even numbers less than 2: \nEven Sum = 0\nOdd numbers less than 2: 1 \nOdd Sum = 1\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "3",
         "expected": "Even numbers less than 3: 2 \nEven Sum = 2\nOdd numbers less than 3: 1 \nOdd Sum = 1\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1055,42 +1213,50 @@ export const problems: Problem[] = [
       {
         "input": "8",
         "expected": "4 16 36 64 ",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "7",
         "expected": "1 9 25 49 ",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "1 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "4 16 36 64 100 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-5",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "4 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "3",
         "expected": "1 9 ",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1106,47 +1272,56 @@ export const problems: Problem[] = [
       {
         "input": "25",
         "expected": "Perfect Square\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "Not a Perfect Square\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-4",
         "expected": "Not a Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "144",
         "expected": "Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "Not a Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "99",
         "expected": "Not a Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10000",
         "expected": "Perfect Square\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1162,42 +1337,50 @@ export const problems: Problem[] = [
       {
         "input": "3",
         "expected": "A\nAB\nABC\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "5",
         "expected": "A\nAB\nABC\nABCD\nABCDE\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "A\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "26",
         "expected": "A\nAB\nABC\nABCD\nABCDE\nABCDEF\nABCDEFG\nABCDEFGH\nABCDEFGHI\nABCDEFGHIJ\nABCDEFGHIJK\nABCDEFGHIJKL\nABCDEFGHIJKLM\nABCDEFGHIJKLMN\nABCDEFGHIJKLMNO\nABCDEFGHIJKLMNOP\nABCDEFGHIJKLMNOPQ\nABCDEFGHIJKLMNOPQR\nABCDEFGHIJKLMNOPQRS\nABCDEFGHIJKLMNOPQRST\nABCDEFGHIJKLMNOPQRSTU\nABCDEFGHIJKLMNOPQRSTUV\nABCDEFGHIJKLMNOPQRSTUVW\nABCDEFGHIJKLMNOPQRSTUVWX\nABCDEFGHIJKLMNOPQRSTUVWXY\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "27",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "A\nAB\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "A\nAB\nABC\nABCD\nABCDE\nABCDEF\nABCDEFG\nABCDEFGH\nABCDEFGHI\nABCDEFGHIJ\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1213,47 +1396,56 @@ export const problems: Problem[] = [
       {
         "input": "145",
         "expected": "Strong Number\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "Strong Number\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "123",
         "expected": "Not a Strong Number\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-5",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "40585",
         "expected": "Strong Number\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "Not a Strong Number\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "Strong Number\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Not a Strong Number\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "14",
         "expected": "Not a Strong Number\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1269,37 +1461,44 @@ export const problems: Problem[] = [
       {
         "input": "7\n3",
         "expected": "***\n******\n***\n******\n***\n******\n***\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "4\n2",
         "expected": "**\n****\n**\n****\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1\n5",
         "expected": "*****\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0\n3",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "3\n0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "5\n1",
         "expected": "*\n**\n*\n**\n*\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "6\n4",
         "expected": "****\n********\n****\n********\n****\n********\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1315,42 +1514,50 @@ export const problems: Problem[] = [
       {
         "input": "3",
         "expected": "1094\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "4",
         "expected": "10970\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "1",
         "expected": "9\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5",
         "expected": "109735\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "2",
         "expected": "107\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "6",
         "expected": "1097389\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "0",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "9",
         "expected": "1097393685\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -1366,47 +1573,56 @@ export const problems: Problem[] = [
       {
         "input": "73627",
         "expected": "362\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "12",
         "expected": "0\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "123",
         "expected": "2\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "9009",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "87654321",
         "expected": "765432\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "100",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1001",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "10",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -1422,37 +1638,44 @@ export const problems: Problem[] = [
       {
         "input": "4\n2\n12\n123\n2",
         "expected": "48\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "3\n100\n-5\n10",
         "expected": "-50\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "2\n1000\n-500",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "5\n-1\n-2\n-3\n-4\n-5",
         "expected": "-120\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-2",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "3\n0\n1\n2",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1468,52 +1691,62 @@ export const problems: Problem[] = [
       {
         "input": "234",
         "expected": "345",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "9876",
         "expected": "987",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "934",
         "expected": "45",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "999",
         "expected": "00",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "100",
         "expected": "211",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9019",
         "expected": "120",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9000",
         "expected": "111",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9",
         "expected": "",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "99",
         "expected": "0",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9090",
         "expected": "101",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1529,37 +1762,44 @@ export const problems: Problem[] = [
       {
         "input": "5",
         "expected": "5*5*5 = 125\n6*6*6 = 216\n7*7*7 = 343\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "1*1*1 = 1\n2*2*2 = 8\n3*3*3 = 27\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "10*10*10 = 1000\n11*11*11 = 1331\n12*12*12 = 1728\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "0*0*0 = 0\n1*1*1 = 1\n2*2*2 = 8\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "12",
         "expected": "12*12*12 = 1728\n13*13*13 = 2197\n14*14*14 = 2744\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9",
         "expected": "9*9*9 = 729\n10*10*10 = 1000\n11*11*11 = 1331\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "-2",
         "expected": "-2*-2*-2 = -8\n-1*-1*-1 = -1\n0*0*0 = 0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1575,37 +1815,44 @@ export const problems: Problem[] = [
       {
         "input": "4",
         "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "2",
         "expected": "5 \n5 10 \n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "1",
         "expected": "5 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "5",
         "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n5 10 15 20 25 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "6",
         "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n5 10 15 20 25 \n5 10 15 20 25 30 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "0",
         "expected": "",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "10",
         "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n5 10 15 20 25 \n5 10 15 20 25 30 \n5 10 15 20 25 30 35 \n5 10 15 20 25 30 35 40 \n5 10 15 20 25 30 35 40 45 \n5 10 15 20 25 30 35 40 45 50 \n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ]
   },
@@ -1621,72 +1868,86 @@ export const problems: Problem[] = [
       {
         "input": "3\n5",
         "expected": "37035\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "1\n4",
         "expected": "1234\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "5\n3",
         "expected": "615\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "9\n2",
         "expected": "108\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "2\n6",
         "expected": "246912\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "7\n1",
         "expected": "7\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "3 5",
         "expected": "37035\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1 4",
         "expected": "1234\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "5 3",
         "expected": "615\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "9 2",
         "expected": "108\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "2 6",
         "expected": "246912\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "7 1",
         "expected": "7\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "0 5",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1 0",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -1702,42 +1963,50 @@ export const problems: Problem[] = [
       {
         "input": "6",
         "expected": "8\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "3",
         "expected": "7\n",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "10",
         "expected": "6\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "16",
         "expected": "4\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "27",
         "expected": "111\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "11",
         "expected": "14\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "1",
         "expected": "0\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "2",
         "expected": "1\n",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ]
   },
@@ -1752,17 +2021,20 @@ export const problems: Problem[] = [
       {
         "input": "10 20",
         "expected": "11 13 17 19",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "1 10",
         "expected": "2 3 5 7",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "20 30",
         "expected": "23 29",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ],
     "functionName": "main"
@@ -1778,12 +2050,14 @@ export const problems: Problem[] = [
       {
         "input": "6",
         "expected": "6 3 10 5 16 8 4 2 1",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "3",
         "expected": "3 10 5 16 8 4 2 1",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ],
     "functionName": "main"
@@ -1799,12 +2073,14 @@ export const problems: Problem[] = [
       {
         "input": "18",
         "expected": "Harshad Number",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "19",
         "expected": "Not a Harshad Number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1820,17 +2096,20 @@ export const problems: Problem[] = [
       {
         "input": "123",
         "expected": "6",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "45",
         "expected": "20",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "0",
         "expected": "0",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ],
     "functionName": "main"
@@ -1846,12 +2125,14 @@ export const problems: Problem[] = [
       {
         "input": "145",
         "expected": "Strong Number",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "123",
         "expected": "Not a Strong Number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1867,12 +2148,14 @@ export const problems: Problem[] = [
       {
         "input": "121",
         "expected": "Palindrome",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "123",
         "expected": "Not a Palindrome",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1888,17 +2171,20 @@ export const problems: Problem[] = [
       {
         "input": "153",
         "expected": "Armstrong Number",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "123",
         "expected": "Not an Armstrong Number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "9474",
         "expected": "Armstrong Number",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1914,17 +2200,20 @@ export const problems: Problem[] = [
       {
         "input": "3 5",
         "expected": "Twin Primes",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "5 7",
         "expected": "Twin Primes",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "7 9",
         "expected": "Not Twin Primes",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1940,17 +2229,20 @@ export const problems: Problem[] = [
       {
         "input": "a",
         "expected": "Vowel",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
       },
       {
         "input": "b",
         "expected": "Consonant",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       },
       {
         "input": "E",
         "expected": "Vowel",
-        "hidden": true
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1960,13 +2252,26 @@ export const problems: Problem[] = [
     "title": "6. Pattern",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Print a right-angled triangle pattern of stars with N rows.</p>",
+    "description": "<p>Print a right-angled triangle pattern of stars with N rows.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>*\n**\n***</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>*\n**\n***\n****\n*****</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
         "input": "3",
         "expected": "*\n**\n***",
-        "hidden": false
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "*\n**\n***\n****\n*****",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "*\n**",
+        "hidden": true,
+        "matchType": "normalized"
       }
     ],
     "functionName": "main"
@@ -1982,12 +2287,14 @@ export const problems: Problem[] = [
       {
         "input": "123",
         "expected": "6",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "456",
         "expected": "15",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ],
     "functionName": "main"
@@ -2003,17 +2310,20 @@ export const problems: Problem[] = [
       {
         "input": "5",
         "expected": "0 1 1 2 3",
-        "hidden": false
+        "hidden": false,
+        "matchType": "numeric"
       },
       {
         "input": "1",
         "expected": "0",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       },
       {
         "input": "7",
         "expected": "0 1 1 2 3 5 8",
-        "hidden": true
+        "hidden": true,
+        "matchType": "numeric"
       }
     ],
     "functionName": "main"

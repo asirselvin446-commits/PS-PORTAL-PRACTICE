@@ -46,6 +46,44 @@ const decodeBase64 = (str: string | null) => {
   }
 };
 
+
+const matchOutput = (actual: string, expected: string, matchType?: 'exact' | 'numeric' | 'regex' | 'normalized') => {
+  if (!actual) actual = "";
+  if (!expected) expected = "";
+  
+  if (matchType === 'exact') {
+    return actual === expected;
+  }
+  
+  if (matchType === 'numeric') {
+    const actualNums = actual.match(/-?\d+(\.\d+)?/g) || [];
+    const expectedNums = expected.match(/-?\d+(\.\d+)?/g) || [];
+    if (actualNums.length !== expectedNums.length || expectedNums.length === 0) {
+      // Fallback to normalized if numeric fails finding numbers
+      if (expectedNums.length === 0) return actual.trim().replace(/\s+/g, ' ') === expected.trim().replace(/\s+/g, ' ');
+      return false;
+    }
+    for (let i = 0; i < actualNums.length; i++) {
+      if (Math.abs(parseFloat(actualNums[i]) - parseFloat(expectedNums[i])) > 0.0001) return false;
+    }
+    return true;
+  }
+  
+  if (matchType === 'regex') {
+    try {
+      const regex = new RegExp(expected.trim());
+      return regex.test(actual.trim());
+    } catch {
+      return false;
+    }
+  }
+  
+  // Default: normalized string matching (ignores extra spaces and newlines)
+  const normActual = actual.trim().replace(/\s+/g, ' ');
+  const normExpected = expected.trim().replace(/\s+/g, ' ');
+  return normActual === normExpected;
+};
+
 const getCompilerOptionsString = (options?: CompilerOptions) => {
   let opts = '-lm';
   if (options?.standard) {
@@ -108,7 +146,7 @@ export const executeCode = async (
           input: tc.input,
           expected: expectedOutput,
           actual: actualOutput,
-          passed: actualOutput === expectedOutput,
+          passed: matchOutput(actualOutput, expectedOutput, tc.matchType),
           hidden: tc.hidden,
           time: data.time,
           memory: data.memory,
