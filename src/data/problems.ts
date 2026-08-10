@@ -21,7 +21,7 @@ export const problems: Problem[] = [
     "title": "1. Alphabet Check",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Craft a program to check whether a given character is an alphabet or not. The program should prompt the user to enter a character, then it should determine if the entered character is an alphabet or not.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>T</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>T is an Alphabet.</pre>\n    ",
+    "description": "<p>Craft a program to check whether a given character is an alphabet or not. The program should prompt the user to enter a character, then it should determine if the entered character is an alphabet or not.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>T</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>T is an Alphabet.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>7 is not an Alphabet.</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -62,7 +62,7 @@ export const problems: Problem[] = [
     "title": "2. Number Comparison",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Tom, a math teacher, wants to create a simple program to compare two numbers provided by his students. By providing this tool, he aims to help his students understand basic number comparison concepts and improve their problem-solving skills.</p>\n      <p>Craft a program that prompts the user to input two numbers and then determines which one is greater, lesser, or if they are equal.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10 is greater than 5.</pre>\n    ",
+    "description": "<p>Tom, a math teacher, wants to create a simple program to compare two numbers provided by his students. By providing this tool, he aims to help his students understand basic number comparison concepts and improve their problem-solving skills.</p>\n      <p>Craft a program that prompts the user to input two numbers and then determines which one is greater, lesser, or if they are equal.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10 is greater than 5.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7\n12</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>12 is greater than 7.</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -103,7 +103,7 @@ export const problems: Problem[] = [
     "title": "3. Battery Status Checker",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Craft a program that prompts the user to enter an integer and that determines the status of a battery based on its charge level.</p>\n      <p>Determine the status of the battery based on the charge level using statements:</p>\n      <ul>\n        <li>If the charge level is less than or equal to 20, the status is <strong>Low</strong></li>\n        <li>If the charge level is greater than or equal to 21 and less than or equal to 70, the status is <strong>Medium</strong></li>\n        <li>If the charge level is greater than or equal to 71 and less than or equal to 95, the status is <strong>Almost Full</strong></li>\n        <li>If the charge level is greater than or equal to 96 and less than or equal to 100, the status is <strong>Full</strong></li>\n        <li>If the charge level is less than 0 or greater than 100, print <strong>Invalid charge level</strong></li>\n      </ul>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>40</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Medium</pre>\n    ",
+    "description": "<p>Craft a program that prompts the user to enter an integer and that determines the status of a battery based on its charge level.</p>\n      <p>Determine the status of the battery based on the charge level using statements:</p>\n      <ul>\n        <li>If the charge level is less than or equal to 20, the status is <strong>Low</strong></li>\n        <li>If the charge level is greater than or equal to 21 and less than or equal to 70, the status is <strong>Medium</strong></li>\n        <li>If the charge level is greater than or equal to 71 and less than or equal to 95, the status is <strong>Almost Full</strong></li>\n        <li>If the charge level is greater than or equal to 96 and less than or equal to 100, the status is <strong>Full</strong></li>\n        <li>If the charge level is less than 0 or greater than 100, print <strong>Invalid charge level</strong></li>\n      </ul>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>40</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Medium</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>85</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Almost Full</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -144,7 +144,7 @@ export const problems: Problem[] = [
     "title": "4. Calculate the speed of the train",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Get two inputs:</p>\n      <ul>\n        <li>One to enter the Distance traveled by the train in Kilometers</li>\n        <li>Another is to enter the time taken by the train to cover the above distance (in hours)</li>\n      </ul>\n      <p>Find the speed of the train and display it with 2 decimal places. And comment on the speed by displaying:</p>\n      <ul>\n        <li><strong>Very slow</strong> if speed is less than 50 km/hr</li>\n        <li><strong>Over speed</strong> if speed is greater than 120 km/hr</li>\n        <li><strong>Average speed</strong> if the speed is normal</li>\n      </ul>\n      <p>Hint: speed = distance / time</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>150\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>75.00\nAverage speed</pre>\n    ",
+    "description": "<p>Get two inputs:</p>\n      <ul>\n        <li>One to enter the Distance traveled by the train in Kilometers</li>\n        <li>Another is to enter the time taken by the train to cover the above distance (in hours)</li>\n      </ul>\n      <p>Find the speed of the train and display it with 2 decimal places. And comment on the speed by displaying:</p>\n      <ul>\n        <li><strong>Very slow</strong> if speed is less than 50 km/hr</li>\n        <li><strong>Over speed</strong> if speed is greater than 120 km/hr</li>\n        <li><strong>Average speed</strong> if the speed is normal</li>\n      </ul>\n      <p>Hint: speed = distance / time</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>150\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>75.00\nAverage speed</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>200\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>40.00\nVery slow</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -185,7 +185,7 @@ export const problems: Problem[] = [
     "title": "5. Calculate Shipping Costs",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Imagine you're the lead developer for an online store, tasked with designing a program to calculate shipping costs for orders.</p>\n      <p>The store offers two shipping options: free shipping for orders totaling over $50, and a flat shipping fee of $5 for orders below that threshold.</p>\n      <p>Implement the shipping cost calculation logic. If the order total is over $50, the program should output the order total with 2 decimal places followed by \" Shipping is free.\" Otherwise, it should output the order total with 2 decimal places followed by \" Shipping fee is $5.\" Handle 0 or negative values as \"Invalid Amount.\"</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10.00 Shipping fee is $5.</pre>\n    ",
+    "description": "<p>Imagine you're the lead developer for an online store, tasked with designing a program to calculate shipping costs for orders.</p>\n      <p>The store offers two shipping options: free shipping for orders totaling over $50, and a flat shipping fee of $5 for orders below that threshold.</p>\n      <p>Implement the shipping cost calculation logic. If the order total is over $50, the program should output the order total with 2 decimal places followed by \" Shipping is free.\" Otherwise, it should output the order total with 2 decimal places followed by \" Shipping fee is $5.\" Handle 0 or negative values as \"Invalid Amount.\"</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10.00 Shipping fee is $5.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>70</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>70.00 Shipping is free.</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -226,7 +226,7 @@ export const problems: Problem[] = [
     "title": "Attendance percentage of a student",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>The given code is a program that calculates the attendance percentage of a student and checks if the student is eligible to sit for the exam. The program takes two inputs - the total number of hours of classes held and the total number of hours of classes attended by the student. It then calculates the attendance percentage and prints it.</p>\n      <p>If the attendance percentage is 75 or more, it prints <strong>You are allowed to sit in the exam</strong>, otherwise it prints <strong>You are not allowed to sit in the exam</strong>.</p>\n      <p><code>percentage = (total number of hours of classes attended by the student / total number of hours of classes held) * 100</code></p>\n      <p>If the percentage is between 66 (inclusive) to 74 (inclusive), print the message as stated above and then print <strong>Apply for Condonation</strong>.</p>\n      <p>If the percentage is below 66 (excluded), then print the message as stated above and then print <strong>Not eligible for Condonation</strong>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n80</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>You are allowed to sit in the exam</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>200\n149</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>You are not allowed to sit in the exam\nApply for Condonation</pre>\n    ",
+    "description": "<p>The given code is a program that calculates the attendance percentage of a student and checks if the student is eligible to sit for the exam. The program takes two inputs - the total number of hours of classes held and the total number of hours of classes attended by the student. It then calculates the attendance percentage and prints it.</p>\n      <p>If the attendance percentage is 75 or more, it prints <strong>You are allowed to sit in the exam</strong>, otherwise it prints <strong>You are not allowed to sit in the exam</strong>.</p>\n      <p><code>percentage = (total number of hours of classes attended by the student / total number of hours of classes held) * 100</code></p>\n      <p>If the percentage is between 66 (inclusive) to 74 (inclusive), print the message as stated above and then print <strong>Apply for Condonation</strong>.</p>\n      <p>If the percentage is below 66 (excluded), then print the message as stated above and then print <strong>Not eligible for Condonation</strong>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n75\nY</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>75\nAllowed</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>100\n60\nN</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>60\nNot Allowed</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -267,7 +267,7 @@ export const problems: Problem[] = [
     "title": "Employee Gross Salary Calculation",
     "difficulty": "Medium",
     "level": 1,
-    "description": "\n      <p>In an employee management system, users input a staff member's basic salary. The program efficiently calculates the Gross salary, incorporating specific allowances based on conditions:</p>\n      <ul>\n        <li>If Basic Salary is <= 10000: HRA = 20%, DA = 80%</li>\n        <li>If Basic Salary is between 10001 to 20000: HRA = 25%, DA = 90%</li>\n        <li>If Basic Salary is >= 20001: HRA = 30%, DA = 95%</li>\n      </ul>\n      <p>This ensures immediate and accurate feedback on the employee's Gross salary within the application. Print the gross salary with 2 decimal places.</p>\n      <p><strong>[Hint: Salary = Basic salary + HRA + DA]</strong></p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>45678</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>102775.50</pre>\n    ",
+    "description": "<p>In an employee management system, users input a staff member's basic salary. The program efficiently calculates the Gross salary, incorporating specific allowances based on conditions:</p>\n      <ul>\n        <li>If Basic Salary is <= 10000: HRA = 20%, DA = 80%</li>\n        <li>If Basic Salary is between 10001 to 20000: HRA = 25%, DA = 90%</li>\n        <li>If Basic Salary is >= 20001: HRA = 30%, DA = 95%</li>\n      </ul>\n      <p>This ensures immediate and accurate feedback on the employee's Gross salary within the application. Print the gross salary with 2 decimal places.</p>\n      <p><strong>[Hint: Salary = Basic salary + HRA + DA]</strong></p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>45678</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>102775.50</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>22000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>49500.00</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -308,7 +308,7 @@ export const problems: Problem[] = [
     "title": "The Fitness Challenge",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Craft a program that prompts the user to input the number of steps they took in a day and time (in minutes) taken for the activity. The program should then categorize their fitness level as follows:</p>\n      <ul>\n        <li>Less than 5000 steps: Activity Level - 0</li>\n        <li>5000 to 9999 steps: Activity Level - 25</li>\n        <li>10000 to 14999 steps: Activity Level - 50</li>\n        <li>15000 steps and above: Activity Level - 100</li>\n      </ul>\n      <p>Also predict their activity range = steps / time taken. Print the activity range with two decimal points. Note: Calculate steps / time using integer division before printing as a float.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>11000\n100</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>Level:50\n110.00</pre>\n    ",
+    "description": "<p>Craft a program that prompts the user to input the number of steps they took in a day and time (in minutes) taken for the activity. The program should then categorize their fitness level as follows:</p>\n      <ul>\n        <li>Less than 5000 steps: Activity Level - 0</li>\n        <li>5000 to 9999 steps: Activity Level - 25</li>\n        <li>10000 to 14999 steps: Activity Level - 50</li>\n        <li>15000 steps and above: Activity Level - 100</li>\n      </ul>\n      <p>Also predict their activity range = steps / time taken. Print the activity range with two decimal points. Note: Calculate steps / time using integer division before printing as a float.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>11000\n100</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Level:50\n110.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7376\n75</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Level:25\n98.00</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -349,7 +349,7 @@ export const problems: Problem[] = [
     "title": "Power calculation",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>You are developing a simple command-line program to calculate the power of a given base number raised to a specified exponent. This program will take user input for the base value and the value of the power and then output the result of the calculation.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>8</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n0</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1</pre>\n    ",
+    "description": "<p>You are developing a simple command-line program to calculate the power of a given base number raised to a specified exponent. This program will take user input for the base value and the value of the power and then output the result of the calculation.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>8</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n0</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -390,7 +390,7 @@ export const problems: Problem[] = [
     "title": "Salary Prediction",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Consider that you are a human resources manager at a mid-sized company. Every year, the company conducts performance evaluations for its employees, and based on their performance, they receive a salary increment. To streamline the process and ensure transparency, you've decided to implement a program that calculates and displays the new salary of each employee based on their current salary and the percentage increment provided.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>50000\n20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>60000</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>35000\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>36750</pre>\n    ",
+    "description": "<p>Consider that you are a human resources manager at a mid-sized company. Every year, the company conducts performance evaluations for its employees, and based on their performance, they receive a salary increment. To streamline the process and ensure transparency, you've decided to implement a program that calculates and displays the new salary of each employee based on their current salary and the percentage increment provided.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>50000\n20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>60000</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>35000\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>36750</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -431,7 +431,7 @@ export const problems: Problem[] = [
     "title": "Vehicle Registration Information System",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Create a program that prompts the user to enter details about a vehicle's size, fuel type, and intended purpose.</p>\n      <ol>\n        <li>Read the vehicle size as S or M or L, where S means Small, M is Medium, L is Large. For input S output should be <strong>Vehicle Size: Small</strong></li>\n        <li>Read the fuel type as G or D or E, where G is Gasoline, D is Diesel, E is Electric. For input G output should be <strong>Fuel Type: Gasoline</strong></li>\n        <li>Read the vehicle's purpose as 1 or 2 or 3, where 1 means Personal Use, 2 means Commercial Use, 3 means Public Transport. For input 2 output should be <strong>Purpose: Commercial use</strong></li>\n        <li>Validate the inputs and display the corresponding information.</li>\n        <li>If any input is invalid, the program should inform the user and terminate. Like <strong>Invalid vehicle size.</strong>, <strong>Invalid fuel type.</strong>, <strong>Invalid purpose.</strong></li>\n      </ol>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>S\nG\nE</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Vehicle Size: Small\nFuel Type: Gasoline\nInvalid purpose.</pre>\n    ",
+    "description": "<p>Create a program that prompts the user to enter details about a vehicle's size, fuel type, and intended purpose.</p>\n      <ol>\n        <li>Read the vehicle size as S or M or L, where S means Small, M is Medium, L is Large. For input S output should be <strong>Vehicle Size: Small</strong></li>\n        <li>Read the fuel type as G or D or E, where G is Gasoline, D is Diesel, E is Electric. For input G output should be <strong>Fuel Type: Gasoline</strong></li>\n        <li>Read the vehicle's purpose as 1 or 2 or 3, where 1 means Personal Use, 2 means Commercial Use, 3 means Public Transport. For input 2 output should be <strong>Purpose: Commercial use</strong></li>\n        <li>Validate the inputs and display the corresponding information.</li>\n        <li>If any input is invalid, the program should inform the user and terminate. Like <strong>Invalid vehicle size.</strong>, <strong>Invalid fuel type.</strong>, <strong>Invalid purpose.</strong></li>\n      </ol>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>S\nG\nE</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Vehicle Size: Small\nFuel Type: Gasoline\nInvalid purpose.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>M\nD\n2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Commercial use</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -472,7 +472,7 @@ export const problems: Problem[] = [
     "title": "Tax Calculation",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>You're developing a tax calculation program to determine the tax owed based on income levels. The tax rates vary depending on income brackets: 5% for incomes below $10,000, 10% for incomes between $10,000 and $50,000, and 20% for incomes exceeding $50,000.</p>\n      <p>Craft a program to accurately calculate the tax owed based on the provided income brackets and tax rates. Print the output formatted with a dollar sign and 2 decimal places.</p>\n      <br/>\n      <p><strong>Formula for calculating tax owed:</strong></p>\n      <ul>\n        <li>If income < $10,000: tax = income * 0.05</li>\n        <li>If $10,000 <= income <= $50,000: tax = income * 0.10</li>\n        <li>If income > $50,000: tax = income * 0.20</li>\n      </ul>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>12000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>$1200.00</pre>\n    ",
+    "description": "<p>You're developing a tax calculation program to determine the tax owed based on income levels. The tax rates vary depending on income brackets: 5% for incomes below $10,000, 10% for incomes between $10,000 and $50,000, and 20% for incomes exceeding $50,000.</p>\n      <p>Craft a program to accurately calculate the tax owed based on the provided income brackets and tax rates. Print the output formatted with a dollar sign and 2 decimal places.</p>\n      <br/>\n      <p><strong>Formula for calculating tax owed:</strong></p>\n      <ul>\n        <li>If income < $10,000: tax = income * 0.05</li>\n        <li>If $10,000 <= income <= $50,000: tax = income * 0.10</li>\n        <li>If income > $50,000: tax = income * 0.20</li>\n      </ul>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>12000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>$1200.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>$350.00</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -513,7 +513,7 @@ export const problems: Problem[] = [
     "title": "5 digit number checking",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Check whether the given number is a 5 digit number without using loops. In a user authentication system, individuals are prompted to input a numerical PIN to access their accounts. This program efficiently verifies whether the entered PIN is a 5-digit number. (The input may be a positive or negative number)</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>345</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>345 is not a 5-digit number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>36893</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>36893 is a 5-digit number</pre>\n    ",
+    "description": "<p>Check whether the given number is a 5 digit number without using loops. In a user authentication system, individuals are prompted to input a numerical PIN to access their accounts. This program efficiently verifies whether the entered PIN is a 5-digit number. (The input may be a positive or negative number)</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>345</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>345 is not a 5-digit number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>36893</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>36893 is a 5-digit number</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -554,7 +554,7 @@ export const problems: Problem[] = [
     "title": "The Product Calculator",
     "difficulty": "Easy",
     "level": 1,
-    "description": "\n      <p>Craft a program that prompts the user to input 2 integer values. Calculate their product. If the product is even divide it by 2 or divide it by 3 and display the result.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>13\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>26</pre>\n    ",
+    "description": "<p>Craft a program that prompts the user to input 2 integer values. Calculate their product. If the product is even divide it by 2 or divide it by 3 and display the result.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>13\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>26</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>3</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -595,7 +595,7 @@ export const problems: Problem[] = [
     "title": "1. Roman Numeral",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to convert an integer into a Roman numeral. The input number will be between 1 and 40.</p>\n      <p>If the input is outside this range, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>IV</pre>\n    ",
+    "description": "<p>Write a program to convert an integer into a Roman numeral. The input number will be between 1 and 40.</p>\n      <p>If the input is outside this range, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>IV</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>I</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -638,6 +638,31 @@ export const problems: Problem[] = [
         "input": "0",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "X\n",
+        "hidden": true
+      },
+      {
+        "input": "20",
+        "expected": "XX\n",
+        "hidden": true
+      },
+      {
+        "input": "39",
+        "expected": "XXXIX\n",
+        "hidden": true
+      },
+      {
+        "input": "14",
+        "expected": "XIV\n",
+        "hidden": true
+      },
+      {
+        "input": "24",
+        "expected": "XXIV\n",
+        "hidden": true
       }
     ]
   },
@@ -646,7 +671,7 @@ export const problems: Problem[] = [
     "title": "2. Square Pattern",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to print a square pattern of '#' characters with size N.</p>\n      <p>If N is less than or equal to 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre># # # # \n# # # # \n# # # # \n# # # # \n</pre>\n    ",
+    "description": "<p>Write a program to print a square pattern of '#' characters with size N.</p>\n      <p>If N is less than or equal to 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre># # # # \n# # # # \n# # # # \n# # # #</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>#</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -658,7 +683,7 @@ export const problems: Problem[] = [
       {
         "input": "1",
         "expected": "# \n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "2",
@@ -679,6 +704,11 @@ export const problems: Problem[] = [
         "input": "-2",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n# # # # # # # # # # \n",
+        "hidden": true
       }
     ]
   },
@@ -687,7 +717,7 @@ export const problems: Problem[] = [
     "title": "3. Perfect Number",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to check if a number is a perfect number (if perfect it will print the largest proper divisor else it will print the given number).</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>3</pre>\n    ",
+    "description": "<p>Write a program to check if a number is a perfect number (if perfect it will print the largest proper divisor else it will print the given number).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>3</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>10</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -699,7 +729,7 @@ export const problems: Problem[] = [
       {
         "input": "10",
         "expected": "10\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "28",
@@ -720,6 +750,16 @@ export const problems: Problem[] = [
         "input": "5",
         "expected": "5\n",
         "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "1\n",
+        "hidden": true
+      },
+      {
+        "input": "8128",
+        "expected": "4064\n",
+        "hidden": true
       }
     ]
   },
@@ -728,7 +768,7 @@ export const problems: Problem[] = [
     "title": "4. Prime number between range",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <p>Numbers should be separated by a space.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>10 20</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>11 13 17 19 \n</pre>\n    ",
+    "description": "<p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <p>Numbers should be separated by a space.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10\n20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>11 13 17 19</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1\n10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>2 3 5 7</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -740,7 +780,7 @@ export const problems: Problem[] = [
       {
         "input": "1\n10",
         "expected": "2 3 5 7 \n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "20\n30",
@@ -761,6 +801,51 @@ export const problems: Problem[] = [
         "input": "2\n5",
         "expected": "2 3 5 \n",
         "hidden": true
+      },
+      {
+        "input": "10 20",
+        "expected": "11 13 17 19 \n",
+        "hidden": true
+      },
+      {
+        "input": "1 10",
+        "expected": "2 3 5 7 \n",
+        "hidden": true
+      },
+      {
+        "input": "20 30",
+        "expected": "23 29 \n",
+        "hidden": true
+      },
+      {
+        "input": "50 60",
+        "expected": "53 59 \n",
+        "hidden": true
+      },
+      {
+        "input": "90 100",
+        "expected": "97 \n",
+        "hidden": true
+      },
+      {
+        "input": "2 5",
+        "expected": "2 3 5 \n",
+        "hidden": true
+      },
+      {
+        "input": "2 2",
+        "expected": "2 \n",
+        "hidden": true
+      },
+      {
+        "input": "10 10",
+        "expected": "\n",
+        "hidden": true
+      },
+      {
+        "input": "1 100",
+        "expected": "2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 \n",
+        "hidden": true
       }
     ]
   },
@@ -769,7 +854,7 @@ export const problems: Problem[] = [
     "title": "5. Harmonic Series",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to print the sum of the harmonic series up to N terms: 1 + 1/2 + 1/3 + ... + 1/N.</p>\n      <p>If N <= 0, print <code>Invalid input</code>. Format the output to 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>2.28</pre>\n    ",
+    "description": "<p>Write a program to print the sum of the harmonic series up to N terms: 1 + 1/2 + 1/3 + ... + 1/N.</p>\n      <p>If N <= 0, print <code>Invalid input</code>. Format the output to 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>2.28</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1.00</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -781,7 +866,7 @@ export const problems: Problem[] = [
       {
         "input": "1",
         "expected": "1.00\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "10",
@@ -802,6 +887,11 @@ export const problems: Problem[] = [
         "input": "-5",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "1.50\n",
+        "hidden": true
       }
     ]
   },
@@ -810,7 +900,7 @@ export const problems: Problem[] = [
     "title": "6. Handshaking Theorem",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to calculate the total number of handshakes possible for N people.</p>\n      <p>If N < 2, print <code>At least 2 people are needed for a handshake.</code></p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>10</pre>\n    ",
+    "description": "<p>Write a program to calculate the total number of handshakes possible for N people.</p>\n      <p>If N < 2, print <code>At least 2 people are needed for a handshake.</code></p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -822,7 +912,7 @@ export const problems: Problem[] = [
       {
         "input": "2",
         "expected": "1\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -843,6 +933,11 @@ export const problems: Problem[] = [
         "input": "100",
         "expected": "4950\n",
         "hidden": true
+      },
+      {
+        "input": "3",
+        "expected": "3\n",
+        "hidden": true
       }
     ]
   },
@@ -851,7 +946,7 @@ export const problems: Problem[] = [
     "title": "7. Odd and Even Sequence",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Take an integer N. If N is odd, print odd numbers from 1 to N. If N is even, print even numbers from 2 to N. If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>9</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>1 3 5 7 9 </pre>\n    ",
+    "description": "<p>Take an integer N. If N is odd, print odd numbers from 1 to N. If N is even, print even numbers from 2 to N. If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>9</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1 3 5 7 9</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>2 4 6 8</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -863,7 +958,7 @@ export const problems: Problem[] = [
       {
         "input": "8",
         "expected": "2 4 6 8 ",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -884,6 +979,16 @@ export const problems: Problem[] = [
         "input": "-3",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "2 ",
+        "hidden": true
+      },
+      {
+        "input": "3",
+        "expected": "1 3 ",
+        "hidden": true
       }
     ]
   },
@@ -892,7 +997,7 @@ export const problems: Problem[] = [
     "title": "8. Odd and Even Number Sum",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>For a given integer N, print all even numbers strictly less than N, followed by their sum. Then, print all odd numbers strictly less than N, followed by their sum.</p>\n      <p>If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16\n</pre>\n    ",
+    "description": "<p>For a given integer N, print all even numbers strictly less than N, followed by their sum. Then, print all odd numbers strictly less than N, followed by their sum.</p>\n      <p>If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Even numbers less than 8: 2 4 6 \nEven Sum = 12\nOdd numbers less than 8: 1 3 5 7 \nOdd Sum = 16</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Even numbers less than 7: 2 4 6 \nEven Sum = 12\nOdd numbers less than 7: 1 3 5 \nOdd Sum = 9</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -904,7 +1009,7 @@ export const problems: Problem[] = [
       {
         "input": "7",
         "expected": "Even numbers less than 7: 2 4 6 \nEven Sum = 12\nOdd numbers less than 7: 1 3 5 \nOdd Sum = 9\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -925,6 +1030,16 @@ export const problems: Problem[] = [
         "input": "15",
         "expected": "Even numbers less than 15: 2 4 6 8 10 12 14 \nEven Sum = 56\nOdd numbers less than 15: 1 3 5 7 9 11 13 \nOdd Sum = 49\n",
         "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "Even numbers less than 2: \nEven Sum = 0\nOdd numbers less than 2: 1 \nOdd Sum = 1\n",
+        "hidden": true
+      },
+      {
+        "input": "3",
+        "expected": "Even numbers less than 3: 2 \nEven Sum = 2\nOdd numbers less than 3: 1 \nOdd Sum = 1\n",
+        "hidden": true
       }
     ]
   },
@@ -933,7 +1048,7 @@ export const problems: Problem[] = [
     "title": "9. Odd and Even Squares",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Take N as input. If N is even, print the squares of even numbers up to N. If N is odd, print the squares of odd numbers up to N. If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>4 16 36 64 </pre>\n    ",
+    "description": "<p>Take N as input. If N is even, print the squares of even numbers up to N. If N is odd, print the squares of odd numbers up to N. If N <= 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>4 16 36 64</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1 9 25 49</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -945,7 +1060,7 @@ export const problems: Problem[] = [
       {
         "input": "7",
         "expected": "1 9 25 49 ",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -966,6 +1081,16 @@ export const problems: Problem[] = [
         "input": "-5",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "4 ",
+        "hidden": true
+      },
+      {
+        "input": "3",
+        "expected": "1 9 ",
+        "hidden": true
       }
     ]
   },
@@ -974,7 +1099,7 @@ export const problems: Problem[] = [
     "title": "10. Perfect Square",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Check if a given number is a perfect square. If it is negative, print <code>Not a Perfect Square</code>.</p>\n      <p>Print <code>Perfect Square</code> if it is, otherwise <code>Not a Perfect Square</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>Perfect Square\n</pre>\n    ",
+    "description": "<p>Check if a given number is a perfect square. If it is negative, print <code>Not a Perfect Square</code>.</p>\n      <p>Print <code>Perfect Square</code> if it is, otherwise <code>Not a Perfect Square</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Perfect Square</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Perfect Square</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -986,11 +1111,11 @@ export const problems: Problem[] = [
       {
         "input": "10",
         "expected": "Not a Perfect Square\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "0",
-        "expected": "Invalid input\n",
+        "expected": "Perfect Square\n",
         "hidden": true
       },
       {
@@ -1000,11 +1125,26 @@ export const problems: Problem[] = [
       },
       {
         "input": "-4",
-        "expected": "Invalid input\n",
+        "expected": "Not a Perfect Square\n",
         "hidden": true
       },
       {
         "input": "144",
+        "expected": "Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "Not a Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "99",
+        "expected": "Not a Perfect Square\n",
+        "hidden": true
+      },
+      {
+        "input": "10000",
         "expected": "Perfect Square\n",
         "hidden": true
       }
@@ -1015,7 +1155,7 @@ export const problems: Problem[] = [
     "title": "11. Pyramid Pattern",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Print a pyramid pattern of alphabets. Take N as the number of rows. Check valid input range (1 to 26), else print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>A\nAB\nABC\n</pre>\n    ",
+    "description": "<p>Print a pyramid pattern of alphabets. Take N as the number of rows. Check valid input range (1 to 26), else print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>A\nAB\nABC</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>A\nAB\nABC\nABCD\nABCDE</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1027,7 +1167,7 @@ export const problems: Problem[] = [
       {
         "input": "5",
         "expected": "A\nAB\nABC\nABCD\nABCDE\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -1048,6 +1188,16 @@ export const problems: Problem[] = [
         "input": "0",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "A\nAB\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "A\nAB\nABC\nABCD\nABCDE\nABCDEF\nABCDEFG\nABCDEFGH\nABCDEFGHI\nABCDEFGHIJ\n",
+        "hidden": true
       }
     ]
   },
@@ -1056,7 +1206,7 @@ export const problems: Problem[] = [
     "title": "12. Strong Number or Not",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Check if a number is a Strong number (sum of factorials of digits equals the number). If input is less than 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>145</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>Strong Number\n</pre>\n    ",
+    "description": "<p>Check if a number is a Strong number (sum of factorials of digits equals the number). If input is less than 0, print <code>Invalid input</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>145</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Strong Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Strong Number</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1068,7 +1218,7 @@ export const problems: Problem[] = [
       {
         "input": "2",
         "expected": "Strong Number\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "123",
@@ -1089,6 +1239,21 @@ export const problems: Problem[] = [
         "input": "10",
         "expected": "Not a Strong Number\n",
         "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "Strong Number\n",
+        "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "Not a Strong Number\n",
+        "hidden": true
+      },
+      {
+        "input": "14",
+        "expected": "Not a Strong Number\n",
+        "hidden": true
       }
     ]
   },
@@ -1097,7 +1262,7 @@ export const problems: Problem[] = [
     "title": "13. Start Pattern",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program that takes two inputs: number of rows (N) and starting stars (S). If N <= 0 or S <= 0, print <code>Invalid input</code>. For odd rows, print S stars. For even rows, print S*2 stars.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>7\n3</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>***\n******\n***\n******\n***\n******\n***\n</pre>\n    ",
+    "description": "<p>Write a program that takes two inputs: number of rows (N) and starting stars (S). If N <= 0 or S <= 0, print <code>Invalid input</code>. For odd rows, print S stars. For even rows, print S*2 stars.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>7\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>***\n******\n***\n******\n***\n******\n***</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>4\n2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>**\n****\n**\n****</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1109,7 +1274,7 @@ export const problems: Problem[] = [
       {
         "input": "4\n2",
         "expected": "**\n****\n**\n****\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1\n5",
@@ -1130,6 +1295,11 @@ export const problems: Problem[] = [
         "input": "5\n1",
         "expected": "*\n**\n*\n**\n*\n",
         "hidden": true
+      },
+      {
+        "input": "6\n4",
+        "expected": "****\n********\n****\n********\n****\n********\n",
+        "hidden": true
       }
     ]
   },
@@ -1138,7 +1308,7 @@ export const problems: Problem[] = [
     "title": "14. Pattern Sum",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to generate a pattern of numbers starting from 9 and decreasing by 1 each time per row. Each row should start from 9 and contain one more digit than the previous row. After printing all the rows, print the sum of all the numbers formed in each row.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>1094\n</pre>\n    ",
+    "description": "<p>Write a program to generate a pattern of numbers starting from 9 and decreasing by 1 each time per row. Each row should start from 9 and contain one more digit than the previous row. After printing all the rows, print the sum of all the numbers formed in each row.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1094</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>10970</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1150,7 +1320,7 @@ export const problems: Problem[] = [
       {
         "input": "4",
         "expected": "10970\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -1171,6 +1341,16 @@ export const problems: Problem[] = [
         "input": "6",
         "expected": "1097389\n",
         "hidden": true
+      },
+      {
+        "input": "0",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "9",
+        "expected": "1097393685\n",
+        "hidden": true
       }
     ]
   },
@@ -1179,7 +1359,7 @@ export const problems: Problem[] = [
     "title": "15. Remove First and Last Digit",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a C program to remove the first and last digit of a number and print the result. If the number becomes 0 or invalid after removal, print 0.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>73627</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>362\n</pre>\n    ",
+    "description": "<p>Write a C program to remove the first and last digit of a number and print the result. If the number becomes 0 or invalid after removal, print 0.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>73627</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>362</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>12</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>0</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1191,7 +1371,7 @@ export const problems: Problem[] = [
       {
         "input": "12",
         "expected": "0\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "123",
@@ -1212,6 +1392,21 @@ export const problems: Problem[] = [
         "input": "87654321",
         "expected": "765432\n",
         "hidden": true
+      },
+      {
+        "input": "100",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "1001",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "0\n",
+        "hidden": true
       }
     ]
   },
@@ -1220,7 +1415,7 @@ export const problems: Problem[] = [
     "title": "16. Multiply 1-digit or 2-digit numbers",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Take N numbers as input. If N <= 0, print <code>Invalid input</code>.</p>\n      <p>Only 1-digit or 2-digit numbers (0 to 99 and -99 to -1) should be included in the multiplication. Ignore numbers with 3 or more digits. If no valid numbers, print <code>0</code>.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4\n2\n12\n123\n2</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>48\n</pre>\n    ",
+    "description": "<p>Take N numbers as input. If N <= 0, print <code>Invalid input</code>.</p>\n      <p>Only 1-digit or 2-digit numbers (0 to 99 and -99 to -1) should be included in the multiplication. Ignore numbers with 3 or more digits. If no valid numbers, print <code>0</code>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4\n2\n12\n123\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>48</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>0</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Invalid input</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1232,7 +1427,7 @@ export const problems: Problem[] = [
       {
         "input": "0",
         "expected": "Invalid input\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "3\n100\n-5\n10",
@@ -1253,6 +1448,11 @@ export const problems: Problem[] = [
         "input": "-2",
         "expected": "Invalid input\n",
         "hidden": true
+      },
+      {
+        "input": "3\n0\n1\n2",
+        "expected": "0\n",
+        "hidden": true
       }
     ]
   },
@@ -1261,7 +1461,7 @@ export const problems: Problem[] = [
     "title": "17. Process Digits",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Process a number digit by digit from left to right. If the first digit is 9, skip printing it. For other digits, if the digit is 9, print 0, else print digit + 1.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>234</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>345</pre>\n    ",
+    "description": "<p>Process a number digit by digit from left to right. If the first digit is 9, skip printing it. For other digits, if the digit is 9, print 0, else print digit + 1.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>234</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>345</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>9876</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>987</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1273,7 +1473,7 @@ export const problems: Problem[] = [
       {
         "input": "9876",
         "expected": "987",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "934",
@@ -1294,6 +1494,26 @@ export const problems: Problem[] = [
         "input": "9019",
         "expected": "120",
         "hidden": true
+      },
+      {
+        "input": "9000",
+        "expected": "111",
+        "hidden": true
+      },
+      {
+        "input": "9",
+        "expected": "",
+        "hidden": true
+      },
+      {
+        "input": "99",
+        "expected": "0",
+        "hidden": true
+      },
+      {
+        "input": "9090",
+        "expected": "101",
+        "hidden": true
       }
     ]
   },
@@ -1302,7 +1522,7 @@ export const problems: Problem[] = [
     "title": "18. Perfect Cube Format",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Take N as input and print the cube format for N, N+1, and N+2.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>5*5*5 = 125\n6*6*6 = 216\n7*7*7 = 343\n</pre>\n    ",
+    "description": "<p>Take N as input and print the cube format for N, N+1, and N+2.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>5*5*5 = 125\n6*6*6 = 216\n7*7*7 = 343</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1*1*1 = 1\n2*2*2 = 8\n3*3*3 = 27</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1314,7 +1534,7 @@ export const problems: Problem[] = [
       {
         "input": "1",
         "expected": "1*1*1 = 1\n2*2*2 = 8\n3*3*3 = 27\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "10",
@@ -1335,6 +1555,11 @@ export const problems: Problem[] = [
         "input": "9",
         "expected": "9*9*9 = 729\n10*10*10 = 1000\n11*11*11 = 1331\n",
         "hidden": true
+      },
+      {
+        "input": "-2",
+        "expected": "-2*-2*-2 = -8\n-1*-1*-1 = -1\n0*0*0 = 0\n",
+        "hidden": true
       }
     ]
   },
@@ -1343,7 +1568,7 @@ export const problems: Problem[] = [
     "title": "19. Multiples of 5 Pattern",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Print a pattern containing multiples of 5, based on the input N.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>5 \n5 10 \n5 10 15 \n5 10 15 20 \n</pre>\n    ",
+    "description": "<p>Print a pattern containing multiples of 5, based on the input N.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>5 \n5 10 \n5 10 15 \n5 10 15 20</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>5 \n5 10</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1355,7 +1580,7 @@ export const problems: Problem[] = [
       {
         "input": "2",
         "expected": "5 \n5 10 \n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "1",
@@ -1376,6 +1601,11 @@ export const problems: Problem[] = [
         "input": "0",
         "expected": "",
         "hidden": true
+      },
+      {
+        "input": "10",
+        "expected": "5 \n5 10 \n5 10 15 \n5 10 15 20 \n5 10 15 20 25 \n5 10 15 20 25 30 \n5 10 15 20 25 30 35 \n5 10 15 20 25 30 35 40 \n5 10 15 20 25 30 35 40 45 \n5 10 15 20 25 30 35 40 45 50 \n",
+        "hidden": true
       }
     ]
   },
@@ -1384,7 +1614,7 @@ export const problems: Problem[] = [
     "title": "20. Sum of Repeated Digits",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Given a digit and a count, calculate the sum of terms formed by repeating the digit.</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>3 5</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>37035\n</pre>\n    ",
+    "description": "<p>Given a digit and a count, calculate the sum of terms formed by repeating the digit.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>37035</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1\n4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1234</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1396,7 +1626,7 @@ export const problems: Problem[] = [
       {
         "input": "1\n4",
         "expected": "1234\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "5\n3",
@@ -1417,6 +1647,46 @@ export const problems: Problem[] = [
         "input": "7\n1",
         "expected": "7\n",
         "hidden": true
+      },
+      {
+        "input": "3 5",
+        "expected": "37035\n",
+        "hidden": true
+      },
+      {
+        "input": "1 4",
+        "expected": "1234\n",
+        "hidden": true
+      },
+      {
+        "input": "5 3",
+        "expected": "615\n",
+        "hidden": true
+      },
+      {
+        "input": "9 2",
+        "expected": "108\n",
+        "hidden": true
+      },
+      {
+        "input": "2 6",
+        "expected": "246912\n",
+        "hidden": true
+      },
+      {
+        "input": "7 1",
+        "expected": "7\n",
+        "hidden": true
+      },
+      {
+        "input": "0 5",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "1 0",
+        "expected": "0\n",
+        "hidden": true
       }
     ]
   },
@@ -1425,7 +1695,7 @@ export const problems: Problem[] = [
     "title": "21. Bitwise Collatz Steps",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Count the number of steps required to reach 1 for a given integer N using the Collatz conjecture logic (modified using bitwise operations).</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>8\n</pre>\n    ",
+    "description": "<p>Count the number of steps required to reach 1 for a given integer N using the Collatz conjecture logic (modified using bitwise operations).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>8</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>7</pre>\n    ",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
@@ -1437,7 +1707,7 @@ export const problems: Problem[] = [
       {
         "input": "3",
         "expected": "7\n",
-        "hidden": true
+        "hidden": false
       },
       {
         "input": "10",
@@ -1458,6 +1728,16 @@ export const problems: Problem[] = [
         "input": "11",
         "expected": "14\n",
         "hidden": true
+      },
+      {
+        "input": "1",
+        "expected": "0\n",
+        "hidden": true
+      },
+      {
+        "input": "2",
+        "expected": "1\n",
+        "hidden": true
       }
     ]
   },
@@ -1466,7 +1746,7 @@ export const problems: Problem[] = [
     "title": "1. Prime number with ranges",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <br/>\n      <p><strong>Sample Input:</strong></p>\n      <pre>10 20</pre>\n      <p><strong>Sample Output:</strong></p>\n      <pre>11 13 17 19</pre>\n    ",
+    "description": "<p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10 20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>11 13 17 19</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1 10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>2 3 5 7</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1492,7 +1772,7 @@ export const problems: Problem[] = [
     "title": "2. Collatz sequence",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Print the Collatz sequence for a given number N. The sequence stops when it reaches 1.</p>\n    ",
+    "description": "<p>Print the Collatz sequence for a given number N. The sequence stops when it reaches 1.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6 3 10 5 16 8 4 2 1</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>3 10 5 16 8 4 2 1</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1513,7 +1793,7 @@ export const problems: Problem[] = [
     "title": "4. Harshad Number",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Check if a number is a Harshad Number (divisible by the sum of its digits).</p>",
+    "description": "<p>Check if a number is a Harshad Number (divisible by the sum of its digits).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>18</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Harshad Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>19</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Harshad Number</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1534,7 +1814,7 @@ export const problems: Problem[] = [
     "title": "5. Product of a digit",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Calculate the product of digits of a given number.</p>",
+    "description": "<p>Calculate the product of digits of a given number.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>45</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>20</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1560,7 +1840,7 @@ export const problems: Problem[] = [
     "title": "10. Strong number",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Check if a number is a Strong number (sum of factorials of digits equals the number).</p>",
+    "description": "<p>Check if a number is a Strong number (sum of factorials of digits equals the number).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>145</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Strong Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Strong Number</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1581,7 +1861,7 @@ export const problems: Problem[] = [
     "title": "12. Palindrome or not",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Check if a given number is a Palindrome.</p>",
+    "description": "<p>Check if a given number is a Palindrome.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>121</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Palindrome</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Palindrome</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1602,7 +1882,7 @@ export const problems: Problem[] = [
     "title": "13. Armstrong number",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Check if a given number is an Armstrong number (sum of its own digits raised to the power of the number of digits equals the number).</p>",
+    "description": "<p>Check if a given number is an Armstrong number (sum of its own digits raised to the power of the number of digits equals the number).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>153</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Armstrong Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not an Armstrong Number</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1628,7 +1908,7 @@ export const problems: Problem[] = [
     "title": "16. Twin Primes",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Check if two given numbers are Twin Primes (both are prime and their absolute difference is 2).</p>",
+    "description": "<p>Check if two given numbers are Twin Primes (both are prime and their absolute difference is 2).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3 5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Twin Primes</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5 7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Twin Primes</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1654,7 +1934,7 @@ export const problems: Problem[] = [
     "title": "3. Working with character",
     "difficulty": "Easy",
     "level": 2,
-    "description": "<p>Read a character and check if it is a vowel or consonant.</p>",
+    "description": "<p>Read a character and check if it is a vowel or consonant.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>a</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Vowel</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>b</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Consonant</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1696,7 +1976,7 @@ export const problems: Problem[] = [
     "title": "14. Sum of a digit",
     "difficulty": "Medium",
     "level": 2,
-    "description": "<p>Calculate the sum of digits of a given number.</p>",
+    "description": "<p>Calculate the sum of digits of a given number.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>456</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>15</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
@@ -1717,7 +1997,7 @@ export const problems: Problem[] = [
     "title": "Fibonacci Series",
     "difficulty": "Medium",
     "level": 2,
-    "description": "\n      <p>Generate the first <strong>N</strong> terms of the Fibonacci series.</p>\n      <p>In a Fibonacci series, the next number is the sum of the two preceding ones. The sequence starts with 0 and 1.</p>\n    ",
+    "description": "<p>Generate the first <strong>N</strong> terms of the Fibonacci series.</p>\n      <p>In a Fibonacci series, the next number is the sum of the two preceding ones. The sequence starts with 0 and 1.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>0 1 1 2 3</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>0</pre>\n    ",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
