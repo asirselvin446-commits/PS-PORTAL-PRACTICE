@@ -3719,5 +3719,237 @@ export const problems: Problem[] = [
         "matchType": "numeric"
       }
     ]
+  },
+  {
+    "id": "l2-p22-alphabet-pattern-1",
+    "title": "7. Alphabet Pattern 1",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "Print a right-angled triangle pattern of alphabets where each row starts with 'A' and increments up to the row number.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>A\nA B\nA B C\nA B C D\nA B C D E</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>A\nA B\nA B C</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "A\nA B\nA B C\nA B C D\nA B C D E",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "A\nA B\nA B C",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4",
+        "expected": "A\nA B\nA B C\nA B C D",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p23-alphabet-pattern-2",
+    "title": "8. Alphabet Pattern 2",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "Print a right-angled triangle pattern of alphabets where each row consists of a single alphabet repeated.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>A\nB B\nC C C\nD D D D</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>A\nB B\nC C C</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "A\nB B\nC C C\nD D D D",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "A\nB B\nC C C",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "A\nB B\nC C C\nD D D D\nE E E E E",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p24-custom-patterns",
+    "title": "9. Custom Patterns",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Print a custom pattern of stars. The program takes two inputs: `n` and `stars`. If the row index `i` (0-indexed) is even, print `stars * 2` stars. If `i` is odd, print `stars` stars.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>2 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>* * * * * * * * * *\n* * * * *</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>* * * * * *\n* * *\n* * * * * *</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "2 5",
+        "expected": "* * * * * * * * * *\n* * * * *",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3 3",
+        "expected": "* * * * * *\n* * *\n* * * * * *",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4 2",
+        "expected": "* * * *\n* *\n* * * *\n* *",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p25-reverse-alphabet",
+    "title": "11. Reverse of the Alphabet",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "Take an integer `n` and print the last `n` characters of the alphabet in reverse order starting from 'Z'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Z Y X W V</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Z Y X</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "Z Y X W V",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "Z Y X",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7",
+        "expected": "Z Y X W V U T",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p26-armstrong-ranges",
+    "title": "15. Armstrong Number with Specific Ranges",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Given a range `s` to `e`, print all Armstrong numbers within that range.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>1 10000</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>1 2 3 4 5 6 7 8 9 153 370 371 407 1634 8208 9474</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1 200</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>1 2 3 4 5 6 7 8 9 153</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "1 10000",
+        "expected": "1 2 3 4 5 6 7 8 9 153 370 371 407 1634 8208 9474",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "1 200",
+        "expected": "1 2 3 4 5 6 7 8 9 153",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "300 400",
+        "expected": "370 371",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l2-p27-prime-factors",
+    "title": "17. Prime Factors",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Given an integer `n`, print all its unique prime factors.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>315</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>3 5 7</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>20</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>2 5</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "315",
+        "expected": "3 5 7",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "20",
+        "expected": "2 5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "13",
+        "expected": "13",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l2-p28-desired-pattern",
+    "title": "18. Desired Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Print a triangle pattern given a row count and two characters. The elements alternate between the second character and the first character.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4 # $</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>$\n$ #\n$ # $\n$ # $ #</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3 A B</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>B\nB A\nB A B</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4 # $",
+        "expected": "$\n$ #\n$ # $\n$ # $ #",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3 A B",
+        "expected": "B\nB A\nB A B",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5 * -",
+        "expected": "-\n- *\n- * -\n- * - *\n- * - * -",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p29-swap-last-two",
+    "title": "19. Swap the Last 2 Digit",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Given two integers, swap their last digits and print the new values.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>73 46</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>76 43</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>105 208</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>108 205</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "73 46",
+        "expected": "76 43",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "105 208",
+        "expected": "108 205",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "10 20",
+        "expected": "10 20",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
   }
 ];
