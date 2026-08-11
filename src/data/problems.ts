@@ -2327,5 +2327,1397 @@ export const problems: Problem[] = [
       }
     ],
     "functionName": "main"
+  },
+  {
+    "id": "l3-p1-even-odd-divisible",
+    "title": "1. Even or Odd Divisible",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Given an array of size N, count how many elements are even and how many are odd. If even count == odd count, print 'Neither even nor odd divisble.'. If even count > odd count, print 'Even Divisible.'. If odd count > even count, print 'Odd Divisible.'\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n61 52 28 34 89</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Even Divisible.</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 3 5 7</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Odd Divisible.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n61 52 28 34 89",
+        "expected": "Even Divisible.",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 3 5 7",
+        "expected": "Odd Divisible.",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n2 3",
+        "expected": "Neither even nor odd divisble.",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p2-avg-array",
+    "title": "2. Calculate Avg of an Array",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Calculate the average of an array. Output the result up to 2 decimal places.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n10 20 40 20 15</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>21.00</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>2.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n10 20 40 20 15",
+        "expected": "21.00",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "2.00",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n5 5 5 5",
+        "expected": "5.00",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p3-right-rotation-char",
+    "title": "3. Right Rotation (Characters)",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Right rotate an array of characters by k positions. Input format: size of array, followed by the characters, followed by k. Print each character on a new line.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\nA B C D E\n2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>D\nE\nA\nB\nC</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\nx y z\n1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>z\nx\ny</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\nA B C D E\n2",
+        "expected": "D\nE\nA\nB\nC",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\nx y z\n1",
+        "expected": "z\nx\ny",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\na b c d\n4",
+        "expected": "a\nb\nc\nd",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p4-prime-occurrences",
+    "title": "4. Count the Occurrences of Prime Number",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Count the frequencies of prime numbers in an array. Input: size of array, then the elements. Output format: '\\nFrequencies of Prime Numbers:\\n' followed by '[num] occurs [freq] time(s).\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>8\n2 3 44 5 5 7 8 3</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Frequencies of Prime Numbers:\n2 occurs 1 time(s).\n3 occurs 2 time(s).\n5 occurs 2 time(s).\n7 occurs 1 time(s).</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n4 6 8</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Frequencies of Prime Numbers:</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "8\n2 3 44 5 5 7 8 3",
+        "expected": "Frequencies of Prime Numbers:\n2 occurs 1 time(s).\n3 occurs 2 time(s).\n5 occurs 2 time(s).\n7 occurs 1 time(s).",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n4 6 8",
+        "expected": "Frequencies of Prime Numbers:",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n2 2",
+        "expected": "Frequencies of Prime Numbers:\n2 occurs 2 time(s).",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p5-max-so-far",
+    "title": "5. Max So Far",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Implement a modified subarray sum algorithm. `max_end` starts at `arr[0]`, `max_so_far` starts at `0`. Iterate from `i=1` to `n-1`: `max_end = max_end + arr[i]`; `if (max_end > max_so_far) max_so_far = max_end`; `if (max_end < max_so_far) max_end = 0;`. Print `max_so_far`.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n-1 2 -3 -4 -5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>2</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 2 3 4</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>10</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n-1 2 -3 -4 -5",
+        "expected": "2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "10",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n-5 -2 -1",
+        "expected": "0",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p6-divisible-count",
+    "title": "6. Elements Divisible by Target",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Take the size of an array, its elements, and a divisor. Count how many elements are divisible by that divisor and display the count.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n21 24 6 5 1\n3</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>3</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n10 20 30 40\n10</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>4</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n21 24 6 5 1\n3",
+        "expected": "3",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n10 20 30 40\n10",
+        "expected": "4",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3\n5",
+        "expected": "0",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p7-less-than-target",
+    "title": "7. Elements Less Than or Equal to Target",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Take the array size, elements, and a target value. Print all elements less than or equal to the target, separated by spaces.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n21 24 6 5 1\n6</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>6 5 1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n10 20 30 40\n25</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>10 20</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n21 24 6 5 1\n6",
+        "expected": "6 5 1",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n10 20 30 40\n25",
+        "expected": "10 20",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 3\n0",
+        "expected": "",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p8-left-rotation-int",
+    "title": "8. Left Rotation (Integers)",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Left rotate an array of integers by k positions. Output each element on a new line.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>10\n1 2 3 4 5 6 7 8 9 10\n3</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>4\n5\n6\n7\n8\n9\n10\n1\n2\n3</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3\n1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>2\n3\n1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10\n1 2 3 4 5 6 7 8 9 10\n3",
+        "expected": "4\n5\n6\n7\n8\n9\n10\n1\n2\n3",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3\n1",
+        "expected": "2\n3\n1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n5 10\n2",
+        "expected": "5\n10",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p9-last-repeated",
+    "title": "9. Find the Last Repeated Number",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Find and print the last repeated number in an array. A repeated number is one that appears again later in the array. If none found, print 'No repeated elements found'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 2 3 2 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>2</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 2 3 4</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>No repeated elements found</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 2 3 2 1",
+        "expected": "2",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "No repeated elements found",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6\n5 5 6 6 7 7",
+        "expected": "7",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p10-right-rotation-int",
+    "title": "10. Right Rotation (Integers)",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Right rotate an array of integers by k positions. Output each element on a new line.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n10 20 30 40 50\n2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>40\n50\n10\n20\n30</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 2 3 4\n1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>4\n1\n2\n3</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n10 20 30 40 50\n2",
+        "expected": "40\n50\n10\n20\n30",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n1 2 3 4\n1",
+        "expected": "4\n1\n2\n3",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n10 20 30\n3",
+        "expected": "10\n20\n30",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p11-left-rotation-char",
+    "title": "11. Left Rotation (Characters)",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Left rotate an array of characters by k positions. Output each element on a new line.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\nA B C D E f\n2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>C\nD\nE\nf\nA\nB</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\nx y z\n1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>y\nz\nx</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\nA B C D E f\n2",
+        "expected": "C\nD\nE\nf\nA\nB",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\nx y z\n1",
+        "expected": "y\nz\nx",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\na b c d\n4",
+        "expected": "a\nb\nc\nd",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p12-print-even-nums",
+    "title": "12. Remove Odd Print Even Num",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "From an array, print only the even numbers. Each on a new line.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n6 3 8 1 6 9 2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>6\n8\n6\n2</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 3 5</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre></pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n6 3 8 1 6 9 2",
+        "expected": "6\n8\n6\n2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 3 5",
+        "expected": "",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n2 4 6 8",
+        "expected": "2\n4\n6\n8",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p13-sum-non-repeated",
+    "title": "13. Sum of Non-Repeated Elements",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Find the sum of all elements in the array that appear exactly once. Input: size, then elements. Output: 'Sum of non-repeated elements: %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n2 3 2 4 5 4 6</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Sum of non-repeated elements: 14</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 1 2 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Sum of non-repeated elements: 0</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n2 3 2 4 5 4 6",
+        "expected": "Sum of non-repeated elements: 14",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 1 2 2",
+        "expected": "Sum of non-repeated elements: 0",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Sum of non-repeated elements: 6",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p14-square-duplicate",
+    "title": "14. Square of Duplicate Elements",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "If an element appears more than once in the array, square it. Otherwise, keep it as it is. Output: 'Result:\\n' followed by the modified array elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n2 5 2 6 5 3</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Result:\n4 25 4 6 25 3</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Result:\n1 2 3</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n2 5 2 6 5 3",
+        "expected": "Result:\n4 25 4 6 25 3",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Result:\n1 2 3",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n2 2 2 2",
+        "expected": "Result:\n4 4 4 4",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p15-second-largest",
+    "title": "15. Second Largest Num",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Find the second largest number in the array. Output: 'Second largest number is: %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n76 76 22 56</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Second largest number is: 56</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>5\n1 2 3 4 5</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Second largest number is: 4</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4\n76 76 22 56",
+        "expected": "Second largest number is: 56",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "expected": "Second largest number is: 4",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n10 10 10",
+        "expected": "Second largest number is: 10",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p16-array-sum-calc",
+    "title": "16. Array Sum Calculation",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Calculate sum of 1st and last, and 2nd and 2nd last elements. If size < 2, print 'Array should have at least 2 elements.'. Output format: 'Sum of first and last element: %d', 'Sum of second and second last element: %d', 'Total of both sums: %d'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 2 3 4 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Sum of first and last element: 6\nSum of second and second last element: 6\nTotal of both sums: 12</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1\n10</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Array should have at least 2 elements.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 2 3 4 5",
+        "expected": "Sum of first and last element: 6\nSum of second and second last element: 6\nTotal of both sums: 12",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "1\n10",
+        "expected": "Array should have at least 2 elements.",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "Sum of first and last element: 5\nSum of second and second last element: 5\nTotal of both sums: 10",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p17-reverse-array",
+    "title": "17. Reverse an Array",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Reverse the array. Output: 'Reversed array:\\n' followed by elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n2 9 4 5 8 7 6</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Reversed array:\n6 7 8 5 4 9 2</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Reversed array:\n3 2 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n2 9 4 5 8 7 6",
+        "expected": "Reversed array:\n6 7 8 5 4 9 2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Reversed array:\n3 2 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "1\n5",
+        "expected": "Reversed array:\n5",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p18-remove-prime",
+    "title": "18. Remove Prime Num Print Non Prime",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Print only the non-prime elements of the array. Output: 'Non-prime elements:\\n' followed by elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n2 9 4 5 8 7 6</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Non-prime elements:\n9 4 8 6</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n2 3 5</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Non-prime elements:\n</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n2 9 4 5 8 7 6",
+        "expected": "Non-prime elements:\n9 4 8 6",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n2 3 5",
+        "expected": "Non-prime elements:\n",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n4 6 8 9",
+        "expected": "Non-prime elements:\n4 6 8 9",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p19-add-peak-num",
+    "title": "19. Add Peak Num and Its Neighbour",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Find peak elements (strictly greater than neighbours). Replace a peak element with the sum of itself and its neighbours. Handle edges: if first element is > second, sum them. Output the modified array.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n1 2 3 4 5 3 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>1 6 2 4 12 3 1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n2 1 3 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>3 1 6 2</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n1 2 3 4 5 3 1",
+        "expected": "1 6 2 4 12 3 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n2 1 3 2",
+        "expected": "3 1 6 2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "1 2 5",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p20-closest-to-0",
+    "title": "20. Find Indices of Element Closest to 0",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Find the indices of the two elements whose sum is closest to 0. Output: '%d and %d\\n', idx1, idx2.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n-1 -2 -3 0 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>0 and 4</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 2 3 4</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>0 and 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n-1 -2 -3 0 1",
+        "expected": "0 and 4",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "0 and 1",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n-5 5 10",
+        "expected": "0 and 1",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p21-remove-negative",
+    "title": "21. Remove Negative Num",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Print all negative numbers. Output: 'Negative numbers: ' followed by numbers. If no negative numbers exist, print 'Invalid'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 -2 3 -4 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Negative numbers: -2 -4</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Invalid</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 -2 3 -4 5",
+        "expected": "Negative numbers: -2 -4",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Invalid",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n-1 -2",
+        "expected": "Negative numbers: -1 -2",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p22-merge-descending",
+    "title": "22. Merging 2 Arrays in Descending Order",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Merge two arrays and sort the combined array in descending order. Input: size1, array1, size2, array2. Output: 'Merged array in descending order:\\n' followed by elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 2 3 4 5\n5\n44 5 7 8 90</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Merged array in descending order:\n90 44 8 7 5 5 4 3 2 1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>2\n10 20\n2\n5 15</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Merged array in descending order:\n20 15 10 5</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 2 3 4 5\n5\n44 5 7 8 90",
+        "expected": "Merged array in descending order:\n90 44 8 7 5 5 4 3 2 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n10 20\n2\n5 15",
+        "expected": "Merged array in descending order:\n20 15 10 5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "1\n1\n1\n2",
+        "expected": "Merged array in descending order:\n2 1",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p23-leader-element",
+    "title": "23. Find the Leader Element",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "An element is a leader if there is no element to its right that is greater than or equal to it. Output: 'Leaders in the array are: ' followed by the leader elements from right to left.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n44 55 22 32 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Leaders in the array are: 1 32 55</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>6\n16 17 4 3 5 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Leaders in the array are: 2 5 17</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n44 55 22 32 1",
+        "expected": "Leaders in the array are: 1 32 55",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "6\n16 17 4 3 5 2",
+        "expected": "Leaders in the array are: 2 5 17",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Leaders in the array are: 3",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p24-second-smallest",
+    "title": "24. Print Second Smallest",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Find the second smallest element in the array.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n4 11 7 6 3 6</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>4</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n10 5 8 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>5</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n4 11 7 6 3 6",
+        "expected": "4",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n10 5 8 2",
+        "expected": "5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 1 2",
+        "expected": "2",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p25-peak-element",
+    "title": "25. Peak Element Identification",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Identify all peak elements in the array. An element is a peak if it is greater than or equal to its neighbors. Output: 'Peak elements are: ' followed by the peak elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n0 20 15 2 23 90</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Peak elements are: 20 90</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n10 20 15</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Peak elements are: 20</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n0 20 15 2 23 90",
+        "expected": "Peak elements are: 20 90",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n10 20 15",
+        "expected": "Peak elements are: 20",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "Peak elements are: 4",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p26-swap-ends",
+    "title": "26. Reverse Array via Swapping",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Swap the 1st element with the last, 2nd with 2nd last, etc. Essentially reverse the array. Output: 'Reversed array: ' followed by the elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n11 22 77 88 55</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Reversed array: 55 88 77 22 11</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Reversed array: 3 2 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n11 22 77 88 55",
+        "expected": "Reversed array: 55 88 77 22 11",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Reversed array: 3 2 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n10 20",
+        "expected": "Reversed array: 20 10",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p27-remove-positive",
+    "title": "27. Remove Positive Num",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Print only the negative numbers in the array. Output: 'Negative numbers in the array are:\\n' followed by the numbers.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n-3 4 0 -7 -1 9</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Negative numbers in the array are:\n-3 -7 -1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Negative numbers in the array are:\n</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n-3 4 0 -7 -1 9",
+        "expected": "Negative numbers in the array are:\n-3 -7 -1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Negative numbers in the array are:\n",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n-10 -20",
+        "expected": "Negative numbers in the array are:\n-10 -20",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p28-pair-sum",
+    "title": "28. First Pair Target Sum",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Find the first pair of numbers in the array whose sum equals the target. Input: size, array, target. Output: 'First pair that sums to %d is: [%d, %d]\\n' (where %d are target, index1, index2). If none found, print 'No pair found that sums to %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n2 7 11 15 -2 4\n9</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>First pair that sums to 9 is: [0, 1]</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 3 5 7\n20</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>No pair found that sums to 20</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n2 7 11 15 -2 4\n9",
+        "expected": "First pair that sums to 9 is: [0, 1]",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 3 5 7\n20",
+        "expected": "No pair found that sums to 20",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 3\n5",
+        "expected": "First pair that sums to 5 is: [1, 2]",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p29-unique-elements",
+    "title": "29. Unique Elements",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Print elements that appear exactly once in the array. Output: 'Unique elements in the array are:\\n' followed by the elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n1 2 3 2 1 4</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Unique elements in the array are:\n3 4</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 1 1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Unique elements in the array are:\n</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n1 2 3 2 1 4",
+        "expected": "Unique elements in the array are:\n3 4",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 1 1",
+        "expected": "Unique elements in the array are:\n",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n5 6 7 8",
+        "expected": "Unique elements in the array are:\n5 6 7 8",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p30-majority-element",
+    "title": "30. Print Majority Element",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Find the element that appears more than n/2 times. Output: 'Majority element is %d\\n' or 'No majority element found\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n3 3 4 2 3 3 3</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Majority element is 3</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>6\n1 2 3 2 3 1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>No majority element found</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "7\n3 3 4 2 3 3 3",
+        "expected": "Majority element is 3",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6\n1 2 3 2 3 1",
+        "expected": "No majority element found",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 1 2",
+        "expected": "Majority element is 1",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p31-odd-count",
+    "title": "31. Print Odd Count",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Count the number of odd elements in the array. Output: 'Count of odd numbers = %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 4 7 8 3</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Count of odd numbers = 3</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n2 4 6</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Count of odd numbers = 0</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 4 7 8 3",
+        "expected": "Count of odd numbers = 3",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n2 4 6",
+        "expected": "Count of odd numbers = 0",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n1 3",
+        "expected": "Count of odd numbers = 2",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p32-first-even",
+    "title": "32. Print 1st Even Number",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Print the first even number found in the array. Output: 'First even number is: %d\\n' or 'No even number found in the array\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n1 3 5 8 7 2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>First even number is: 8</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 3 5</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>No even number found in the array</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n1 3 5 8 7 2",
+        "expected": "First even number is: 8",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 3 5",
+        "expected": "No even number found in the array",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n2 4",
+        "expected": "First even number is: 2",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p33-split-sort",
+    "title": "33. Split and Print Odd & Even in Ascending Order",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Split the array into even and odd arrays, sort them in ascending order, and print. Output: 'Even elements in ascending order:\\n' [elements] '\\nOdd elements in ascending order:\\n' [elements].\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>10\n5 2 8 1 9 4 6 7 3 10</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Even elements in ascending order:\n2 4 6 8 10\nOdd elements in ascending order:\n1 3 5 7 9</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 3 5</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Even elements in ascending order:\n\nOdd elements in ascending order:\n1 3 5</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10\n5 2 8 1 9 4 6 7 3 10",
+        "expected": "Even elements in ascending order:\n2 4 6 8 10\nOdd elements in ascending order:\n1 3 5 7 9",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 3 5",
+        "expected": "Even elements in ascending order:\n\nOdd elements in ascending order:\n1 3 5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n4 2 8 6",
+        "expected": "Even elements in ascending order:\n2 4 6 8\nOdd elements in ascending order:",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p34-cyclic-right",
+    "title": "34. Cyclic Rotation Right",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Cyclically rotate the array to the right by one position. Output: 'Right Cyclic Rotated Array:\\n' followed by elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n10 20 30 40 50</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Right Cyclic Rotated Array:\n50 10 20 30 40</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Right Cyclic Rotated Array:\n3 1 2</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n10 20 30 40 50",
+        "expected": "Right Cyclic Rotated Array:\n50 10 20 30 40",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Right Cyclic Rotated Array:\n3 1 2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n10 20",
+        "expected": "Right Cyclic Rotated Array:\n20 10",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p35-cyclic-left",
+    "title": "35. Cyclic Rotation Left",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Cyclically rotate the array to the left by one position. Output: 'Left Cyclic Rotated Array:\\n' followed by elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n10 20 30 40 50</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Left Cyclic Rotated Array:\n20 30 40 50 10</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Left Cyclic Rotated Array:\n2 3 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n10 20 30 40 50",
+        "expected": "Left Cyclic Rotated Array:\n20 30 40 50 10",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Left Cyclic Rotated Array:\n2 3 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n10 20",
+        "expected": "Left Cyclic Rotated Array:\n20 10",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p36-odd-indices",
+    "title": "36. Elements at Odd Indices",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Print elements present at odd indices (1, 3, 5...). Output: 'Elements at odd indices:\\n' followed by elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n10 20 30 40 50 60</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Elements at odd indices:\n20 40 60</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Elements at odd indices:\n2</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n10 20 30 40 50 60",
+        "expected": "Elements at odd indices:\n20 40 60",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Elements at odd indices:\n2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n5 10 15 20",
+        "expected": "Elements at odd indices:\n10 20",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p37-remove-middle",
+    "title": "37. Remove Middle Elements",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Remove the middle element(s) of an array. If size is even, remove `n/2 - 1` and `n/2`. If odd, remove `n/2`. Output: 'Array after removing center element(s):\\n' followed by the array.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n1 2 3 4 5 6</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Array after removing center element(s):\n1 2 5 6</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>5\n10 20 30 40 50</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Array after removing center element(s):\n10 20 40 50</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n1 2 3 4 5 6",
+        "expected": "Array after removing center element(s):\n1 2 5 6",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "5\n10 20 30 40 50",
+        "expected": "Array after removing center element(s):\n10 20 40 50",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "Array after removing center element(s):\n1 4",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p38-sort-halves",
+    "title": "38. Sort Halves Differently",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Split the array into two halves (if size is odd, first half gets `(n+1)/2` elements). Sort the 1st half in ascending order, and the 2nd half in descending order. Output: 'Modified array:\\n' followed by elements on newlines.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n71 52 65 32 85</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Modified array:\n52\n65\n71\n85\n32</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n71 62 31 49</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Modified array:\n62\n71\n49\n31</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n71 52 65 32 85",
+        "expected": "Modified array:\n52\n65\n71\n85\n32",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n71 62 31 49",
+        "expected": "Modified array:\n62\n71\n49\n31",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n3 1 2",
+        "expected": "Modified array:\n1\n3\n2",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p39-freq-no-repeats",
+    "title": "39. Frequency of Unique Elements",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Print the frequency of elements as they appear, without repeating them. Output: '\\nFrequencies of elements (no repeats):\\n' then '[num] occurs [freq] time(s).\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n2 2 66 4 4</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Frequencies of elements (no repeats):\n2 occurs 2 time(s).\n66 occurs 1 time(s).\n4 occurs 2 time(s).</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Frequencies of elements (no repeats):\n1 occurs 2 time(s).\n2 occurs 1 time(s).</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n2 2 66 4 4",
+        "expected": "Frequencies of elements (no repeats):\n2 occurs 2 time(s).\n66 occurs 1 time(s).\n4 occurs 2 time(s).",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 1",
+        "expected": "Frequencies of elements (no repeats):\n1 occurs 2 time(s).\n2 occurs 1 time(s).",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n5 5 5 5",
+        "expected": "Frequencies of elements (no repeats):\n5 occurs 4 time(s).",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p40-even-odd-arrays",
+    "title": "40. Arrays Multiply Even Add Odd",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Given two arrays, calculate the product of even numbers and the sum of odd numbers in each. Output the results in this exact order on newlines: evenProd1, oddSum1, evenProd2, oddSum2.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n1 2 5 6\n5\n7 9 8 4 0</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>12\n6\n0\n16</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>2\n1 2\n2\n3 4</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>2\n1\n4\n3</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4\n1 2 5 6\n5\n7 9 8 4 0",
+        "expected": "12\n6\n0\n16",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n1 2\n2\n3 4",
+        "expected": "2\n1\n4\n3",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n2 2 2\n3\n1 1 1",
+        "expected": "8\n0\n1\n3",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p41-array-ranking",
+    "title": "41. Array Ranking",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Replace each element by its rank (number of elements strictly smaller than it, plus 1). Output each rank on a new line.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n22 33 33 2 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>3\n4\n4\n2\n1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n10 10 10 10</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>1\n1\n1\n1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n22 33 33 2 1",
+        "expected": "3\n4\n4\n2\n1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n10 10 10 10",
+        "expected": "1\n1\n1\n1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n3 1 2",
+        "expected": "3\n1\n2",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p42-adding-digits",
+    "title": "42. Adding Integers From Array",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Treat an array as a sequence of digits representing a number. Add a given integer to it and print the result as an array `[d1, d2, d3]`. Input: size, array digits, number to add.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n9 9 9 9 9\n1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>[0, 0, 0, 0, 0]</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3\n1 2 3\n456</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>[5, 7, 9]</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n9 9 9 9 9\n1",
+        "expected": "[0, 0, 0, 0, 0]",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n1 2 3\n456",
+        "expected": "[5, 7, 9]",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n1 0 0 0\n234",
+        "expected": "[1, 2, 3, 4]",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p43-remove-duplicates",
+    "title": "43. Remove Duplicate Elements",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Print only the first occurrence of each element. Output: 'After removing duplicates: ' followed by the elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 2 2 3 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>After removing duplicates: 1 2 3 5</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 1 1 1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>After removing duplicates: 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 2 2 3 5",
+        "expected": "After removing duplicates: 1 2 3 5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n1 1 1 1",
+        "expected": "After removing duplicates: 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n3 2 1",
+        "expected": "After removing duplicates: 3 2 1",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p44-array-shuffling",
+    "title": "44. Array Shuffling",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Shuffle the array based on the given logic: print elements from the second half, then the middle element (if odd), then the first half.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5\n1 2 3 4 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>4\n5\n3\n1\n2</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n1 2 3 4</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>3\n4\n1\n2</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    int n, i;\n    scanf(\"%d\", &n);\n    int arr[n];\n    for(i=0; i<n; i++) scanf(\"%d\", &arr[i]);\n    for(i=n/2 + (n%2); i<n; i++) printf(\"%d\\n\", arr[i]);\n    if (n%2 != 0) printf(\"%d\\n\", arr[n/2]);\n    for(i=0; i<n/2; i++) printf(\"%d\\n\", arr[i]);\n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5\n1 2 3 4 5",
+        "expected": "4\n5\n3\n1\n2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expected": "3\n4\n1\n2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n10 20 30",
+        "expected": "30\n20\n10",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p45-merge-sort-both",
+    "title": "45. Merge 2 Arrays Sort Ascend and Descend",
+    "difficulty": "Hard",
+    "level": 3,
+    "description": "Merge two arrays and print them sorted in ascending order, then descending order. Input: size1, array1, size2, array2. Output: 'Merged array in ascending order:\\n' [elements] '\\nMerged array in descending order:\\n' [elements].\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n3 5 1 2\n5\n3 4 0 9 33</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Merged array in ascending order:\n0 1 2 3 3 4 5 9 33\nMerged array in descending order:\n33 9 5 4 3 3 2 1 0</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>2\n1 2\n2\n3 4</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Merged array in ascending order:\n1 2 3 4\nMerged array in descending order:\n4 3 2 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4\n3 5 1 2\n5\n3 4 0 9 33",
+        "expected": "Merged array in ascending order:\n0 1 2 3 3 4 5 9 33\nMerged array in descending order:\n33 9 5 4 3 3 2 1 0",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "2\n1 2\n2\n3 4",
+        "expected": "Merged array in ascending order:\n1 2 3 4\nMerged array in descending order:\n4 3 2 1",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "1\n5\n1\n2",
+        "expected": "Merged array in ascending order:\n2 5\nMerged array in descending order:\n5 2",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l3-p46-cosine",
+    "title": "46. Calculating Cosine Values",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Take the number of angles, then read angles (doubles). Calculate and print the cosine for each (convert to radians first with M_PI/180.0). Output: 'Angle %.2f is %.2f\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n56 78 99 45</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Angle 56.00 is 0.56\nAngle 78.00 is 0.21\nAngle 99.00 is -0.16\nAngle 45.00 is 0.71</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>2\n0 90</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Angle 0.00 is 1.00\nAngle 90.00 is 0.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4\n56 78 99 45",
+        "expected": "Angle 56.00 is 0.56\nAngle 78.00 is 0.21\nAngle 99.00 is -0.16\nAngle 45.00 is 0.71",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2\n0 90",
+        "expected": "Angle 0.00 is 1.00\nAngle 90.00 is 0.00",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1\n180",
+        "expected": "Angle 180.00 is -1.00",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p47-min-max-temp",
+    "title": "47. Min and Max Temperature",
+    "difficulty": "Easy",
+    "level": 3,
+    "description": "Print min and max temperature. If any temperature is negative, print 'Invalid temperature\\n' and terminate. Output: 'Min = %d\\nMax = %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n5 6 70 2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Min = 2\nMax = 70</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n-9 0 8 7</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Invalid temperature</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4\n5 6 70 2",
+        "expected": "Min = 2\nMax = 70",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4\n-9 0 8 7",
+        "expected": "Invalid temperature",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3\n10 10 10",
+        "expected": "Min = 10\nMax = 10",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l3-p48-consecutive-duplicate",
+    "title": "48. Consecutive Duplicate Removal",
+    "difficulty": "Medium",
+    "level": 3,
+    "description": "Remove strictly continuous duplicates. Output: 'Output (without continuous duplicates):\\n' followed by the elements.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>6\n1 1 3 4 3 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Output (without continuous duplicates):\n1 3 4 3 5</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n2 2 2 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Output (without continuous duplicates):\n2</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "6\n1 1 3 4 3 5",
+        "expected": "Output (without continuous duplicates):\n1 3 4 3 5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "4\n2 2 2 2",
+        "expected": "Output (without continuous duplicates):\n2",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "3\n1 2 3",
+        "expected": "Output (without continuous duplicates):\n1 2 3",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
   }
 ];

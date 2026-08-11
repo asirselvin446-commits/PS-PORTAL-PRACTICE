@@ -29,6 +29,7 @@ export default function App() {
   const [editorMarkers, setEditorMarkers] = useState<EditorMarker[]>([]);
   
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
+  const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
   const [solvedProblems, setSolvedProblems] = useState<Set<string>>(new Set());
   const [attemptedProblems, setAttemptedProblems] = useState<Set<string>>(new Set());
 
@@ -326,7 +327,7 @@ export default function App() {
   }
 
   const levels = Array.from(new Set(problems.map(p => p.level))).sort((a, b) => a - b);
-  const displayedProblems = problems.filter(p => p.level === selectedLevel);
+  const displayedProblems = problems.filter(p => p.level === selectedLevel && (difficultyFilter === 'All' || p.difficulty === difficultyFilter));
   const levelSolvedCount = displayedProblems.filter(p => solvedProblems.has(p.id)).length;
 
   if (view === 'list') {
@@ -361,20 +362,41 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex gap-2 mb-6">
-            {levels.map(level => (
-              <button
-                key={level}
-                onClick={() => setSelectedLevel(level)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  selectedLevel === level
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50'
-                }`}
-              >
-                Level {level}
-              </button>
-            ))}
+          <div className="flex items-center flex-wrap gap-4 mb-6">
+            <div className="flex gap-2">
+              {levels.map(level => (
+                <button
+                  key={level}
+                  onClick={() => setSelectedLevel(level)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    selectedLevel === level
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50'
+                  }`}
+                >
+                  Level {level}
+                </button>
+              ))}
+            </div>
+            
+            <div className="hidden sm:block h-8 w-px bg-neutral-300"></div>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-neutral-500 mr-1">Difficulty:</span>
+              {(['All', 'Easy', 'Medium', 'Hard'] as const).map(diff => (
+                <button
+                  key={diff}
+                  onClick={() => setDifficultyFilter(diff)}
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                    difficultyFilter === diff
+                      ? 'bg-neutral-800 text-white shadow-sm'
+                      : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50'
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
