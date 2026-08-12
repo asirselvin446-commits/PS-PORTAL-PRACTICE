@@ -332,29 +332,30 @@ export default function App() {
 
   if (view === 'list') {
     return (
-      <div className="min-h-screen bg-neutral-50 text-neutral-900 p-8">
+      <div className="min-h-screen bg-neutral-50 text-neutral-900 p-4 sm:p-8">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-blue-600 text-white rounded-lg shadow-sm">
-                <Trophy size={28} />
+                <Trophy size={24} className="sm:w-7 sm:h-7" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-neutral-900">PS PORTAL PRACTICE</h1>
-                <p className="text-neutral-500">Welcome, {userName}! Practice your C programming skills.</p>
+                <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-neutral-900">PS PORTAL PRACTICE</h1>
+                <p className="text-neutral-500 text-sm sm:text-base">Welcome, {userName}!</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto">
               <button
                 onClick={handleGenerateReport}
-                className="flex items-center gap-2 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded-lg shadow-sm transition-colors"
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white text-sm sm:text-base font-medium rounded-lg shadow-sm transition-colors"
               >
                 <FileDown size={18} />
-                Generate Report
+                <span className="hidden sm:inline">Generate Report</span>
+                <span className="sm:hidden">Report</span>
               </button>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-neutral-50 text-neutral-700 border border-neutral-200 font-medium rounded-lg shadow-sm transition-colors"
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-white hover:bg-neutral-50 text-neutral-700 border border-neutral-200 text-sm sm:text-base font-medium rounded-lg shadow-sm transition-colors"
               >
                 <LogOut size={18} />
                 Logout
@@ -362,13 +363,13 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center flex-wrap gap-4 mb-6">
-            <div className="flex gap-2">
+          <div className="flex items-center flex-wrap gap-2 sm:gap-4 mb-6">
+            <div className="flex flex-wrap gap-2">
               {levels.map(level => (
                 <button
                   key={level}
                   onClick={() => setSelectedLevel(level)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors ${
                     selectedLevel === level
                       ? 'bg-blue-600 text-white shadow-sm'
                       : 'bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50'
@@ -420,34 +421,35 @@ export default function App() {
                     className="p-6 flex items-center justify-between hover:bg-neutral-50 transition-colors group cursor-pointer"
                     onClick={() => handleSolve(problem)}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center ${isSolved ? 'bg-green-100 text-green-600' : isAttempted ? 'bg-amber-100 text-amber-600' : 'bg-neutral-100 text-neutral-300'}`}>
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 rounded-full flex items-center justify-center ${isSolved ? 'bg-green-100 text-green-600' : isAttempted ? 'bg-amber-100 text-amber-600' : 'bg-neutral-100 text-neutral-300'}`}>
                         {isSolved ? <CheckCircle size={16} /> : isAttempted ? <div className="w-2 h-2 rounded-full bg-amber-400" /> : <div className="w-2 h-2 rounded-full bg-neutral-300" />}
                       </div>
                       <div>
-                        <h3 className="text-lg font-medium text-neutral-900 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-base sm:text-lg font-medium text-neutral-900 group-hover:text-blue-600 transition-colors line-clamp-2">
                           {problem.title}
                         </h3>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                        <div className="flex items-center flex-wrap gap-2 mt-1">
+                          <span className={`text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full ${
                             problem.difficulty === 'Easy' ? 'bg-emerald-100 text-emerald-700' :
                             problem.difficulty === 'Medium' ? 'bg-amber-100 text-amber-700' :
                             'bg-rose-100 text-rose-700'
                           }`}>
                             {problem.difficulty}
                           </span>
-                          {isAttempted && <span className="text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Attempted</span>}
+                          {isAttempted && <span className="text-[10px] sm:text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Attempted</span>}
                         </div>
                       </div>
                     </div>
                     <button 
-                      className="px-4 py-2 bg-white border border-neutral-200 text-neutral-700 text-sm font-medium rounded-lg hover:bg-neutral-50 hover:border-neutral-300 transition-all shadow-sm"
+                      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white border border-neutral-200 text-neutral-700 text-xs sm:text-sm shrink-0 font-medium rounded-lg hover:bg-neutral-50 hover:border-neutral-300 transition-all shadow-sm ml-2 sm:ml-0"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleSolve(problem);
                       }}
                     >
-                      {isSolved ? 'Solve Again' : isAttempted ? 'Keep Trying' : 'Solve Challenge'}
+                      <span className="hidden sm:inline">{isSolved ? 'Solve Again' : isAttempted ? 'Keep Trying' : 'Solve Challenge'}</span>
+                      <span className="sm:hidden">{isSolved ? 'Again' : 'Solve'}</span>
                     </button>
                   </div>
                 );
@@ -462,25 +464,25 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen bg-[#0d0d0d] text-neutral-300 font-sans">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-3 bg-[#1a1a1a] border-b border-gray-800 shrink-0">
-        <div className="flex items-center gap-4">
+      <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-3 bg-[#1a1a1a] border-b border-gray-800 shrink-0">
+        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto overflow-hidden">
           <button 
             onClick={handleBack}
-            className="p-1.5 hover:bg-gray-800 text-gray-400 hover:text-white rounded transition-colors"
+            className="p-1.5 hover:bg-gray-800 text-gray-400 hover:text-white rounded transition-colors shrink-0"
             title="Back to problems"
           >
             <ArrowLeft size={20} />
           </button>
-          <h1 className="text-lg font-semibold text-white tracking-tight">
+          <h1 className="text-base sm:text-lg font-semibold text-white tracking-tight truncate">
             {activeProblem?.title}
           </h1>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
           <select 
             value={compilerStandard} 
             onChange={(e) => setCompilerStandard(e.target.value)}
-            className="bg-[#2d2d2d] text-white text-sm border border-gray-700 rounded px-2 py-1.5 focus:outline-none focus:border-blue-500"
+            className="bg-[#2d2d2d] text-white text-xs sm:text-sm border border-gray-700 rounded px-2 py-1.5 focus:outline-none focus:border-blue-500 shrink-0"
           >
             <option value="c89">C89</option>
             <option value="c99">C99</option>
@@ -489,28 +491,28 @@ export default function App() {
             <option value="c2x">C23</option>
           </select>
           <button
-onClick={handleRunCustom}
+            onClick={handleRunCustom}
             disabled={isRunning}
-            className="flex items-center gap-2 px-4 py-1.5 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded shadow-sm transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded shadow-sm transition-colors shrink-0"
           >
-            {isRunning && isCustomRun ? <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> : <Play size={16} fill="currentColor" />}
+            {isRunning && isCustomRun ? <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> : <Play size={14} className="sm:w-4 sm:h-4" fill="currentColor" />}
             {isRunning && isCustomRun ? 'Running...' : 'Run'}
           </button>
           <button
             onClick={handleSubmitCode}
             disabled={isRunning}
-            className="flex items-center gap-2 px-4 py-1.5 bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium rounded shadow-sm transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded shadow-sm transition-colors shrink-0"
           >
-            {isRunning && !isCustomRun ? <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> : <CheckCircle2 size={16} />}
+            {isRunning && !isCustomRun ? <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> : <CheckCircle2 size={14} className="sm:w-4 sm:h-4" />}
             {isRunning && !isCustomRun ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </header>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Left Panel: Description */}
-        <div className="w-1/3 min-w-[300px] flex flex-col bg-[#1a1a1a] border-r border-gray-800 overflow-hidden">
+        <div className="w-full md:w-1/3 md:min-w-[300px] h-1/3 md:h-auto flex flex-col bg-[#1a1a1a] border-b md:border-b-0 md:border-r border-gray-800 overflow-hidden shrink-0">
           <div className="px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider shrink-0">
             Description
           </div>

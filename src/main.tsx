@@ -8,6 +8,24 @@ window.addEventListener('unhandledrejection', (event) => {
   }
 });
 
+// Suppress ResizeObserver errors
+const _ResizeObserver = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
+  constructor(callback) {
+    super((entries, observer) => {
+      window.requestAnimationFrame(() => {
+        callback(entries, observer);
+      });
+    });
+  }
+};
+
+window.addEventListener('error', (e) => {
+  if (e.message.includes('ResizeObserver loop')) {
+    e.stopImmediatePropagation();
+  }
+});
+
 createRoot(document.getElementById('root')!).render(
   <App />
 );
