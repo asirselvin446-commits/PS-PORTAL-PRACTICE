@@ -68,6 +68,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, languag
           onChange={(val) => onChange(val || '')}
           onMount={handleEditorDidMount}
           options={{
+            automaticLayout: true,
             minimap: { enabled: true },
             fontSize: 14,
             fontFamily: '"Fira Code", "JetBrains Mono", Consolas, monospace',

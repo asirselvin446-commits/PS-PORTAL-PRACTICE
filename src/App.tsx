@@ -27,6 +27,7 @@ export default function App() {
   const [customOutput, setCustomOutput] = useState<ExecutionResult | null>(null);
   const [compilerStandard, setCompilerStandard] = useState<string>('c99');
   const [editorMarkers, setEditorMarkers] = useState<EditorMarker[]>([]);
+  const [mobileTab, setMobileTab] = useState<'desc' | 'code' | 'console'>('code');
   
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
@@ -179,6 +180,7 @@ export default function App() {
   const handleRunCustom = async () => {
     if (!activeProblem || !userName) return;
     
+    setMobileTab('console');
     setIsRunning(true);
     setEditorMarkers([]);
     setIsCustomRun(true);
@@ -207,6 +209,7 @@ export default function App() {
   const handleSubmitCode = async () => {
     if (!activeProblem || !userName) return;
     
+    setMobileTab('console');
     setIsRunning(true);
     setIsCustomRun(false);
     setResults(null);
@@ -510,32 +513,49 @@ export default function App() {
       </header>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
-        {/* Left Panel: Description */}
-        <div className="w-full md:w-1/3 md:min-w-[300px] flex flex-col bg-[#1a1a1a] border-b md:border-b-0 md:border-r border-gray-800 shrink-0 min-h-[250px] md:min-h-0 md:h-auto md:overflow-hidden">
-          <div className="px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider shrink-0 sticky top-0 z-10">
-            Description
-          </div>
-          <div className="flex-1 overflow-auto p-4 sm:p-6 prose prose-invert prose-sm max-w-none">
-             <div dangerouslySetInnerHTML={{ __html: activeProblem?.description || '' }} />
-          </div>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Mobile Tabs */}
+        <div className="flex md:hidden bg-[#1a1a1a] border-b border-gray-800 shrink-0">
+          {(['desc', 'code', 'console'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setMobileTab(tab)}
+              className={`flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                mobileTab === tab ? 'text-blue-400 border-b-2 border-blue-500 bg-[#2d2d2d]' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'
+              }`}
+            >
+              {tab === 'desc' ? 'Problem' : tab === 'code' ? 'Code' : 'Console'}
+            </button>
+          ))}
         </div>
 
-        {/* Right Panel: Editor and Console */}
-        <div className="flex-1 flex flex-col min-w-0 shrink-0">
-          <div className="min-h-[400px] md:min-h-0 md:h-auto md:flex-[2] flex flex-col">
-            <CodeEditor value={code} onChange={handleCodeChange} language="c" onRun={handleRunCustom} onSubmit={handleSubmitCode} markers={editorMarkers} />
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+          {/* Left Panel: Description */}
+          <div className={`${mobileTab === 'desc' ? 'flex' : 'hidden'} md:flex flex-1 md:flex-none w-full md:w-1/3 md:min-w-[300px] flex-col bg-[#1a1a1a] md:border-r border-gray-800 shrink-0 overflow-hidden`}>
+            <div className="hidden md:block px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider shrink-0">
+              Description
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 prose prose-invert prose-sm max-w-none">
+               <div dangerouslySetInnerHTML={{ __html: activeProblem?.description || '' }} />
+            </div>
           </div>
-          <div className="min-h-[300px] md:min-h-0 md:h-auto md:flex-1 flex flex-col">
-            <Console 
-              results={results} 
-              error={error} 
-              isRunning={isRunning} 
-              isCustomRun={isCustomRun}
-              customOutput={customOutput}
-              customInput={customInput}
-              setCustomInput={setCustomInput}
-            />
+
+          {/* Right Panel: Editor and Console */}
+          <div className={`${(mobileTab === 'code' || mobileTab === 'console') ? 'flex' : 'hidden'} md:flex flex-1 flex-col min-w-0`}>
+            <div className={`${mobileTab === 'code' ? 'flex' : 'hidden'} md:flex flex-[2] min-h-0 flex-col`}>
+              <CodeEditor value={code} onChange={handleCodeChange} language="c" onRun={handleRunCustom} onSubmit={handleSubmitCode} markers={editorMarkers} />
+            </div>
+            <div className={`${mobileTab === 'console' ? 'flex' : 'hidden'} md:flex flex-1 min-h-0 flex-col md:border-t border-gray-800`}>
+              <Console 
+                results={results} 
+                error={error} 
+                isRunning={isRunning} 
+                isCustomRun={isCustomRun}
+                customOutput={customOutput}
+                customInput={customInput}
+                setCustomInput={setCustomInput}
+              />
+            </div>
           </div>
         </div>
       </div>
