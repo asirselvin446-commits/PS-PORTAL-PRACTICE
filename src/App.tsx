@@ -462,7 +462,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-[#0d0d0d] text-neutral-300 font-sans">
+    <div className="flex flex-col h-[100dvh] bg-[#0d0d0d] text-neutral-300 font-sans">
       {/* Header */}
       <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-3 bg-[#1a1a1a] border-b border-gray-800 shrink-0">
         <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto overflow-hidden">
@@ -510,23 +510,23 @@ export default function App() {
       </header>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
         {/* Left Panel: Description */}
-        <div className="w-full md:w-1/3 md:min-w-[300px] h-1/3 md:h-auto flex flex-col bg-[#1a1a1a] border-b md:border-b-0 md:border-r border-gray-800 overflow-hidden shrink-0">
-          <div className="px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider shrink-0">
+        <div className="w-full md:w-1/3 md:min-w-[300px] flex flex-col bg-[#1a1a1a] border-b md:border-b-0 md:border-r border-gray-800 shrink-0 min-h-[250px] md:min-h-0 md:h-auto md:overflow-hidden">
+          <div className="px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider shrink-0 sticky top-0 z-10">
             Description
           </div>
-          <div className="flex-1 overflow-auto p-6 prose prose-invert prose-sm max-w-none">
+          <div className="flex-1 overflow-auto p-4 sm:p-6 prose prose-invert prose-sm max-w-none">
              <div dangerouslySetInnerHTML={{ __html: activeProblem?.description || '' }} />
           </div>
         </div>
 
         {/* Right Panel: Editor and Console */}
-        <div className="flex-1 flex flex-col min-w-0">
-          <div className="flex-[2] min-h-0">
+        <div className="flex-1 flex flex-col min-w-0 shrink-0">
+          <div className="min-h-[400px] md:min-h-0 md:h-auto md:flex-[2] flex flex-col">
             <CodeEditor value={code} onChange={handleCodeChange} language="c" onRun={handleRunCustom} onSubmit={handleSubmitCode} markers={editorMarkers} />
           </div>
-          <div className="flex-1 min-h-0">
+          <div className="min-h-[300px] md:min-h-0 md:h-auto md:flex-1 flex flex-col">
             <Console 
               results={results} 
               error={error} 
