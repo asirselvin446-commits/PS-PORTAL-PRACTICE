@@ -254,7 +254,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "attendance-percentage",
-    "title": "Attendance percentage of a student",
+    "title": "6. Attendance percentage of a student",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>The given code is a program that calculates the attendance percentage of a student and checks if the student is eligible to sit for the exam. The program takes two inputs - the total number of hours of classes held and the total number of hours of classes attended by the student. It then calculates the attendance percentage and prints it.</p>\n      <p>If the attendance percentage is 75 or more, it prints <strong>You are allowed to sit in the exam</strong>, otherwise it prints <strong>You are not allowed to sit in the exam</strong>.</p>\n      <p><code>percentage = (total number of hours of classes attended by the student / total number of hours of classes held) * 100</code></p>\n      <p>If the percentage is between 66 (inclusive) to 74 (inclusive), print the message as stated above and then print <strong>Apply for Condonation</strong>.</p>\n      <p>If the percentage is below 66 (excluded), then print the message as stated above and then print <strong>Not eligible for Condonation</strong>.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n75\nY</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>75\nAllowed</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>100\n60\nN</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>60\nNot Allowed</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>100\n90\nN</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>90\nAllowed</pre>",
@@ -301,7 +301,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "employee-gross-salary",
-    "title": "Employee Gross Salary Calculation",
+    "title": "7. Employee Gross Salary Calculation",
     "difficulty": "Medium",
     "level": 1,
     "description": "<p>In an employee management system, users input a staff member's basic salary. The program efficiently calculates the Gross salary, incorporating specific allowances based on conditions:</p>\n      <ul>\n        <li>If Basic Salary is <= 10000: HRA = 20%, DA = 80%</li>\n        <li>If Basic Salary is between 10001 to 20000: HRA = 25%, DA = 90%</li>\n        <li>If Basic Salary is >= 20001: HRA = 30%, DA = 95%</li>\n      </ul>\n      <p>This ensures immediate and accurate feedback on the employee's Gross salary within the application. Print the gross salary with 2 decimal places.</p>\n      <p><strong>[Hint: Salary = Basic salary + HRA + DA]</strong></p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>45678</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>102775.50</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>22000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>49500.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>10000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>20000.00</pre>",
@@ -348,7 +348,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "fitness-challenge",
-    "title": "The Fitness Challenge",
+    "title": "8. The Fitness Challenge",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>Craft a program that prompts the user to input the number of steps they took in a day and time (in minutes) taken for the activity. The program should then categorize their fitness level as follows:</p>\n      <ul>\n        <li>Less than 5000 steps: Activity Level - 0</li>\n        <li>5000 to 9999 steps: Activity Level - 25</li>\n        <li>10000 to 14999 steps: Activity Level - 50</li>\n        <li>15000 steps and above: Activity Level - 100</li>\n      </ul>\n      <p>Also predict their activity range = steps / time taken. Print the activity range with two decimal points. Note: Calculate steps / time using integer division before printing as a float.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>11000\n100</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Level:50\n110.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7376\n75</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Level:25\n98.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>4000\n40</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Level:0\n100.00</pre>",
@@ -395,7 +395,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "power-calculation",
-    "title": "Power calculation",
+    "title": "9. Power calculation",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>You are developing a simple command-line program to calculate the power of a given base number raised to a specified exponent. This program will take user input for the base value and the value of the power and then output the result of the calculation.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>8</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n0</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>3\n4</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>81</pre>",
@@ -442,7 +442,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "salary-prediction",
-    "title": "Salary Prediction",
+    "title": "10. Salary Prediction",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>Consider that you are a human resources manager at a mid-sized company. Every year, the company conducts performance evaluations for its employees, and based on their performance, they receive a salary increment. To streamline the process and ensure transparency, you've decided to implement a program that calculates and displays the new salary of each employee based on their current salary and the percentage increment provided.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>50000\n20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>60000</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>35000\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>36750</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>100000\n10</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>110000</pre>",
@@ -489,7 +489,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "vehicle-registration",
-    "title": "Vehicle Registration Information System",
+    "title": "11. Vehicle Registration Information System",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>Create a program that prompts the user to enter details about a vehicle's size, fuel type, and intended purpose.</p>\n      <ol>\n        <li>Read the vehicle size as S or M or L, where S means Small, M is Medium, L is Large. For input S output should be <strong>Vehicle Size: Small</strong></li>\n        <li>Read the fuel type as G or D or E, where G is Gasoline, D is Diesel, E is Electric. For input G output should be <strong>Fuel Type: Gasoline</strong></li>\n        <li>Read the vehicle's purpose as 1 or 2 or 3, where 1 means Personal Use, 2 means Commercial Use, 3 means Public Transport. For input 2 output should be <strong>Purpose: Commercial use</strong></li>\n        <li>Validate the inputs and display the corresponding information.</li>\n        <li>If any input is invalid, the program should inform the user and terminate. Like <strong>Invalid vehicle size.</strong>, <strong>Invalid fuel type.</strong>, <strong>Invalid purpose.</strong></li>\n      </ol>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>S\nG\nE</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Vehicle Size: Small\nFuel Type: Gasoline\nInvalid purpose.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>M\nD\n2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Commercial use</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>L\nE\n3</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Vehicle Size: Large\nFuel Type: Electric\nPurpose: Public Transport</pre>",
@@ -536,7 +536,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "tax-calculation",
-    "title": "Tax Calculation",
+    "title": "12. Tax Calculation",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>You're developing a tax calculation program to determine the tax owed based on income levels. The tax rates vary depending on income brackets: 5% for incomes below $10,000, 10% for incomes between $10,000 and $50,000, and 20% for incomes exceeding $50,000.</p>\n      <p>Craft a program to accurately calculate the tax owed based on the provided income brackets and tax rates. Print the output formatted with a dollar sign and 2 decimal places.</p>\n      <br/>\n      <p><strong>Formula for calculating tax owed:</strong></p>\n      <ul>\n        <li>If income < $10,000: tax = income * 0.05</li>\n        <li>If $10,000 <= income <= $50,000: tax = income * 0.10</li>\n        <li>If income > $50,000: tax = income * 0.20</li>\n      </ul>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>12000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>$1200.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>$350.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>60000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>$12000.00</pre>",
@@ -583,7 +583,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "5-digit-checking",
-    "title": "5 digit number checking",
+    "title": "13. 5 digit number checking",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>Check whether the given number is a 5 digit number without using loops. In a user authentication system, individuals are prompted to input a numerical PIN to access their accounts. This program efficiently verifies whether the entered PIN is a 5-digit number. (The input may be a positive or negative number)</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>345</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>345 is not a 5-digit number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>36893</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>36893 is a 5-digit number</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>-12345</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>-12345 is a 5-digit number</pre>",
@@ -630,7 +630,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "product-calculator",
-    "title": "The Product Calculator",
+    "title": "14. The Product Calculator",
     "difficulty": "Easy",
     "level": 1,
     "description": "<p>Craft a program that prompts the user to input 2 integer values. Calculate their product. If the product is even divide it by 2 or divide it by 3 and display the result.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>13\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>26</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>3</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>5\n7</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>11</pre>",
@@ -2012,7 +2012,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "prime-range",
-    "title": "1. Prime number with ranges",
+    "title": "22. Prime number with ranges",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Write a program to print all prime numbers between a given range (start and end inclusive).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10 20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>11 13 17 19</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1 10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>2 3 5 7</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>20 30</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>23 29</pre>",
@@ -2041,7 +2041,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "collatz-sequence",
-    "title": "2. Collatz sequence",
+    "title": "23. Collatz sequence",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Print the Collatz sequence for a given number N. The sequence stops when it reaches 1.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6 3 10 5 16 8 4 2 1</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>3 10 5 16 8 4 2 1</pre>",
@@ -2064,7 +2064,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "harshad-number",
-    "title": "4. Harshad Number",
+    "title": "24. Harshad Number",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Check if a number is a Harshad Number (divisible by the sum of its digits).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>18</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Harshad Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>19</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Harshad Number</pre>",
@@ -2087,7 +2087,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "product-of-digit",
-    "title": "5. Product of a digit",
+    "title": "25. Product of a digit",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Calculate the product of digits of a given number.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>45</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>20</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>0</pre>",
@@ -2116,7 +2116,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "strong-number",
-    "title": "10. Strong number",
+    "title": "26. Strong number",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Check if a number is a Strong number (sum of factorials of digits equals the number).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>145</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Strong Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Strong Number</pre>",
@@ -2139,7 +2139,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "palindrome-number",
-    "title": "12. Palindrome or not",
+    "title": "27. Palindrome or not",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Check if a given number is a Palindrome.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>121</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Palindrome</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not a Palindrome</pre>",
@@ -2162,7 +2162,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "armstrong-number",
-    "title": "13. Armstrong number",
+    "title": "28. Armstrong number",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Check if a given number is an Armstrong number (sum of its own digits raised to the power of the number of digits equals the number).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>153</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Armstrong Number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not an Armstrong Number</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>9474</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Armstrong Number</pre>",
@@ -2191,7 +2191,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "twin-primes",
-    "title": "16. Twin Primes",
+    "title": "29. Twin Primes",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Check if two given numbers are Twin Primes (both are prime and their absolute difference is 2).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3 5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Twin Primes</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7 9</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not Twin Primes</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>5 7</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Twin Primes</pre>",
@@ -2220,7 +2220,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "working-with-character",
-    "title": "3. Working with character",
+    "title": "30. Working with character",
     "difficulty": "Easy",
     "level": 2,
     "description": "<p>Read a character and check if it is a vowel or consonant.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>a</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Vowel</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>b</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Consonant</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>E</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Vowel</pre>",
@@ -2249,7 +2249,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "pattern-stars",
-    "title": "6. Pattern",
+    "title": "31. Pattern",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Print a right-angled triangle pattern of stars with N rows.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>*\n**\n***</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>*\n**\n***\n****\n*****</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>2</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>*\n**</pre>",
@@ -2278,7 +2278,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "sum-of-digits",
-    "title": "14. Sum of a digit",
+    "title": "32. Sum of a digit",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Calculate the sum of digits of a given number.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>123</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>6</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>456</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>15</pre>",
@@ -2301,7 +2301,7 @@ export const problems: Problem[] = [
   },
   {
     "id": "fibonacci-series",
-    "title": "Fibonacci Series",
+    "title": "33. Fibonacci Series",
     "difficulty": "Medium",
     "level": 2,
     "description": "<p>Generate the first <strong>N</strong> terms of the Fibonacci series.</p>\n      <p>In a Fibonacci series, the next number is the sum of the two preceding ones. The sequence starts with 0 and 1.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>0 1 1 2 3</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>0</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>0 1 1 2 3 5 8</pre>",
@@ -2327,6 +2327,1376 @@ export const problems: Problem[] = [
       }
     ],
     "functionName": "main"
+  },
+  {
+    "id": "l2-p22-alphabet-pattern-1",
+    "title": "34. Alphabet Pattern 1",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "Print a right-angled triangle pattern of alphabets where each row starts with 'A' and increments up to the row number.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>A\nA B\nA B C\nA B C D\nA B C D E</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>A\nA B\nA B C</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "A\nA B\nA B C\nA B C D\nA B C D E",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "A\nA B\nA B C",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4",
+        "expected": "A\nA B\nA B C\nA B C D",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p23-alphabet-pattern-2",
+    "title": "35. Alphabet Pattern 2",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "Print a right-angled triangle pattern of alphabets where each row consists of a single alphabet repeated.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>A\nB B\nC C C\nD D D D</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>A\nB B\nC C C</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "A\nB B\nC C C\nD D D D",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "A\nB B\nC C C",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "A\nB B\nC C C\nD D D D\nE E E E E",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p24-custom-patterns",
+    "title": "36. Custom Patterns",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Print a custom pattern of stars. The program takes two inputs: `n` and `stars`. If the row index `i` (0-indexed) is even, print `stars * 2` stars. If `i` is odd, print `stars` stars.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>2 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>* * * * * * * * * *\n* * * * *</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>* * * * * *\n* * *\n* * * * * *</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "2 5",
+        "expected": "* * * * * * * * * *\n* * * * *",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3 3",
+        "expected": "* * * * * *\n* * *\n* * * * * *",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4 2",
+        "expected": "* * * *\n* *\n* * * *\n* *",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p25-reverse-alphabet",
+    "title": "37. Reverse of the Alphabet",
+    "difficulty": "Easy",
+    "level": 2,
+    "description": "Take an integer `n` and print the last `n` characters of the alphabet in reverse order starting from 'Z'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Z Y X W V</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Z Y X</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "Z Y X W V",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "Z Y X",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7",
+        "expected": "Z Y X W V U T",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p26-armstrong-ranges",
+    "title": "38. Armstrong Number with Specific Ranges",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Given a range `s` to `e`, print all Armstrong numbers within that range.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>1 10000</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>1 2 3 4 5 6 7 8 9 153 370 371 407 1634 8208 9474</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1 200</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>1 2 3 4 5 6 7 8 9 153</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "1 10000",
+        "expected": "1 2 3 4 5 6 7 8 9 153 370 371 407 1634 8208 9474",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "1 200",
+        "expected": "1 2 3 4 5 6 7 8 9 153",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "300 400",
+        "expected": "370 371",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l2-p27-prime-factors",
+    "title": "39. Prime Factors",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Given an integer `n`, print all its unique prime factors.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>315</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>3 5 7</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>20</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>2 5</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "315",
+        "expected": "3 5 7",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "20",
+        "expected": "2 5",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "13",
+        "expected": "13",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l2-p28-desired-pattern",
+    "title": "40. Desired Pattern",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Print a triangle pattern given a row count and two characters. The elements alternate between the second character and the first character.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4 # $</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>$\n$ #\n$ # $\n$ # $ #</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3 A B</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>B\nB A\nB A B</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4 # $",
+        "expected": "$\n$ #\n$ # $\n$ # $ #",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3 A B",
+        "expected": "B\nB A\nB A B",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5 * -",
+        "expected": "-\n- *\n- * -\n- * - *\n- * - * -",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p29-swap-last-two",
+    "title": "41. Swap the Last 2 Digit",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "Given two integers, swap their last digits and print the new values.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>73 46</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>76 43</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>105 208</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>108 205</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "73 46",
+        "expected": "76 43",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "105 208",
+        "expected": "108 205",
+        "hidden": false,
+        "matchType": "numeric"
+      },
+      {
+        "input": "10 20",
+        "expected": "10 20",
+        "hidden": true,
+        "matchType": "numeric"
+      }
+    ]
+  },
+  {
+    "id": "l2-p30-prime-range-analytics",
+    "title": "42. Prime Range Analytics for Network Security",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In a secure communication system, packet IDs are generated continuously. Cybersecurity researchers observed that prime-numbered packet IDs are less likely to collide and are often used in encryption mechanisms. You are tasked with building a module that scans a given range of packet IDs and identifies all prime numbers. The system should also report how many such secure packet IDs exist in the given range.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>Two integers: <code>start</code> and <code>end</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>All prime numbers in the range preceded by <code>Prime Numbers: </code> and total count of primes on a new line preceded by <code>Count: </code>.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>10 20</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>Prime Numbers: 11 13 17 19 \nCount: 4</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10 20",
+        "expected": "Prime Numbers: 11 13 17 19 \nCount: 4",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1 10",
+        "expected": "Prime Numbers: 2 3 5 7 \nCount: 4",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "20 30",
+        "expected": "Prime Numbers: 23 29 \nCount: 2",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "14 16",
+        "expected": "Prime Numbers: \nCount: 0",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2 2",
+        "expected": "Prime Numbers: 2 \nCount: 1",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "70 80",
+        "expected": "Prime Numbers: 71 73 79 \nCount: 3",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "90 100",
+        "expected": "Prime Numbers: 97 \nCount: 1",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "30 50",
+        "expected": "Prime Numbers: 31 37 41 43 47 \nCount: 5",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p31-armstrong-detection",
+    "title": "43. Armstrong Number Detection in Scientific Data",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A scientific computing application processes large sets of numerical data. Certain numbers, known as Armstrong numbers, have unique mathematical properties and are flagged for further analysis. An Armstrong number of <em>k</em> digits is an integer such that the sum of its digits each raised to the power of <em>k</em> equals the number itself. Your task is to develop a program that determines whether a given number belongs to this special category.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Armstrong Number</code> or <code>Not Armstrong Number</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>153</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Armstrong Number</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>120</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Not Armstrong Number</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "153",
+        "expected": "Armstrong Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "120",
+        "expected": "Not Armstrong Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "370",
+        "expected": "Armstrong Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "371",
+        "expected": "Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "407",
+        "expected": "Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1634",
+        "expected": "Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "8208",
+        "expected": "Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "9474",
+        "expected": "Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "10",
+        "expected": "Not Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "500",
+        "expected": "Not Armstrong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p32-strong-number-validation",
+    "title": "44. Strong Number Validation for Secure Tokens",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A fintech company generates secure tokens for transactions. A number is considered strong if the sum of the factorials of its digits equals the number itself. Such numbers are rare and used as validation markers. You are asked to implement a validation system to check whether a given token is strong.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Strong Number</code> or <code>Not Strong Number</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>145</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Strong Number</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>123</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Not Strong Number</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "145",
+        "expected": "Strong Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "123",
+        "expected": "Not Strong Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Strong Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "Strong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "40585",
+        "expected": "Strong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "10",
+        "expected": "Not Strong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "45",
+        "expected": "Not Strong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "500",
+        "expected": "Not Strong Number",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p33-gcd-lcm-calculation",
+    "title": "45. GCD & LCM Calculation for Resource Allocation",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In a distributed system, tasks must be scheduled in repeating cycles. To optimize synchronization, the system needs to calculate:</p>\n<ul>\n  <li><strong>GCD (Greatest Common Divisor):</strong> for shared cycle alignment</li>\n  <li><strong>LCM (Least Common Multiple):</strong> for total cycle repetition</li>\n</ul>\n<p>You are assigned to build this calculation module.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>Two integers <code>a</code> and <code>b</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<pre>GCD: &lt;gcd&gt;\nLCM: &lt;lcm&gt;</pre>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>12 18</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>GCD: 6\nLCM: 36</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "12 18",
+        "expected": "GCD: 6\nLCM: 36",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "15 25",
+        "expected": "GCD: 5\nLCM: 75",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7 13",
+        "expected": "GCD: 1\nLCM: 91",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "24 60",
+        "expected": "GCD: 12\nLCM: 120",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "8 32",
+        "expected": "GCD: 8\nLCM: 32",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "100 150",
+        "expected": "GCD: 50\nLCM: 300",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "17 17",
+        "expected": "GCD: 17\nLCM: 17",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "48 180",
+        "expected": "GCD: 12\nLCM: 720",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p34-perfect-number-identification",
+    "title": "46. Perfect Number Identification in Mathematical Research",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A research lab is studying rare number classifications. A number is called <em>perfect</em> if the sum of its proper positive divisors (excluding the number itself) equals the number itself. You need to develop a system that verifies whether a given number belongs to this rare category.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Perfect Number</code> or <code>Not Perfect Number</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>28</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Perfect Number</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>12</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Not Perfect Number</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "28",
+        "expected": "Perfect Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "12",
+        "expected": "Not Perfect Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "Perfect Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "496",
+        "expected": "Perfect Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "8128",
+        "expected": "Perfect Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Not Perfect Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "100",
+        "expected": "Not Perfect Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "15",
+        "expected": "Not Perfect Number",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p35-symmetric-pyramid-pattern",
+    "title": "47. Symmetric Pyramid Pattern Generator",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A digital signage system is used in events to display symmetric number patterns for visual appeal. The system must dynamically generate a centered pyramid pattern based on user input <code>n</code>, where each row <code>i</code> increases numbers forward from 1 to <code>i</code> and then mirrors backward to 1.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code> (number of rows).</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Centered numeric pyramid.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>4</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>   1\n  121\n 12321\n1234321</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "   1\n  121\n 12321\n1234321",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "1",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": " 1\n121",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "  1\n 121\n12321",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "    1\n   121\n  12321\n 1234321\n123454321",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "     1\n    121\n   12321\n  1234321\n 123454321\n12345654321",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p36-binary-to-decimal",
+    "title": "48. Binary to Decimal Converter (Embedded Systems)",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>An embedded system receives binary data from sensors. It must convert the binary number into decimal format for processing.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer representing a binary number.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Decimal: &lt;value&gt;</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>1010</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Decimal: 10</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1111</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Decimal: 15</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "1010",
+        "expected": "Decimal: 10",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1111",
+        "expected": "Decimal: 15",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "0",
+        "expected": "Decimal: 0",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Decimal: 1",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "10000",
+        "expected": "Decimal: 16",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "11011",
+        "expected": "Decimal: 27",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "101010",
+        "expected": "Decimal: 42",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1111111",
+        "expected": "Decimal: 127",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p37-decimal-to-binary",
+    "title": "49. Decimal to Binary Converter",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A system needs to convert user-entered decimal values into binary for low-level processing.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Binary: &lt;binary_value&gt;</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>10</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Binary: 1010</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>0</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Binary: 0</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10",
+        "expected": "Binary: 1010",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "0",
+        "expected": "Binary: 0",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Binary: 1",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "15",
+        "expected": "Binary: 1111",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "16",
+        "expected": "Binary: 10000",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "27",
+        "expected": "Binary: 11011",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "42",
+        "expected": "Binary: 101010",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "64",
+        "expected": "Binary: 1000000",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "100",
+        "expected": "Binary: 1100100",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p38-palindrome-data-streams",
+    "title": "50. Palindrome Detection in Data Streams",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A data analytics system identifies symmetrical numeric patterns in datasets for compression optimization. Palindromic numbers are of special interest. You must design a module that scans a given range and prints all palindrome numbers separated by spaces.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>Two integers: <code>start</code> and <code>end</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>All palindrome numbers in the range separated by a space.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>100 150</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>101 111 121 131 141</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "100 150",
+        "expected": "101 111 121 131 141",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "10 30",
+        "expected": "11 22",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1 9",
+        "expected": "1 2 3 4 5 6 7 8 9",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "120 130",
+        "expected": "121",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "200 225",
+        "expected": "202 212 222",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "50 65",
+        "expected": "55",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "300 350",
+        "expected": "303 313 323 333 343",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p39-harmonic-series-engine",
+    "title": "51. Harmonic Series Computation Engine",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In physics simulations and numerical methods, harmonic series calculations are frequently used. The system must compute the sum up to <code>n</code> terms with precision: <code>1 + 1/2 + 1/3 + ... + 1/n</code>.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Sum: &lt;value&gt;</code> formatted to 2 decimal places.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Sum: 2.28</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Sum: 1.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "Sum: 2.28",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Sum: 1.00",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "Sum: 1.50",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "Sum: 1.83",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4",
+        "expected": "Sum: 2.08",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "10",
+        "expected": "Sum: 2.93",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "20",
+        "expected": "Sum: 3.60",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "50",
+        "expected": "Sum: 4.50",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p40-hollow-structure",
+    "title": "52. Hollow Structure Generator for UI Layout",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Modern UI frameworks use hollow structures for minimalistic design. You need to generate a hollow square pattern of asterisks dynamically based on input size <code>n</code>.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Hollow square pattern of size <code>n &times; n</code>.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>*****\n*   *\n*   *\n*   *\n*****</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "*****\n*   *\n*   *\n*   *\n*****",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "***\n* *\n***",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4",
+        "expected": "****\n*  *\n*  *\n****",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "**\n**",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "******\n*    *\n*    *\n*    *\n*    *\n******",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7",
+        "expected": "*******\n*     *\n*     *\n*     *\n*     *\n*     *\n*******",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p41-diamond-pattern-renderer",
+    "title": "53. Diamond Pattern Renderer for Graphics System",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A graphical subsystem generates symmetric shapes for visual elements like badges and icons. One such pattern is the diamond. Given an integer <code>n</code>, print a centered diamond pattern having <code>2n - 1</code> rows.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Centered diamond pattern.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>4</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>   *\n  ***\n *****\n*******\n *****\n  ***\n   *</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "   *\n  ***\n *****\n*******\n *****\n  ***\n   *",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "*",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": " *\n***\n *",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "  *\n ***\n*****\n ***\n  *",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "    *\n   ***\n  *****\n *******\n*********\n *******\n  *****\n   ***\n    *",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p42-harshad-number-financial",
+    "title": "54. Harshad Number Detection in Financial Systems",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In financial analytics, certain numbers are used for checksum validation and divisibility testing. A number is called a Harshad (or Niven) number if it is divisible by the sum of its digits. You are building a validation module that determines whether a transaction ID satisfies this property before further processing.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Harshad Number</code> or <code>Not Harshad Number</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>18</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Harshad Number</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>19</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Not Harshad Number</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "18",
+        "expected": "Harshad Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "19",
+        "expected": "Not Harshad Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "21",
+        "expected": "Harshad Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "24",
+        "expected": "Harshad Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "156",
+        "expected": "Harshad Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "157",
+        "expected": "Not Harshad Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Harshad Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "100",
+        "expected": "Harshad Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "101",
+        "expected": "Not Harshad Number",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p43-factorial-series-computation",
+    "title": "55. Factorial Series Computation for Scientific Models",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In computational mathematics and simulations, factorial-based series are widely used for approximations and probability models. You are tasked with computing the sum of the series: <code>1! + 2! + 3! + ... + n!</code> based on user input.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Sum: &lt;sum&gt;</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Sum: 33</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Sum: 1</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "4",
+        "expected": "Sum: 33",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "Sum: 1",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "Sum: 3",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "Sum: 9",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "Sum: 153",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "Sum: 873",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7",
+        "expected": "Sum: 5913",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p44-twin-prime-cryptography",
+    "title": "56. Twin Prime Identification in Cryptography",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In cryptography, twin primes (pairs of prime numbers differing by 2) are useful in key generation and number theory research. You are asked to develop a module that scans a range <code>[start, end]</code> and identifies all twin prime pairs <code>(p, p + 2)</code>.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>Two integers: <code>start</code> and <code>end</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print each twin prime pair on a separate line in the format <code>(p1, p2)</code>.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>10 30</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>(11, 13)\n(17, 19)</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "10 30",
+        "expected": "(11, 13)\n(17, 19)",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1 20",
+        "expected": "(3, 5)\n(5, 7)\n(11, 13)\n(17, 19)",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "25 45",
+        "expected": "(29, 31)\n(41, 43)",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "50 70",
+        "expected": "(59, 61)",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "14 16",
+        "expected": "",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "70 100",
+        "expected": "(71, 73)",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "100 120",
+        "expected": "(101, 103)\n(107, 109)",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p45-pascals-triangle",
+    "title": "57. Pascal’s Triangle for Combinatorics Engine",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>Pascal’s Triangle is widely used in probability, combinatorics, and binomial expansions. You are tasked with building a system that generates Pascal’s Triangle up to <code>n</code> rows for mathematical analysis.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Pascal’s Triangle up to <code>n</code> rows where each value in a row is followed by a space.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>1 \n1 1 \n1 2 1 \n1 3 3 1 \n1 4 6 4 1 </pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "1 \n1 1 \n1 2 1 \n1 3 3 1 \n1 4 6 4 1 ",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "1 ",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "1 \n1 1 ",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "1 \n1 1 \n1 2 1 ",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4",
+        "expected": "1 \n1 1 \n1 2 1 \n1 3 3 1 ",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "1 \n1 1 \n1 2 1 \n1 3 3 1 \n1 4 6 4 1 \n1 5 10 10 5 1 ",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p46-digit-frequency",
+    "title": "58. Digit Frequency Analysis for Data Processing",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In data analytics, it is often required to understand the distribution of digits within a number (e.g., transaction IDs, encoded values). You are asked to count how many times each digit appears in a given number and print digits 0 through 9 that appear at least once.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print the frequency of each present digit in the format <code>&lt;digit&gt; -&gt; &lt;count&gt;</code> on separate lines in ascending order of digit (0 to 9).</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>122333</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>1 -&gt; 1\n2 -&gt; 2\n3 -&gt; 3</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "122333",
+        "expected": "1 -> 1\n2 -> 2\n3 -> 3",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5005",
+        "expected": "0 -> 2\n5 -> 2",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "987654321",
+        "expected": "1 -> 1\n2 -> 1\n3 -> 1\n4 -> 1\n5 -> 1\n6 -> 1\n7 -> 1\n8 -> 1\n9 -> 1",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "11111",
+        "expected": "1 -> 5",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2048",
+        "expected": "0 -> 1\n2 -> 1\n4 -> 1\n8 -> 1",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7",
+        "expected": "7 -> 1",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "102030",
+        "expected": "0 -> 3\n1 -> 1\n2 -> 1\n3 -> 1",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p47-automorphic-number",
+    "title": "59. Automorphic Number Verification",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>In mathematical pattern recognition, an automorphic number is a number whose square ends with the same digits as the number itself (e.g. 25<sup>2</sup> = 625 which ends in 25). You are building a checker for such numbers.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Automorphic Number</code> or <code>Not Automorphic Number</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>25</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Automorphic Number</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>13</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Not Automorphic Number</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "25",
+        "expected": "Automorphic Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "13",
+        "expected": "Not Automorphic Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "5",
+        "expected": "Automorphic Number",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "76",
+        "expected": "Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "10",
+        "expected": "Not Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "9",
+        "expected": "Not Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "376",
+        "expected": "Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "625",
+        "expected": "Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "89",
+        "expected": "Not Automorphic Number",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p48-twisted-prime",
+    "title": "60. Twisted Prime Detection in Number Systems",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A number is considered a Twisted Prime if:</p>\n<ol>\n  <li>The number itself is prime</li>\n  <li>Its reverse is also prime</li>\n</ol>\n<p>Such numbers are used in advanced number theory studies. You are asked to check whether a given number is a Twisted Prime.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Print <code>Twisted Prime</code> or <code>Not Twisted Prime</code>.</p>\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>13</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Twisted Prime</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>23</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Not Twisted Prime</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "13",
+        "expected": "Twisted Prime",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "23",
+        "expected": "Not Twisted Prime",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "17",
+        "expected": "Twisted Prime",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "37",
+        "expected": "Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "79",
+        "expected": "Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "15",
+        "expected": "Not Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "7",
+        "expected": "Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "19",
+        "expected": "Not Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "31",
+        "expected": "Twisted Prime",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
+  },
+  {
+    "id": "l2-p49-advanced-mirror-pattern",
+    "title": "61. Advanced Mirror Pattern for Display Systems",
+    "difficulty": "Medium",
+    "level": 2,
+    "description": "<p>A digital display system is used in scoreboards and banners to show mirrored numeric patterns for aesthetic symmetry. You are required to generate a pattern where numbers increase on the left, spaces appear in the middle, and numbers decrease on the right.</p>\n<br/>\n<p><strong>Input:</strong></p>\n<p>An integer <code>n</code>.</p>\n<br/>\n<p><strong>Output:</strong></p>\n<p>Mirror pattern with <code>n</code> rows. Row <code>i</code> contains numbers <code>1..i</code>, followed by <code>2*(n - i)</code> spaces, followed by numbers <code>i..1</code>.</p>\n<br/>\n<p><strong>Sample Input:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output:</strong></p>\n<pre>1        1\n12      21\n123    321\n1234  4321\n1234554321</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      {
+        "input": "5",
+        "expected": "1        1\n12      21\n123    321\n1234  4321\n1234554321",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "1",
+        "expected": "11",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "2",
+        "expected": "1  1\n1221",
+        "hidden": false,
+        "matchType": "normalized"
+      },
+      {
+        "input": "3",
+        "expected": "1    1\n12  21\n123321",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "4",
+        "expected": "1      1\n12    21\n123  321\n12344321",
+        "hidden": true,
+        "matchType": "normalized"
+      },
+      {
+        "input": "6",
+        "expected": "1          1\n12        21\n123      321\n1234    4321\n12345  54321\n123456654321",
+        "hidden": true,
+        "matchType": "normalized"
+      }
+    ]
   },
   {
     "id": "l3-p1-even-odd-divisible",
@@ -3715,238 +5085,6 @@ export const problems: Problem[] = [
       {
         "input": "3\n1 2 3",
         "expected": "Output (without continuous duplicates):\n1 2 3",
-        "hidden": true,
-        "matchType": "numeric"
-      }
-    ]
-  },
-  {
-    "id": "l2-p22-alphabet-pattern-1",
-    "title": "7. Alphabet Pattern 1",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "Print a right-angled triangle pattern of alphabets where each row starts with 'A' and increments up to the row number.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>A\nA B\nA B C\nA B C D\nA B C D E</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>A\nA B\nA B C</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "5",
-        "expected": "A\nA B\nA B C\nA B C D\nA B C D E",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "3",
-        "expected": "A\nA B\nA B C",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "4",
-        "expected": "A\nA B\nA B C\nA B C D",
-        "hidden": true,
-        "matchType": "normalized"
-      }
-    ]
-  },
-  {
-    "id": "l2-p23-alphabet-pattern-2",
-    "title": "8. Alphabet Pattern 2",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "Print a right-angled triangle pattern of alphabets where each row consists of a single alphabet repeated.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>A\nB B\nC C C\nD D D D</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>A\nB B\nC C C</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "4",
-        "expected": "A\nB B\nC C C\nD D D D",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "3",
-        "expected": "A\nB B\nC C C",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "5",
-        "expected": "A\nB B\nC C C\nD D D D\nE E E E E",
-        "hidden": true,
-        "matchType": "normalized"
-      }
-    ]
-  },
-  {
-    "id": "l2-p24-custom-patterns",
-    "title": "9. Custom Patterns",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "Print a custom pattern of stars. The program takes two inputs: `n` and `stars`. If the row index `i` (0-indexed) is even, print `stars * 2` stars. If `i` is odd, print `stars` stars.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>2 5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>* * * * * * * * * *\n* * * * *</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3 3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>* * * * * *\n* * *\n* * * * * *</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "2 5",
-        "expected": "* * * * * * * * * *\n* * * * *",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "3 3",
-        "expected": "* * * * * *\n* * *\n* * * * * *",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "4 2",
-        "expected": "* * * *\n* *\n* * * *\n* *",
-        "hidden": true,
-        "matchType": "normalized"
-      }
-    ]
-  },
-  {
-    "id": "l2-p25-reverse-alphabet",
-    "title": "11. Reverse of the Alphabet",
-    "difficulty": "Easy",
-    "level": 2,
-    "description": "Take an integer `n` and print the last `n` characters of the alphabet in reverse order starting from 'Z'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>5</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Z Y X W V</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Z Y X</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "5",
-        "expected": "Z Y X W V",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "3",
-        "expected": "Z Y X",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "7",
-        "expected": "Z Y X W V U T",
-        "hidden": true,
-        "matchType": "normalized"
-      }
-    ]
-  },
-  {
-    "id": "l2-p26-armstrong-ranges",
-    "title": "15. Armstrong Number with Specific Ranges",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "Given a range `s` to `e`, print all Armstrong numbers within that range.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>1 10000</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>1 2 3 4 5 6 7 8 9 153 370 371 407 1634 8208 9474</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>1 200</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>1 2 3 4 5 6 7 8 9 153</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "1 10000",
-        "expected": "1 2 3 4 5 6 7 8 9 153 370 371 407 1634 8208 9474",
-        "hidden": false,
-        "matchType": "numeric"
-      },
-      {
-        "input": "1 200",
-        "expected": "1 2 3 4 5 6 7 8 9 153",
-        "hidden": false,
-        "matchType": "numeric"
-      },
-      {
-        "input": "300 400",
-        "expected": "370 371",
-        "hidden": true,
-        "matchType": "numeric"
-      }
-    ]
-  },
-  {
-    "id": "l2-p27-prime-factors",
-    "title": "17. Prime Factors",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "Given an integer `n`, print all its unique prime factors.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>315</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>3 5 7</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>20</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>2 5</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "315",
-        "expected": "3 5 7",
-        "hidden": false,
-        "matchType": "numeric"
-      },
-      {
-        "input": "20",
-        "expected": "2 5",
-        "hidden": false,
-        "matchType": "numeric"
-      },
-      {
-        "input": "13",
-        "expected": "13",
-        "hidden": true,
-        "matchType": "numeric"
-      }
-    ]
-  },
-  {
-    "id": "l2-p28-desired-pattern",
-    "title": "18. Desired Pattern",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "Print a triangle pattern given a row count and two characters. The elements alternate between the second character and the first character.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4 # $</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>$\n$ #\n$ # $\n$ # $ #</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>3 A B</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>B\nB A\nB A B</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "4 # $",
-        "expected": "$\n$ #\n$ # $\n$ # $ #",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "3 A B",
-        "expected": "B\nB A\nB A B",
-        "hidden": false,
-        "matchType": "normalized"
-      },
-      {
-        "input": "5 * -",
-        "expected": "-\n- *\n- * -\n- * - *\n- * - * -",
-        "hidden": true,
-        "matchType": "normalized"
-      }
-    ]
-  },
-  {
-    "id": "l2-p29-swap-last-two",
-    "title": "19. Swap the Last 2 Digit",
-    "difficulty": "Medium",
-    "level": 2,
-    "description": "Given two integers, swap their last digits and print the new values.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>73 46</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>76 43</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>105 208</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>108 205</pre>",
-    "functionName": "main",
-    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
-    "testCases": [
-      {
-        "input": "73 46",
-        "expected": "76 43",
-        "hidden": false,
-        "matchType": "numeric"
-      },
-      {
-        "input": "105 208",
-        "expected": "108 205",
-        "hidden": false,
-        "matchType": "numeric"
-      },
-      {
-        "input": "10 20",
-        "expected": "10 20",
         "hidden": true,
         "matchType": "numeric"
       }
