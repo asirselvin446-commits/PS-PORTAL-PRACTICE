@@ -2,17 +2,23 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Problem } from '../data/problems';
 
-export const generateReport = (userName: string, problems: Problem[], solvedProblemIds: Set<string>, attemptedProblemIds: Set<string>) => {
+export const generateReport = (userName: string, problems: Problem[], solvedProblemIds: Set<string>, attemptedProblemIds: Set<string>, userEmail?: string) => {
   const doc = new jsPDF();
   
-  doc.setFontSize(20);
-  doc.text('Coding Challenges Report', 14, 22);
-  
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Francis Xavier Engineering College', 14, 18);
+
   doc.setFontSize(14);
-  doc.text(`User: ${userName}`, 14, 32);
+  doc.setFont('helvetica', 'normal');
+  doc.text('PS Portal Practice - Student Performance Report', 14, 26);
   
-  doc.setFontSize(12);
-  doc.text(`Total Solved: ${solvedProblemIds.size} / ${problems.length}`, 14, 42);
+  doc.setFontSize(11);
+  doc.text(`Student: ${userName}`, 14, 34);
+  if (userEmail) {
+    doc.text(`Email: ${userEmail}`, 14, 40);
+  }
+  doc.text(`Total Solved: ${solvedProblemIds.size} / ${problems.length}`, 14, userEmail ? 46 : 40);
   
   const tableData = problems.map(p => {
     let status = 'Unsolved';
@@ -30,7 +36,7 @@ export const generateReport = (userName: string, problems: Problem[], solvedProb
   });
   
   autoTable(doc, {
-    startY: 50,
+    startY: userEmail ? 52 : 46,
     head: [['Problem', 'Difficulty', 'Status']],
     body: tableData,
     theme: 'grid',

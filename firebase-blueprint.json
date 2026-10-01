@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile for Francis Xavier Engineering College students and faculty",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The Firebase Auth user ID",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Institutional email address ending with @francisxavier.ac.in",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the user",
+          "maxLength": 128
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Profile photo URL",
+          "maxLength": 512
+        },
+        "college": {
+          "type": "string",
+          "description": "Name of the college: Francis Xavier Engineering College",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "lastLoginAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last sign-in timestamp"
+        }
+      },
+      "required": ["uid", "email", "displayName", "college"]
+    },
+    "UserProgress": {
+      "title": "UserProgress",
+      "description": "Problem solving progress for a user",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The user ID",
+          "maxLength": 128
+        },
+        "solvedProblems": {
+          "type": "array",
+          "description": "List of solved problem IDs"
+        },
+        "attemptedProblems": {
+          "type": "array",
+          "description": "List of attempted problem IDs"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["userId", "solvedProblems", "attemptedProblems"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Stores user profile data"
+    },
+    "/users/{userId}/progress/{progressId}": {
+      "schema": "UserProgress",
+      "description": "Stores user problem progress"
+    }
+  }
+}
