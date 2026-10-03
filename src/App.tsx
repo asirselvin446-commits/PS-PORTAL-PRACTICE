@@ -108,6 +108,8 @@ export default function App() {
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
   const [solvedProblems, setSolvedProblems] = useState<Set<string>>(new Set());
   const [attemptedProblems, setAttemptedProblems] = useState<Set<string>>(new Set());
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const [reportNotification, setReportNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   // Helper to extract roll number / department hints from email
   const deriveDepartmentAndRoll = (email: string) => {
@@ -533,17 +535,37 @@ export default function App() {
     }
   };
 
-  const handleGenerateReport = () => {
-    if (currentUser) {
-      generateReport(
-        currentUser.displayName, 
-        problems, 
-        solvedProblems, 
-        attemptedProblems, 
-        currentUser.email,
-        currentUser.rollNumber,
-        currentUser.department
-      );
+  const handleGenerateReport = async () => {
+    if (!currentUser || isGeneratingReport) return;
+    setIsGeneratingReport(true);
+    setReportNotification(null);
+
+    try {
+      const res = await generateReport({
+        userId: currentUser.uid,
+        userName: currentUser.displayName,
+        problems,
+        solvedProblemIds: solvedProblems,
+        attemptedProblemIds: attemptedProblems,
+        userEmail: currentUser.email,
+        rollNumber: currentUser.rollNumber,
+        department: currentUser.department
+      });
+
+      setReportNotification({
+        message: `Report downloaded: ${res.fileName}`,
+        type: 'success'
+      });
+      setTimeout(() => setReportNotification(null), 5000);
+    } catch (err: any) {
+      console.error('Report error:', err);
+      setReportNotification({
+        message: err.message || 'Failed to generate report. Please try again.',
+        type: 'error'
+      });
+      setTimeout(() => setReportNotification(null), 5000);
+    } finally {
+      setIsGeneratingReport(false);
     }
   };
 
@@ -805,11 +827,16 @@ export default function App() {
 
             <button
               onClick={handleGenerateReport}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 bg-white border border-neutral-200 hover:bg-neutral-50 rounded-lg transition-colors shadow-2xs cursor-pointer whitespace-nowrap"
+              disabled={isGeneratingReport}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 bg-white border border-neutral-200 hover:bg-neutral-50 disabled:opacity-60 rounded-lg transition-colors shadow-2xs cursor-pointer whitespace-nowrap"
               title="Download PDF report"
             >
-              <FileDown size={14} className="text-neutral-500" />
-              <span>Report</span>
+              {isGeneratingReport ? (
+                <div className="w-3.5 h-3.5 rounded-full border-2 border-neutral-400 border-t-neutral-800 animate-spin" />
+              ) : (
+                <FileDown size={14} className="text-neutral-500" />
+              )}
+              <span>{isGeneratingReport ? 'Generating...' : 'Report'}</span>
             </button>
 
             <button
@@ -969,6 +996,22 @@ export default function App() {
             Francis Xavier Engineering College · Department Evaluation Portal · C99
           </footer>
         </main>
+
+        {/* Report Download Status Notification */}
+        {reportNotification && (
+          <div className={`fixed bottom-5 right-5 z-50 text-xs px-4 py-2.5 rounded-lg shadow-lg border flex items-center gap-2 transition-all ${
+            reportNotification.type === 'success'
+              ? 'bg-neutral-900 text-neutral-100 border-neutral-800'
+              : 'bg-rose-950 text-rose-200 border-rose-900'
+          }`}>
+            {reportNotification.type === 'success' ? (
+              <Check size={14} className="text-emerald-400 shrink-0" />
+            ) : (
+              <ShieldAlert size={14} className="text-rose-400 shrink-0" />
+            )}
+            <span>{reportNotification.message}</span>
+          </div>
+        )}
       </div>
     );
   }
