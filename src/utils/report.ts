@@ -2,7 +2,15 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Problem } from '../data/problems';
 
-export const generateReport = (userName: string, problems: Problem[], solvedProblemIds: Set<string>, attemptedProblemIds: Set<string>, userEmail?: string) => {
+export const generateReport = (
+  userName: string, 
+  problems: Problem[], 
+  solvedProblemIds: Set<string>, 
+  attemptedProblemIds: Set<string>, 
+  userEmail?: string,
+  rollNumber?: string,
+  department?: string
+) => {
   const doc = new jsPDF();
   
   doc.setFontSize(18);
@@ -11,14 +19,25 @@ export const generateReport = (userName: string, problems: Problem[], solvedProb
 
   doc.setFontSize(14);
   doc.setFont('helvetica', 'normal');
-  doc.text('PS Portal Practice - Student Performance Report', 14, 26);
+  doc.text('PS Portal Practice - Code Challenge Report', 14, 26);
   
-  doc.setFontSize(11);
-  doc.text(`Student: ${userName}`, 14, 34);
-  if (userEmail) {
-    doc.text(`Email: ${userEmail}`, 14, 40);
+  doc.setFontSize(10);
+  let curY = 34;
+  doc.text(`Student: ${userName}`, 14, curY);
+  if (rollNumber) {
+    curY += 6;
+    doc.text(`Roll / Reg No: ${rollNumber}`, 14, curY);
   }
-  doc.text(`Total Solved: ${solvedProblemIds.size} / ${problems.length}`, 14, userEmail ? 46 : 40);
+  if (department) {
+    curY += 6;
+    doc.text(`Department: ${department}`, 14, curY);
+  }
+  if (userEmail) {
+    curY += 6;
+    doc.text(`Institutional Email: ${userEmail}`, 14, curY);
+  }
+  curY += 6;
+  doc.text(`Total Solved: ${solvedProblemIds.size} / ${problems.length}`, 14, curY);
   
   const tableData = problems.map(p => {
     let status = 'Unsolved';
@@ -36,12 +55,12 @@ export const generateReport = (userName: string, problems: Problem[], solvedProb
   });
   
   autoTable(doc, {
-    startY: userEmail ? 52 : 46,
+    startY: curY + 6,
     head: [['Problem', 'Difficulty', 'Status']],
     body: tableData,
     theme: 'grid',
-    headStyles: { fillColor: [41, 128, 185] },
-    alternateRowStyles: { fillColor: [245, 245, 245] },
+    headStyles: { fillColor: [30, 64, 175] },
+    alternateRowStyles: { fillColor: [248, 250, 252] },
     columnStyles: {
       0: { cellWidth: 90 },
       1: { cellWidth: 40 },

@@ -20,7 +20,14 @@ interface CodeEditorProps {
   onSubmit?: () => void;
 }
 
-export const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language = 'c', onRun, onSubmit, markers = [] }) => {
+export const CodeEditor: React.FC<CodeEditorProps> = ({ 
+  value, 
+  onChange, 
+  language = 'c', 
+  onRun, 
+  onSubmit, 
+  markers = [] 
+}) => {
   const monaco = useMonaco();
   
   React.useEffect(() => {
@@ -28,7 +35,6 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, languag
       setupMonacoCFeatures(monaco as any);
     }
   }, [monaco]);
-
   
   React.useEffect(() => {
     if (monaco) {
@@ -50,15 +56,21 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, languag
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1e1e] border-l border-gray-800">
-      <div className="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider">
-        <span>main.c</span>
-        <div className="flex items-center gap-4 text-[10px] text-gray-500 lowercase tracking-normal">
-          <span>ctrl+enter: run</span>
-          <span>ctrl+shift+enter: submit</span>
-          <span>ctrl+/: comment</span>
+    <div className="flex flex-col h-full bg-[#111216]">
+      {/* Editor Header Bar */}
+      <div className="flex items-center justify-between px-4 py-2 bg-[#17181f] border-b border-neutral-800/80 text-xs shrink-0">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-neutral-200 font-medium">main.c</span>
+          <span className="text-[11px] text-neutral-500 font-mono">· C99 Standard</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-3 text-[11px] text-neutral-500 font-mono">
+          <span>Ctrl+Enter to Run</span>
+          <span>·</span>
+          <span>Ctrl+Shift+Enter to Submit</span>
         </div>
       </div>
+
+      {/* Editor Surface */}
       <div className="flex-1 relative">
         <Editor
           height="100%"
@@ -69,11 +81,12 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, languag
           onMount={handleEditorDidMount}
           options={{
             automaticLayout: true,
-            minimap: { enabled: true },
-            fontSize: 14,
-            fontFamily: '"Fira Code", "JetBrains Mono", Consolas, monospace',
+            minimap: { enabled: false },
+            fontSize: 13.5,
+            lineHeight: 22,
+            fontFamily: '"JetBrains Mono", Consolas, Menlo, monospace',
             scrollBeyondLastLine: false,
-            padding: { top: 16 },
+            padding: { top: 14, bottom: 14 },
             formatOnPaste: true,
             formatOnType: true,
             tabSize: 4,
@@ -82,6 +95,8 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, languag
             lineNumbers: 'on',
             folding: true,
             wordWrap: 'on',
+            cursorBlinking: 'smooth',
+            renderLineHighlight: 'all',
             find: { addExtraSpaceOnTop: false }
           }}
         />

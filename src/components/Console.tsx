@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TestResult, ExecutionResult } from '../utils/executor';
-import { CheckCircle2, XCircle, Eye, EyeOff, Terminal, Loader2, AlertTriangle, Cpu, Clock, HardDrive, Info } from 'lucide-react';
+import { CheckCircle2, XCircle, Eye, EyeOff, Terminal, Loader2, AlertCircle } from 'lucide-react';
 
 interface ConsoleProps {
   results: TestResult[] | null;
@@ -12,7 +12,15 @@ interface ConsoleProps {
   setCustomInput: (val: string) => void;
 }
 
-export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isCustomRun, customOutput, customInput, setCustomInput }) => {
+export const Console: React.FC<ConsoleProps> = ({ 
+  results, 
+  error, 
+  isRunning, 
+  isCustomRun, 
+  customOutput, 
+  customInput, 
+  setCustomInput 
+}) => {
   const [revealedTests, setRevealedTests] = useState<Set<number>>(new Set());
 
   const toggleReveal = (index: number) => {
@@ -29,76 +37,66 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
 
   const renderExecutionDetails = (res: ExecutionResult) => {
     return (
-      <div className="mt-4 border-t border-gray-800 pt-3 flex flex-wrap gap-4 text-xs">
-        {res.time && (
-          <div className="flex items-center gap-1.5 text-gray-400">
-            <Clock size={14} className="text-blue-400" />
-            Time: <span className="text-gray-300 font-medium">{res.time}s</span>
-          </div>
-        )}
-        {res.memory !== undefined && (
-          <div className="flex items-center gap-1.5 text-gray-400">
-            <HardDrive size={14} className="text-blue-400" />
-            Memory: <span className="text-gray-300 font-medium">{res.memory} KB</span>
-          </div>
-        )}
+      <div className="mt-3 pt-2.5 border-t border-neutral-800/80 flex items-center gap-3 text-xs text-neutral-400 font-mono">
+        {res.time && <span>Time: {res.time}s</span>}
+        {res.memory !== undefined && <span>· Memory: {res.memory} KB</span>}
         {res.exit_code !== undefined && (
-          <div className="flex items-center gap-1.5 text-gray-400">
-            <Cpu size={14} className={res.exit_code === 0 ? "text-green-400" : "text-red-400"} />
-            Exit Code: <span className={res.exit_code === 0 ? "text-green-400 font-medium" : "text-red-400 font-medium"}>{res.exit_code}</span>
-          </div>
+          <span className={res.exit_code === 0 ? "text-emerald-400" : "text-rose-400"}>
+            · Exit: {res.exit_code}
+          </span>
         )}
         {res.status && res.status !== 'Accepted' && (
-          <div className="flex items-center gap-1.5 text-amber-400">
-            <AlertTriangle size={14} />
-            Status: <span className="font-medium">{res.status}</span>
-          </div>
+          <span className="text-amber-400">· {res.status}</span>
         )}
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1e1e] border-t border-gray-800 text-sm">
-      <div className="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] border-b border-gray-800 text-gray-300 text-xs font-semibold uppercase tracking-wider">
-        <div className="flex items-center gap-2">
-          <Terminal size={14} />
-          Console
+    <div className="flex flex-col h-full bg-[#111216] border-t border-neutral-800/80 text-sm">
+      {/* Console Top Bar */}
+      <div className="flex items-center justify-between px-4 py-2 bg-[#17181f] border-b border-neutral-800/70 text-xs shrink-0">
+        <div className="flex items-center gap-2 text-neutral-300 font-medium">
+          <Terminal size={13} className="text-neutral-400" />
+          <span>Console & Evaluation</span>
         </div>
-        <div className="text-gray-500 lowercase tracking-normal flex items-center gap-2">
-          <span className="flex items-center gap-1"><Cpu size={12}/> GCC 9.2.0</span>
+        <div className="text-[11px] text-neutral-400 font-mono">
+          GCC 9.2.0 · C99
         </div>
       </div>
       
-      <div className="flex-1 overflow-auto p-4 font-mono text-gray-300 flex flex-col">
-        {/* Custom Input Section */}
+      {/* Console Body */}
+      <div className="flex-1 overflow-auto p-4 custom-scrollbar text-neutral-300 font-mono text-xs">
+        {/* Custom Input View */}
         {isCustomRun && (
           <div className="mb-4">
-            <label className="block text-gray-500 mb-1 text-xs flex items-center justify-between">
-              <span>Custom Input (stdin):</span>
+            <label className="block text-neutral-400 text-xs mb-1 font-sans">
+              Custom Stdin Input:
             </label>
             <textarea
-              className="w-full bg-[#0d0d0d] text-gray-300 border border-gray-700 rounded p-2 focus:outline-none focus:border-blue-500 min-h-[60px] text-xs resize-y"
+              className="w-full bg-[#0c0d11] text-neutral-200 border border-neutral-800 rounded-lg p-2.5 focus:outline-none focus:border-neutral-600 min-h-[56px] text-xs resize-y"
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
-              placeholder="Enter input here..."
+              placeholder="Enter custom standard input..."
             />
           </div>
         )}
 
         {isRunning ? (
-          <div className="flex items-center gap-2 text-blue-400 py-4">
-            <Loader2 size={16} className="animate-spin" />
-            Executing code...
+          <div className="flex items-center gap-2.5 text-neutral-400 py-6 justify-center">
+            <Loader2 size={16} className="animate-spin text-neutral-300" />
+            <span className="font-sans text-xs">Compiling & executing code...</span>
           </div>
         ) : error ? (
-          <div className="text-red-400 whitespace-pre-wrap bg-red-950/20 p-3 rounded border border-red-900/50">{error}</div>
+          <div className="text-rose-300 whitespace-pre-wrap bg-rose-950/20 p-3 rounded-lg border border-rose-900/40 text-xs leading-relaxed">
+            {error}
+          </div>
         ) : isCustomRun && customOutput ? (
-          <div className="flex flex-col gap-3">
+          <div className="space-y-3">
             {customOutput.compile_output && (
               <div>
-                <span className="text-amber-500 text-xs mb-1 flex items-center gap-1"><Info size={12}/> Compiler Output:</span>
-                <div className="bg-[#0d0d0d] p-3 rounded text-amber-200/80 whitespace-pre-wrap text-xs overflow-x-auto">
+                <span className="text-amber-400 text-[11px] block mb-1 font-sans">Compiler Output:</span>
+                <div className="bg-[#0c0d11] p-3 rounded-lg text-amber-200/90 whitespace-pre-wrap border border-amber-900/30 overflow-x-auto">
                   {customOutput.compile_output}
                 </div>
               </div>
@@ -106,82 +104,83 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
             
             {customOutput.stderr && (
               <div>
-                <span className="text-red-500 text-xs mb-1 flex items-center gap-1"><AlertTriangle size={12}/> Standard Error (stderr):</span>
-                <div className="bg-[#0d0d0d] p-3 rounded text-red-300 whitespace-pre-wrap text-xs overflow-x-auto">
+                <span className="text-rose-400 text-[11px] block mb-1 font-sans">Standard Error:</span>
+                <div className="bg-[#0c0d11] p-3 rounded-lg text-rose-300 whitespace-pre-wrap border border-rose-900/30 overflow-x-auto">
                   {customOutput.stderr}
                 </div>
               </div>
             )}
 
             <div>
-              <span className="text-gray-500 text-xs mb-1 block">Standard Output (stdout):</span>
-              <div className="bg-[#0d0d0d] p-3 rounded text-gray-300 whitespace-pre-wrap text-xs overflow-x-auto min-h-[40px]">
-                {customOutput.output || <span className="text-gray-600 italic">No output</span>}
+              <span className="text-neutral-400 text-[11px] block mb-1 font-sans">Program Output (stdout):</span>
+              <div className="bg-[#0c0d11] p-3 rounded-lg text-neutral-200 whitespace-pre-wrap border border-neutral-800/80 overflow-x-auto min-h-[44px]">
+                {customOutput.output || <span className="text-neutral-600 italic">No output</span>}
               </div>
             </div>
 
             {renderExecutionDetails(customOutput)}
           </div>
         ) : results ? (
-          <div className="space-y-4">
+          <div className="space-y-2.5">
             {results.map((result) => {
               const isRevealed = revealedTests.has(result.index);
               
               return (
                 <div
                   key={result.index}
-                  className={`p-3 rounded border ${
-                    result.passed ? 'bg-green-950/20 border-green-900/50' : 'bg-red-950/20 border-red-900/50'
+                  className={`p-3 rounded-lg border transition-colors ${
+                    result.passed 
+                      ? 'bg-emerald-950/10 border-emerald-900/30' 
+                      : 'bg-rose-950/10 border-rose-900/30'
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    {result.passed ? (
-                      <CheckCircle2 size={16} className="text-green-500" />
-                    ) : (
-                      <XCircle size={16} className="text-red-500" />
-                    )}
-                    <span className={`font-semibold ${result.passed ? 'text-green-400' : 'text-red-400'}`}>
-                      Test Case {result.index + 1}
-                    </span>
-                    
-                    {(result.time || result.memory !== undefined) && (
-                      <div className="flex items-center gap-2 ml-2 text-xs text-gray-500">
-                        {result.time && <span>{result.time}s</span>}
-                        {result.memory !== undefined && <span>{result.memory} KB</span>}
-                      </div>
-                    )}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      {result.passed ? (
+                        <CheckCircle2 size={15} className="text-emerald-400 shrink-0" />
+                      ) : (
+                        <XCircle size={15} className="text-rose-400 shrink-0" />
+                      )}
+                      <span className={`font-semibold text-xs font-sans ${result.passed ? 'text-emerald-300' : 'text-rose-300'}`}>
+                        Test Case {result.index + 1}
+                      </span>
+                      
+                      <span className="text-[11px] text-neutral-500 font-mono">
+                        {result.passed ? 'Passed' : 'Failed'}
+                        {result.time && ` · ${result.time}s`}
+                      </span>
+                    </div>
 
                     {result.hidden && (
                       <button 
                         onClick={() => toggleReveal(result.index)}
-                        className="flex items-center gap-1 text-xs text-gray-400 bg-gray-800 hover:bg-gray-700 transition-colors px-2 py-0.5 rounded-full ml-auto cursor-pointer"
-                        title={isRevealed ? "Hide test case" : "Reveal test case"}
+                        className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-neutral-200 transition-colors cursor-pointer px-2 py-0.5 rounded border border-neutral-700/60 bg-neutral-800/40"
                       >
-                        {isRevealed ? <Eye size={12} /> : <EyeOff size={12} />}
-                        {isRevealed ? 'Revealed' : 'Hidden Test'}
+                        {isRevealed ? <EyeOff size={11} /> : <Eye size={11} />}
+                        <span>{isRevealed ? 'Hide' : 'Reveal'}</span>
                       </button>
                     )}
                   </div>
 
                   {(!result.hidden || isRevealed) && (
-                    <div className="space-y-2 text-xs mt-3">
+                    <div className="space-y-2 text-[11px] mt-2.5 pt-2 border-t border-neutral-800/40">
                       <div>
-                        <span className="text-gray-500">Input:</span>
-                        <div className="bg-[#0d0d0d] p-1.5 rounded mt-0.5 whitespace-pre-wrap text-gray-300">
+                        <span className="text-neutral-500">Input:</span>
+                        <div className="bg-[#0c0d11] p-2 rounded mt-0.5 whitespace-pre-wrap text-neutral-300 border border-neutral-800/60">
                           {result.input}
                         </div>
                       </div>
                       <div>
-                        <span className="text-gray-500">Expected Output:</span>
-                        <div className="bg-[#0d0d0d] p-1.5 rounded mt-0.5 text-green-300 whitespace-pre-wrap">
+                        <span className="text-neutral-500">Expected Output:</span>
+                        <div className="bg-[#0c0d11] p-2 rounded mt-0.5 text-emerald-300 whitespace-pre-wrap border border-neutral-800/60">
                           {result.expected}
                         </div>
                       </div>
                       {!result.passed && (
                         <div>
-                          <span className="text-gray-500">Actual Output:</span>
-                          <div className="bg-[#0d0d0d] p-1.5 rounded mt-0.5 text-red-300 whitespace-pre-wrap">
-                            {result.error ? <span className="text-red-500">{result.error}</span> : result.actual}
+                          <span className="text-neutral-500">Actual Output:</span>
+                          <div className="bg-[#0c0d11] p-2 rounded mt-0.5 text-rose-300 whitespace-pre-wrap border border-rose-950/60">
+                            {result.error ? result.error : result.actual}
                           </div>
                         </div>
                       )}
@@ -189,8 +188,8 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
                   )}
 
                   {result.hidden && !isRevealed && !result.passed && (
-                    <div className="mt-2 text-xs text-red-400 bg-[#0d0d0d] p-1.5 rounded">
-                      Hidden test case failed. Check your logic.
+                    <div className="mt-2 text-[11px] text-neutral-400 italic">
+                      Hidden test case failed. Verify edge cases and loops.
                     </div>
                   )}
                 </div>
@@ -198,7 +197,9 @@ export const Console: React.FC<ConsoleProps> = ({ results, error, isRunning, isC
             })}
           </div>
         ) : (
-          <div className="text-gray-500 italic">Run your code to see the test results here.</div>
+          <div className="text-neutral-500 text-xs py-8 text-center font-sans">
+            Ready to evaluate. Click "Run" to test with custom input or "Submit" to run against all test cases.
+          </div>
         )}
       </div>
     </div>

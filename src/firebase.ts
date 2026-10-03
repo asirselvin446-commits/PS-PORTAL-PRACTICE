@@ -15,6 +15,17 @@ googleProvider.setCustomParameters({
 export const COLLEGE_DOMAIN = '@francisxavier.ac.in';
 export const COLLEGE_NAME = 'Francis Xavier Engineering College';
 
+export interface PortalUser {
+  uid: string;
+  email: string;
+  displayName: string;
+  rollNumber: string;
+  department: string;
+  role: 'student' | 'faculty';
+  photoURL?: string;
+  signedInAt: string;
+}
+
 export function isFrancisXavierEmail(email: string | null | undefined): boolean {
   if (!email) return false;
   return email.trim().toLowerCase().endsWith(COLLEGE_DOMAIN.toLowerCase());
