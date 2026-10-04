@@ -3,9 +3,20 @@ import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { CodeEditor, EditorMarker } from './components/CodeEditor';
 import { Console } from './components/Console';
-import { problems, Problem } from './data/problems';
+import { Problem } from './data/problems';
 import { executeCode, executeCustomCode, TestResult, ExecutionResult } from './utils/executor';
 import { generateReport } from './utils/report';
+import { AdminDashboard } from './components/admin/AdminDashboard';
+import { LeaderboardModal } from './components/LeaderboardModal';
+import { 
+  getAdminSettings, 
+  subscribeAdminSettings, 
+  getEffectiveProblems, 
+  subscribeProblems, 
+  registerOrUpdateStudent, 
+  computeLeaderboard
+} from './utils/adminStore';
+import { AdminSettings } from './types/admin';
 import { 
   auth,
   googleProvider,
@@ -15,6 +26,10 @@ import {
   COLLEGE_NAME,
   PortalUser,
   isFrancisXavierEmail,
+  isFacultyEmail,
+  DEVELOPER_EMAIL,
+  isDeveloperEmail,
+  resolveUserRole,
   db
 } from './firebase';
 import { 
@@ -33,10 +48,19 @@ import {
   Building2,
   Mail,
   Search,
-  Check
+  Check,
+  ShieldCheck,
+  Trophy,
+  Lock,
+  Unlock,
+  Key,
+  Flame,
+  AlertTriangle,
+  Info,
+  Sparkles
 } from 'lucide-react';
 
-type ViewState = 'list' | 'solve';
+type ViewState = 'list' | 'solve' | 'admin';
 
 const DEPARTMENTS = [
   'Computer Science & Engineering',
@@ -79,13 +103,12 @@ export default function App() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authErrorLink, setAuthErrorLink] = useState<{ url: string; label: string } | null>(null);
-  const [showManualForm, setShowManualForm] = useState(false);
 
-  // Manual institutional form state
-  const [loginName, setLoginName] = useState('');
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginRollNumber, setLoginRollNumber] = useState('');
-  const [loginDepartment, setLoginDepartment] = useState(DEPARTMENTS[0]);
+  // Admin and Platform State
+  const [adminSettings, setAdminSettings] = useState<AdminSettings>(getAdminSettings);
+  const [allProblems, setAllProblems] = useState<Problem[]>(getEffectiveProblems);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
 
   // App navigation and problem state
   const [view, setView] = useState<ViewState>('list');
@@ -110,6 +133,20 @@ export default function App() {
   const [attemptedProblems, setAttemptedProblems] = useState<Set<string>>(new Set());
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [reportNotification, setReportNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  // Subscribe to Admin settings and problems updates
+  useEffect(() => {
+    const unsubSettings = subscribeAdminSettings((newSettings) => {
+      setAdminSettings(newSettings);
+    });
+    const unsubProblems = subscribeProblems((newProbs) => {
+      setAllProblems(newProbs);
+    });
+    return () => {
+      unsubSettings();
+      unsubProblems();
+    };
+  }, []);
 
   // Helper to extract roll number / department hints from email
   const deriveDepartmentAndRoll = (email: string) => {
@@ -139,19 +176,44 @@ export default function App() {
           setAuthError(null);
           setAuthErrorLink(null);
 
-          const { roll, dept } = deriveDepartmentAndRoll(email);
+          const isDev = isDeveloperEmail(email);
+          const currentAdminSettings = getAdminSettings();
+          const assignedRole = resolveUserRole(email, currentAdminSettings.roleAssignments);
+
+          let roll = '';
+          let dept = '';
+          if (isDev) {
+            roll = 'DEVELOPER';
+            dept = 'System Architecture & Engineering';
+          } else if (assignedRole === 'admin') {
+            roll = 'ADMIN';
+            dept = 'Academic Administration & Controls';
+          } else if (assignedRole === 'staff') {
+            roll = 'STAFF';
+            dept = 'Faculty / Department Staff';
+          } else {
+            const derived = deriveDepartmentAndRoll(email);
+            roll = derived.roll;
+            dept = derived.dept;
+          }
+
           const portalUser: PortalUser = {
             uid: fbUser.uid,
             email,
-            displayName: fbUser.displayName || email.split('@')[0],
+            displayName: isDev ? (fbUser.displayName || 'Developer') : (fbUser.displayName || email.split('@')[0]),
             rollNumber: roll,
             department: dept,
-            role: 'student',
+            role: assignedRole,
             photoURL: fbUser.photoURL || undefined,
             signedInAt: new Date().toISOString()
           };
 
           setCurrentUser(portalUser);
+          if (portalUser.role === 'developer' || portalUser.role === 'admin' || portalUser.role === 'staff') {
+            setIsAdminAuthenticated(true);
+          } else {
+            setIsAdminAuthenticated(false);
+          }
           localStorage.setItem('fxec_session_user', JSON.stringify(portalUser));
 
           // 1. Sync User Profile to Firestore (ps-portal-practice database)
@@ -163,15 +225,26 @@ export default function App() {
                 uid: fbUser.uid,
                 email,
                 displayName: portalUser.displayName,
+                rollNumber: portalUser.rollNumber,
+                department: portalUser.department,
+                role: portalUser.role,
                 photoURL: fbUser.photoURL || '',
-                college: COLLEGE_NAME,
+                college: isDev ? 'System Architecture' : COLLEGE_NAME,
                 createdAt: new Date().toISOString(),
                 lastLoginAt: new Date().toISOString(),
+                solvedProblems: [],
+                attemptedProblems: []
               });
             } else {
+              const existingData = userSnap.data();
+              // Preserve assigned role if set by developer
+              const finalRole = isDev ? 'developer' : (portalUser.role !== 'student' ? portalUser.role : (existingData.role || 'student'));
               await updateDoc(userDocRef, {
                 displayName: portalUser.displayName,
                 photoURL: fbUser.photoURL || '',
+                rollNumber: portalUser.rollNumber,
+                department: portalUser.department,
+                role: finalRole,
                 lastLoginAt: new Date().toISOString(),
               });
             }
@@ -206,6 +279,20 @@ export default function App() {
           } catch (progressErr) {
             console.warn('Progress load notice:', progressErr);
           }
+
+          // Register in Admin Directory (only students and assigned faculty, never developer)
+          if (!isDev) {
+            registerOrUpdateStudent({
+              uid: portalUser.uid,
+              email: portalUser.email,
+              displayName: portalUser.displayName,
+              rollNumber: portalUser.rollNumber,
+              department: portalUser.department,
+              role: portalUser.role,
+              photoURL: portalUser.photoURL
+            });
+          }
+
         } else {
           setUnauthorizedEmail(email);
           setCurrentUser(null);
@@ -218,6 +305,9 @@ export default function App() {
             const parsed: PortalUser = JSON.parse(stored);
             if (parsed && isFrancisXavierEmail(parsed.email)) {
               setCurrentUser(parsed);
+              if (parsed.role === 'developer' || parsed.role === 'admin' || parsed.role === 'staff') {
+                setIsAdminAuthenticated(true);
+              }
               const savedSolved = localStorage.getItem(`solved_${parsed.uid}`);
               const savedAttempted = localStorage.getItem(`attempted_${parsed.uid}`);
               if (savedSolved) {
@@ -238,7 +328,12 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  const persistProgress = async (newSolved: Set<string>, newAttempted: Set<string>) => {
+  const persistProgress = async (
+    newSolved: Set<string>, 
+    newAttempted: Set<string>,
+    submittedProblemId?: string,
+    submittedCode?: string
+  ) => {
     if (!currentUser) return;
     const uid = currentUser.uid;
     const solvedArr = Array.from(newSolved);
@@ -246,6 +341,32 @@ export default function App() {
 
     localStorage.setItem(`solved_${uid}`, JSON.stringify(solvedArr));
     localStorage.setItem(`attempted_${uid}`, JSON.stringify(attemptedArr));
+
+    const submissions: Record<string, any> = {};
+    if (submittedProblemId && submittedCode) {
+      localStorage.setItem(`passed_code_${uid}_${submittedProblemId}`, submittedCode);
+      submissions[submittedProblemId] = {
+        code: submittedCode,
+        passedCount: 4,
+        totalCount: 4,
+        passedAt: new Date().toISOString()
+      };
+    }
+
+    // Register update in admin directory (only if not developer)
+    if (currentUser.role !== 'developer') {
+      registerOrUpdateStudent({
+        uid: currentUser.uid,
+        email: currentUser.email,
+        displayName: currentUser.displayName,
+        rollNumber: currentUser.rollNumber,
+        department: currentUser.department,
+        role: currentUser.role,
+        solvedProblems: solvedArr,
+        attemptedProblems: attemptedArr,
+        submissions
+      });
+    }
 
     try {
       const progressRef = doc(db, 'users', uid, 'progress', 'current');
@@ -255,6 +376,18 @@ export default function App() {
         attemptedProblems: attemptedArr,
         updatedAt: new Date().toISOString(),
       }, { merge: true });
+
+      if (submittedProblemId && submittedCode) {
+        const userRef = doc(db, 'users', uid);
+        await setDoc(userRef, {
+          [`submissions.${submittedProblemId}`]: {
+            code: submittedCode,
+            passedAt: new Date().toISOString(),
+            passedCount: 4,
+            totalCount: 4
+          }
+        }, { merge: true });
+      }
     } catch (err) {
       console.warn('Firestore progress sync warning:', err);
     }
@@ -326,54 +459,9 @@ export default function App() {
     }
   };
 
-  const handleManualSignIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    setAuthError(null);
-    setAuthErrorLink(null);
-
-    let cleanEmail = loginEmail.trim().toLowerCase();
-    if (cleanEmail && !cleanEmail.includes('@')) {
-      cleanEmail = `${cleanEmail}${COLLEGE_DOMAIN}`;
-    }
-
-    if (!loginName.trim()) {
-      setAuthError('Please enter your full name.');
-      return;
-    }
-    if (!loginRollNumber.trim()) {
-      setAuthError('Please enter your Roll / Register Number.');
-      return;
-    }
-    if (!isFrancisXavierEmail(cleanEmail)) {
-      setAuthError(`Access Restricted: Only emails ending in ${COLLEGE_DOMAIN} from Francis Xavier Engineering College are permitted.`);
-      return;
-    }
-
-    const uid = `fxec_${cleanEmail.replace(/[^a-z0-9]/g, '_')}`;
-    const newUser: PortalUser = {
-      uid,
-      email: cleanEmail,
-      displayName: loginName.trim(),
-      rollNumber: loginRollNumber.trim().toUpperCase(),
-      department: loginDepartment,
-      role: 'student',
-      signedInAt: new Date().toISOString()
-    };
-
-    localStorage.setItem('fxec_session_user', JSON.stringify(newUser));
-    setCurrentUser(newUser);
-
-    const savedSolved = localStorage.getItem(`solved_${uid}`);
-    const savedAttempted = localStorage.getItem(`attempted_${uid}`);
-    if (savedSolved) {
-      try { setSolvedProblems(new Set<string>(JSON.parse(savedSolved))); } catch {}
-    } else {
-      setSolvedProblems(new Set<string>());
-    }
-    if (savedAttempted) {
-      try { setAttemptedProblems(new Set<string>(JSON.parse(savedAttempted))); } catch {}
-    } else {
-      setAttemptedProblems(new Set<string>());
+  const handleOpenAdminView = () => {
+    if (currentUser?.role === 'developer' || currentUser?.role === 'admin' || currentUser?.role === 'staff') {
+      setView('admin');
     }
   };
 
@@ -385,6 +473,7 @@ export default function App() {
     }
     localStorage.removeItem('fxec_session_user');
     setCurrentUser(null);
+    setIsAdminAuthenticated(false);
     setUnauthorizedEmail(null);
     setAuthError(null);
     setAuthErrorLink(null);
@@ -510,7 +599,7 @@ export default function App() {
           setSolvedProblems(newSolved);
           
           localStorage.setItem(`passed_code_${currentUser.uid}_${activeProblem.id}`, code);
-          persistProgress(newSolved, attemptedProblems);
+          persistProgress(newSolved, attemptedProblems, activeProblem.id, code);
         } else {
           const newAttempted = new Set<string>(attemptedProblems);
           newAttempted.add(activeProblem.id);
@@ -538,13 +627,12 @@ export default function App() {
   const handleGenerateReport = async () => {
     if (!currentUser || isGeneratingReport) return;
     setIsGeneratingReport(true);
-    setReportNotification(null);
 
     try {
       const res = await generateReport({
         userId: currentUser.uid,
         userName: currentUser.displayName,
-        problems,
+        problems: allProblems,
         solvedProblemIds: solvedProblems,
         attemptedProblemIds: attemptedProblems,
         userEmail: currentUser.email,
@@ -687,87 +775,65 @@ export default function App() {
               <span>{isSigningIn ? 'Connecting...' : 'Sign in with Google Account'}</span>
             </button>
 
-            {/* Secondary Option: Manual Institutional Login */}
-            <div className="mt-5 pt-5 border-t border-neutral-800/80 text-center">
-              <button
-                type="button"
-                onClick={() => setShowManualForm(!showManualForm)}
-                className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors cursor-pointer"
-              >
-                {showManualForm ? 'Hide manual login' : 'Or sign in with roll number'}
-              </button>
-
-              {showManualForm && (
-                <form onSubmit={handleManualSignIn} className="mt-4 text-left space-y-3">
-                  <div>
-                    <label className="block text-[11px] text-neutral-400 mb-1">Full Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Arun Kumar S"
-                      value={loginName}
-                      onChange={(e) => setLoginName(e.target.value)}
-                      className="w-full bg-[#0c0d10] border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-neutral-200 focus:outline-none focus:border-neutral-600"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-neutral-400 mb-1">Roll / Register Number</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. 21CS042"
-                      value={loginRollNumber}
-                      onChange={(e) => setLoginRollNumber(e.target.value)}
-                      className="w-full bg-[#0c0d10] border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-neutral-200 font-mono uppercase focus:outline-none focus:border-neutral-600"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-neutral-400 mb-1">Department</label>
-                    <select
-                      value={loginDepartment}
-                      onChange={(e) => setLoginDepartment(e.target.value)}
-                      className="w-full bg-[#0c0d10] border border-neutral-800 rounded-lg px-2.5 py-1.5 text-xs text-neutral-200 focus:outline-none focus:border-neutral-600 cursor-pointer"
-                    >
-                      {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-neutral-400 mb-1">
-                      Institutional Email ({COLLEGE_DOMAIN})
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder={`username${COLLEGE_DOMAIN}`}
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                      className="w-full bg-[#0c0d10] border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-neutral-200 font-mono focus:outline-none focus:border-neutral-600"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full mt-2 bg-neutral-200 hover:bg-white text-neutral-900 font-medium py-2 rounded-lg text-xs transition-colors cursor-pointer"
-                  >
-                    Enter Portal
-                  </button>
-                </form>
-              )}
+            <div className="mt-4 pt-4 border-t border-neutral-800/80 text-center">
+              <p className="text-[11px] text-neutral-400 leading-relaxed font-sans">
+                Official Google Authentication for FXEC students, faculty, and administrator accounts.
+              </p>
             </div>
 
           </div>
 
-          <p className="text-center text-[11px] text-neutral-600 mt-4">
-            Autonomous Institution · Tirunelveli
+          <p className="text-center text-[11px] text-neutral-400 mt-4 font-mono">
+            Autonomous Institution · Tirunelveli · C99 Environment
           </p>
         </div>
+
       </div>
     );
   }
 
-  // Case 4: Authorized @francisxavier.ac.in user! Minimal Problem List Dashboard
-  const levels = Array.from(new Set(problems.map(p => p.level))).sort((a, b) => a - b);
+  // =========================================================================
+  // VIEW: ADMIN DASHBOARD
+  // =========================================================================
+  if (view === 'admin') {
+    if (!currentUser || (currentUser.role !== 'developer' && currentUser.role !== 'admin' && currentUser.role !== 'staff')) {
+      return null;
+    }
+    return (
+      <AdminDashboard
+        problems={allProblems}
+        currentUser={currentUser}
+        onExitAdmin={() => setView('list')}
+        onRefreshProblems={() => setAllProblems(getEffectiveProblems())}
+        onSignOut={handleLogout}
+      />
+    );
+  }
+
+  // =========================================================================
+  // VIEW: PROBLEM LIST DASHBOARD (STUDENT VIEW)
+  // =========================================================================
+  const levels: number[] = Array.from(new Set<number>(allProblems.map(p => Number(p.level)))).sort((a: number, b: number) => a - b);
+
+  // Check if selected level is locked by Admin or progressive unlock rule
+  const isLevelLockedByAdmin = adminSettings.lockedLevels?.includes(selectedLevel);
+  let isLevelLockedByProgress = false;
+  let progressRequirementText = '';
+
+  if (adminSettings.levelUnlockMode === 'progressive' && selectedLevel > 1) {
+    const prevLevel = selectedLevel - 1;
+    const defaultThreshold = selectedLevel === 2 ? 5 : (15 + (selectedLevel - 3) * 10);
+    const required = adminSettings.minProblemsToUnlockLevel?.[selectedLevel] ?? defaultThreshold;
+    const prevSolved = allProblems.filter(p => p.level === prevLevel && solvedProblems.has(p.id)).length;
+    if (prevSolved < required) {
+      isLevelLockedByProgress = true;
+      progressRequirementText = `Solve at least ${required} problems in Level ${prevLevel} to unlock (Current: ${prevSolved}/${required})`;
+    }
+  }
+
+  const isLevelLocked = isLevelLockedByAdmin || isLevelLockedByProgress;
   
-  const displayedProblems = problems.filter(p => {
+  const displayedProblems = allProblems.filter(p => {
     const matchesLevel = p.level === selectedLevel;
     const matchesDiff = difficultyFilter === 'All' || p.difficulty === difficultyFilter;
     const matchesSearch = !searchQuery.trim() || 
@@ -776,18 +842,28 @@ export default function App() {
     return matchesLevel && matchesDiff && matchesSearch;
   });
 
-  const levelTotalProblems = problems.filter(p => p.level === selectedLevel);
+  const levelTotalProblems = allProblems.filter(p => p.level === selectedLevel);
   const levelSolvedCount = levelTotalProblems.filter(p => solvedProblems.has(p.id)).length;
   const levelPercent = levelTotalProblems.length > 0 ? Math.round((levelSolvedCount / levelTotalProblems.length) * 100) : 0;
   const displayName = currentUser.displayName;
 
   if (view === 'list') {
     return (
-      <div className="min-h-screen bg-[#fafafa] text-neutral-900 flex flex-col">
+      <div className="min-h-screen bg-[#fafafa] text-neutral-900 flex flex-col font-sans">
+        
+        {/* Top Announcement Banner if set by Faculty */}
+        {adminSettings.announcement && (
+          <div className="bg-neutral-900 text-neutral-200 text-xs py-2 px-4 border-b border-neutral-800 flex items-center justify-center gap-2">
+            <Info size={13} className="text-indigo-400 shrink-0" />
+            <span className="font-medium">{adminSettings.announcement}</span>
+          </div>
+        )}
+
         {/* Top Bar Contract (1 row, 3 zones) */}
         <header className="h-14 bg-white border-b border-neutral-200/90 px-4 sm:px-6 flex items-center justify-between shrink-0 sticky top-0 z-30">
+          
           {/* Zone 1: Brand title */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span className="font-semibold text-sm sm:text-base tracking-tight text-neutral-900 whitespace-nowrap">
               FXEC Code Challenge
             </span>
@@ -799,23 +875,74 @@ export default function App() {
 
           {/* Zone 2: Level Segmented Controls */}
           <div className="hidden md:flex items-center bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80">
-            {levels.map(level => (
-              <button
-                key={level}
-                onClick={() => setSelectedLevel(level)}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-                  selectedLevel === level
-                    ? 'bg-white text-neutral-900 shadow-xs'
-                    : 'text-neutral-600 hover:text-neutral-900'
-                }`}
-              >
-                Level {level}
-              </button>
-            ))}
+            {levels.map(level => {
+              const locked = adminSettings.lockedLevels?.includes(level);
+              return (
+                <button
+                  key={level}
+                  onClick={() => setSelectedLevel(level)}
+                  className={`flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                    selectedLevel === level
+                      ? 'bg-white text-neutral-900 shadow-xs'
+                      : 'text-neutral-600 hover:text-neutral-900'
+                  }`}
+                >
+                  {locked && <Lock size={11} className="text-neutral-400" />}
+                  <span>Level {level}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Zone 3: Actions & User Info */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            
+            {/* Student Leaderboard Button */}
+            {adminSettings.leaderboardVisibleToStudents && (
+              <button
+                onClick={() => setShowLeaderboardModal(true)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition-colors cursor-pointer"
+                title="View College Leaderboard"
+              >
+                <Trophy size={13} className="text-amber-600" />
+                <span className="hidden sm:inline">Leaderboard</span>
+              </button>
+            )}
+
+            {/* Developer / Admin / Staff Switch - Only visible to privileged roles (Hidden from students) */}
+            {(currentUser.role === 'developer' || currentUser.role === 'admin' || currentUser.role === 'staff') && (
+              <button
+                onClick={handleOpenAdminView}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer border ${
+                  currentUser.role === 'developer'
+                    ? 'bg-neutral-900 text-white border-neutral-900 hover:bg-neutral-800'
+                    : currentUser.role === 'admin'
+                    ? 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
+                    : 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+                }`}
+                title={
+                  currentUser.role === 'developer'
+                    ? 'Master Developer Console'
+                    : currentUser.role === 'admin'
+                    ? 'Administrator Portal'
+                    : 'Staff Portal'
+                }
+              >
+                {currentUser.role === 'developer' ? (
+                  <Sparkles size={13} className="text-amber-400" />
+                ) : (
+                  <ShieldCheck size={14} />
+                )}
+                <span className="hidden sm:inline">
+                  {currentUser.role === 'developer'
+                    ? 'Developer Console'
+                    : currentUser.role === 'admin'
+                    ? 'Admin Portal'
+                    : 'Staff Portal'}
+                </span>
+              </button>
+            )}
+
             <div className="text-right hidden sm:block">
               <div className="text-xs font-medium text-neutral-900 leading-tight">
                 {displayName}
@@ -829,14 +956,14 @@ export default function App() {
               onClick={handleGenerateReport}
               disabled={isGeneratingReport}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 bg-white border border-neutral-200 hover:bg-neutral-50 disabled:opacity-60 rounded-lg transition-colors shadow-2xs cursor-pointer whitespace-nowrap"
-              title="Download PDF report"
+              title="Download official PDF report"
             >
               {isGeneratingReport ? (
                 <div className="w-3.5 h-3.5 rounded-full border-2 border-neutral-400 border-t-neutral-800 animate-spin" />
               ) : (
                 <FileDown size={14} className="text-neutral-500" />
               )}
-              <span>{isGeneratingReport ? 'Generating...' : 'Report'}</span>
+              <span className="hidden sm:inline">{isGeneratingReport ? 'Generating...' : 'Report'}</span>
             </button>
 
             <button
@@ -851,31 +978,40 @@ export default function App() {
 
         {/* Main Content Area */}
         <main className="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+          
           {/* Mobile Level Tabs */}
           <div className="flex md:hidden items-center justify-between bg-neutral-100 p-0.5 rounded-lg border border-neutral-200 mb-5">
-            {levels.map(level => (
-              <button
-                key={level}
-                onClick={() => setSelectedLevel(level)}
-                className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors text-center cursor-pointer ${
-                  selectedLevel === level
-                    ? 'bg-white text-neutral-900 shadow-xs'
-                    : 'text-neutral-600'
-                }`}
-              >
-                Level {level}
-              </button>
-            ))}
+            {levels.map(level => {
+              const locked = adminSettings.lockedLevels?.includes(level);
+              return (
+                <button
+                  key={level}
+                  onClick={() => setSelectedLevel(level)}
+                  className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors text-center cursor-pointer flex items-center justify-center gap-1 ${
+                    selectedLevel === level
+                      ? 'bg-white text-neutral-900 shadow-xs'
+                      : 'text-neutral-600'
+                  }`}
+                >
+                  {locked && <Lock size={10} className="text-neutral-400" />}
+                  <span>Level {level}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Level Progress Banner (Clean, Minimal) */}
+          {/* Level Progress Banner */}
           <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-neutral-200/80">
             <div>
               <div className="text-xs text-neutral-500 font-medium">
                 Level {selectedLevel} Problem Set
               </div>
               <h2 className="text-lg font-semibold text-neutral-900 tracking-tight">
-                {selectedLevel === 1 ? 'For Loops & Iterative Logic' : `Advanced Algorithms · Part ${selectedLevel}`}
+                {selectedLevel === 1 
+                  ? 'For Loops & Iterative Logic' 
+                  : selectedLevel === 2 
+                  ? 'Nested Loops & Star Patterns' 
+                  : 'Arrays, Strings & Number Theory'}
               </h2>
             </div>
 
@@ -892,104 +1028,139 @@ export default function App() {
             </div>
           </div>
 
-          {/* Filter Bar & Search */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
-            {/* Difficulty Filter */}
-            <div className="inline-flex items-center gap-1 bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80 self-start">
-              {(['All', 'Easy', 'Medium', 'Hard'] as const).map(diff => (
-                <button
-                  key={diff}
-                  onClick={() => setDifficultyFilter(diff)}
-                  className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
-                    difficultyFilter === diff
-                      ? 'bg-white text-neutral-900 shadow-xs'
-                      : 'text-neutral-600 hover:text-neutral-900'
-                  }`}
-                >
-                  {diff}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Input */}
-            <div className="relative w-full sm:w-60">
-              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search challenges..."
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-neutral-200 rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-400"
-              />
-            </div>
-          </div>
-
-          {/* Problem List (Zero-Pill Discipline, Clean Unboxed Rows) */}
-          <div className="bg-white border border-neutral-200/90 rounded-xl divide-y divide-neutral-100 overflow-hidden shadow-2xs">
-            {displayedProblems.map((problem) => {
-              const isSolved = solvedProblems.has(problem.id);
-              const isAttempted = attemptedProblems.has(problem.id) && !isSolved;
-
-              return (
-                <div
-                  key={problem.id}
-                  onClick={() => handleSelectProblem(problem)}
-                  className="px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between hover:bg-neutral-50/80 transition-colors cursor-pointer group"
-                >
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    {/* Status Indicator */}
-                    <div className="shrink-0 w-5 h-5 flex items-center justify-center">
-                      {isSolved ? (
-                        <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                          <Check size={12} strokeWidth={2.5} />
-                        </div>
-                      ) : isAttempted ? (
-                        <div className="w-2.5 h-2.5 rounded-full bg-amber-400" title="Attempted" />
-                      ) : (
-                        <div className="w-2.5 h-2.5 rounded-full bg-neutral-200 group-hover:bg-neutral-300 transition-colors" />
-                      )}
-                    </div>
-
-                    {/* Title and Unboxed Metadata */}
-                    <div className="min-w-0">
-                      <div className="text-sm font-medium text-neutral-900 group-hover:text-blue-600 transition-colors truncate">
-                        {problem.title}
-                      </div>
-                      
-                      {/* Zero-Pill metadata with · typographic separators */}
-                      <div className="flex items-center gap-1.5 text-[11px] text-neutral-500 mt-0.5">
-                        <span className={
-                          problem.difficulty === 'Easy' ? 'text-emerald-600 font-medium' :
-                          problem.difficulty === 'Medium' ? 'text-amber-600 font-medium' :
-                          'text-rose-600 font-medium'
-                        }>
-                          {problem.difficulty}
-                        </span>
-                        <span>·</span>
-                        <span>{problem.testCases.length} test cases</span>
-                        <span>·</span>
-                        <span>Level {problem.level}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Action */}
-                  <div className="flex items-center gap-1 text-neutral-400 group-hover:text-neutral-900 transition-colors shrink-0 ml-3">
-                    <span className="text-xs font-medium hidden sm:inline">
-                      {isSolved ? 'Review' : 'Solve'}
-                    </span>
-                    <ChevronRight size={15} />
-                  </div>
-                </div>
-              );
-            })}
-
-            {displayedProblems.length === 0 && (
-              <div className="py-12 text-center text-xs text-neutral-400">
-                No challenges match the active filter or search query.
+          {/* CHECK IF LEVEL IS LOCKED */}
+          {isLevelLocked ? (
+            <div className="bg-white border border-neutral-200 rounded-2xl p-8 text-center max-w-lg mx-auto shadow-sm my-6 space-y-3">
+              <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mx-auto">
+                <Lock size={20} />
               </div>
-            )}
-          </div>
+              <h3 className="text-base font-semibold text-neutral-900">
+                Level {selectedLevel} is Currently Locked
+              </h3>
+              <p className="text-xs text-neutral-500 leading-relaxed max-w-md mx-auto">
+                {isLevelLockedByAdmin 
+                  ? 'This level is locked by the faculty administrator for this assessment session.'
+                  : progressRequirementText}
+              </p>
+              <div className="pt-2 flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setSelectedLevel(1)}
+                  className="px-4 py-2 bg-neutral-900 text-white hover:bg-neutral-800 rounded-lg text-xs font-medium transition-colors cursor-pointer"
+                >
+                  Return to Level 1
+                </button>
+                {(currentUser.role === 'developer' || currentUser.role === 'admin' || currentUser.role === 'staff') && (
+                  <button
+                    onClick={handleOpenAdminView}
+                    className="px-3 py-2 border border-neutral-200 text-neutral-600 hover:text-neutral-900 rounded-lg text-xs font-medium cursor-pointer"
+                  >
+                    Manage in Admin
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Filter Bar & Search */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
+                {/* Difficulty Filter */}
+                <div className="inline-flex items-center gap-1 bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80 self-start">
+                  {(['All', 'Easy', 'Medium', 'Hard'] as const).map(diff => (
+                    <button
+                      key={diff}
+                      onClick={() => setDifficultyFilter(diff)}
+                      className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                        difficultyFilter === diff
+                          ? 'bg-white text-neutral-900 shadow-xs'
+                          : 'text-neutral-600 hover:text-neutral-900'
+                      }`}
+                    >
+                      {diff}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Search Input */}
+                <div className="relative w-full sm:w-60">
+                  <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search challenges..."
+                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-neutral-200 rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-400"
+                  />
+                </div>
+              </div>
+
+              {/* Problem List (Zero-Pill Discipline, Clean Unboxed Rows) */}
+              <div className="bg-white border border-neutral-200/90 rounded-xl divide-y divide-neutral-100 overflow-hidden shadow-2xs">
+                {displayedProblems.map((problem) => {
+                  const isSolved = solvedProblems.has(problem.id);
+                  const isAttempted = attemptedProblems.has(problem.id) && !isSolved;
+
+                  return (
+                    <div
+                      key={problem.id}
+                      onClick={() => handleSelectProblem(problem)}
+                      className="px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between hover:bg-neutral-50/80 transition-colors cursor-pointer group"
+                    >
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        {/* Status Indicator */}
+                        <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+                          {isSolved ? (
+                            <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                              <Check size={12} strokeWidth={2.5} />
+                            </div>
+                          ) : isAttempted ? (
+                            <div className="w-2.5 h-2.5 rounded-full bg-amber-400" title="Attempted" />
+                          ) : (
+                            <div className="w-2.5 h-2.5 rounded-full bg-neutral-200 group-hover:bg-neutral-300 transition-colors" />
+                          )}
+                        </div>
+
+                        {/* Title and Unboxed Metadata */}
+                        <div className="min-w-0">
+                          <div className="text-sm font-medium text-neutral-900 group-hover:text-blue-600 transition-colors truncate">
+                            {problem.title}
+                          </div>
+                          
+                          {/* Zero-Pill metadata with · typographic separators */}
+                          <div className="flex items-center gap-1.5 text-[11px] text-neutral-500 mt-0.5">
+                            <span className={
+                              problem.difficulty === 'Easy' ? 'text-emerald-600 font-medium' :
+                              problem.difficulty === 'Medium' ? 'text-amber-600 font-medium' :
+                              'text-rose-600 font-medium'
+                            }>
+                              {problem.difficulty}
+                            </span>
+                            <span>·</span>
+                            <span>{problem.testCases.length} test cases</span>
+                            <span>·</span>
+                            <span>Level {problem.level}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right Action */}
+                      <div className="flex items-center gap-1 text-neutral-400 group-hover:text-neutral-900 transition-colors shrink-0 ml-3">
+                        <span className="text-xs font-medium hidden sm:inline">
+                          {isSolved ? 'Review' : 'Solve'}
+                        </span>
+                        <ChevronRight size={15} />
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {displayedProblems.length === 0 && (
+                  <div className="py-12 text-center text-xs text-neutral-400">
+                    No challenges match the active filter or search query.
+                  </div>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Footer note */}
           <footer className="mt-8 pt-4 border-t border-neutral-200/60 text-center text-[11px] text-neutral-400">
@@ -1012,11 +1183,26 @@ export default function App() {
             <span>{reportNotification.message}</span>
           </div>
         )}
+
+        {/* Leaderboard Modal */}
+        {showLeaderboardModal && (
+          <LeaderboardModal
+            rows={computeLeaderboard(allProblems, currentUser.uid)}
+            settings={adminSettings}
+            currentUserId={currentUser.uid}
+            onClose={() => setShowLeaderboardModal(false)}
+          />
+        )}
+
+
+
       </div>
     );
   }
 
-  // Case 5: Workspace View (Clean IDE)
+  // =========================================================================
+  // VIEW: SOLVE WORKSPACE (CLEAN IDE)
+  // =========================================================================
   const isCurrentSolved = activeProblem ? solvedProblems.has(activeProblem.id) : false;
 
   return (
@@ -1126,6 +1312,7 @@ export default function App() {
                 onRun={handleRunCustom} 
                 onSubmit={handleSubmitCode} 
                 markers={editorMarkers} 
+                disableCopyPaste={adminSettings.disableCopyPaste}
               />
             </div>
 
@@ -1138,6 +1325,7 @@ export default function App() {
                 customOutput={customOutput}
                 customInput={customInput}
                 setCustomInput={setCustomInput}
+                hiddenTestVisibility={adminSettings.hiddenTestCasesVisibility}
               />
             </div>
           </div>

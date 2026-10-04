@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TestResult, ExecutionResult } from '../utils/executor';
-import { CheckCircle2, XCircle, Eye, EyeOff, Terminal, Loader2, AlertCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Eye, EyeOff, Terminal, Loader2, AlertCircle, Lock } from 'lucide-react';
+import { HiddenTestVisibilityMode } from '../types/admin';
 
 interface ConsoleProps {
   results: TestResult[] | null;
@@ -10,6 +11,7 @@ interface ConsoleProps {
   customOutput: ExecutionResult | null;
   customInput: string;
   setCustomInput: (val: string) => void;
+  hiddenTestVisibility?: HiddenTestVisibilityMode;
 }
 
 export const Console: React.FC<ConsoleProps> = ({ 
@@ -19,11 +21,13 @@ export const Console: React.FC<ConsoleProps> = ({
   isCustomRun, 
   customOutput, 
   customInput, 
-  setCustomInput 
+  setCustomInput,
+  hiddenTestVisibility = 'allow_reveal'
 }) => {
   const [revealedTests, setRevealedTests] = useState<Set<number>>(new Set());
 
   const toggleReveal = (index: number) => {
+    if (hiddenTestVisibility === 'strictly_hidden') return;
     setRevealedTests((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
@@ -152,17 +156,28 @@ export const Console: React.FC<ConsoleProps> = ({
                     </div>
 
                     {result.hidden && (
-                      <button 
-                        onClick={() => toggleReveal(result.index)}
-                        className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-neutral-200 transition-colors cursor-pointer px-2 py-0.5 rounded border border-neutral-700/60 bg-neutral-800/40"
-                      >
-                        {isRevealed ? <EyeOff size={11} /> : <Eye size={11} />}
-                        <span>{isRevealed ? 'Hide' : 'Reveal'}</span>
-                      </button>
+                      hiddenTestVisibility === 'strictly_hidden' ? (
+                        <span className="flex items-center gap-1 text-[11px] text-neutral-400 font-mono px-2 py-0.5 rounded border border-neutral-800 bg-neutral-900/50">
+                          <Lock size={10} className="text-amber-400" />
+                          <span>Concealed</span>
+                        </span>
+                      ) : hiddenTestVisibility === 'always_visible' ? (
+                        <span className="text-[11px] text-emerald-400 font-mono px-2 py-0.5 rounded border border-emerald-900/50 bg-emerald-950/30">
+                          Disclosed
+                        </span>
+                      ) : (
+                        <button 
+                          onClick={() => toggleReveal(result.index)}
+                          className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-neutral-200 transition-colors cursor-pointer px-2 py-0.5 rounded border border-neutral-700/60 bg-neutral-800/40"
+                        >
+                          {isRevealed ? <EyeOff size={11} /> : <Eye size={11} />}
+                          <span>{isRevealed ? 'Hide' : 'Reveal'}</span>
+                        </button>
+                      )
                     )}
                   </div>
 
-                  {(!result.hidden || isRevealed) && (
+                  {(!result.hidden || hiddenTestVisibility === 'always_visible' || (hiddenTestVisibility === 'allow_reveal' && isRevealed)) && (
                     <div className="space-y-2 text-[11px] mt-2.5 pt-2 border-t border-neutral-800/40">
                       <div>
                         <span className="text-neutral-500">Input:</span>
@@ -187,9 +202,11 @@ export const Console: React.FC<ConsoleProps> = ({
                     </div>
                   )}
 
-                  {result.hidden && !isRevealed && !result.passed && (
+                  {result.hidden && hiddenTestVisibility !== 'always_visible' && (!isRevealed || hiddenTestVisibility === 'strictly_hidden') && !result.passed && (
                     <div className="mt-2 text-[11px] text-neutral-400 italic">
-                      Hidden test case failed. Verify edge cases and loops.
+                      {hiddenTestVisibility === 'strictly_hidden'
+                        ? 'Hidden test case failed. Details are kept secret during this session.'
+                        : 'Hidden test case failed. Verify edge cases and loops.'}
                     </div>
                   )}
                 </div>

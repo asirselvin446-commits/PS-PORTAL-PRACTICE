@@ -5034,22 +5034,22 @@ export const problems: Problem[] = [
   },
   {
     "id": "l3-p47-min-max-temp",
-    "title": "47. Min and Max Temperature",
+    "title": "47. Min and Max",
     "difficulty": "Easy",
     "level": 3,
-    "description": "Print min and max temperature. If any temperature is negative, print 'Invalid temperature\\n' and terminate. Output: 'Min = %d\\nMax = %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n5 6 70 2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Min = 2\nMax = 70</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n-9 0 8 7</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Invalid temperature</pre>",
+    "description": "Print the minimum and maximum element in an array of integers. Output: 'Min = %d\\nMax = %d\\n'.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>4\n6 0 70 2</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>Min = 0\nMax = 70</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n-9 0 8 7</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>Min = -9\nMax = 8</pre>",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
       {
-        "input": "4\n5 6 70 2",
-        "expected": "Min = 2\nMax = 70",
+        "input": "4\n6 0 70 2",
+        "expected": "Min = 0\nMax = 70",
         "hidden": false,
         "matchType": "normalized"
       },
       {
         "input": "4\n-9 0 8 7",
-        "expected": "Invalid temperature",
+        "expected": "Min = -9\nMax = 8",
         "hidden": false,
         "matchType": "normalized"
       },

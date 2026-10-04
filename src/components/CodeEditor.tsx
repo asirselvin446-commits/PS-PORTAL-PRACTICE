@@ -18,6 +18,7 @@ interface CodeEditorProps {
   markers?: EditorMarker[];
   onRun?: () => void;
   onSubmit?: () => void;
+  disableCopyPaste?: boolean;
 }
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({ 
@@ -26,7 +27,8 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   language = 'c', 
   onRun, 
   onSubmit, 
-  markers = [] 
+  markers = [],
+  disableCopyPaste = false
 }) => {
   const monaco = useMonaco();
   
@@ -46,6 +48,15 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   }, [monaco, markers, value]);
 
   const handleEditorDidMount: OnMount = (editor, monacoInstance) => {
+    if (disableCopyPaste) {
+      editor.onKeyDown((e) => {
+        if ((e.ctrlKey || e.metaKey) && e.keyCode === monacoInstance.KeyCode.KeyV) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+    }
+
     editor.addCommand(monacoInstance.KeyMod.CtrlCmd | monacoInstance.KeyCode.Enter, () => {
       if (onRun) onRun();
     });

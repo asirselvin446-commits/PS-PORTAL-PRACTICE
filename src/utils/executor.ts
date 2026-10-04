@@ -92,6 +92,30 @@ const getCompilerOptionsString = (options?: CompilerOptions) => {
   return opts;
 };
 
+const JUDGE0_TIMEOUT_MS = 30000;
+
+async function fetchJudge0WithTimeout(url: string, init: RequestInit, timeoutMs = JUDGE0_TIMEOUT_MS): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, timeoutMs);
+
+  try {
+    const response = await fetch(url, {
+      ...init,
+      signal: controller.signal
+    });
+    return response;
+  } catch (err: any) {
+    if (err?.name === 'AbortError' || controller.signal.aborted) {
+      throw new Error('Code execution timed out (30s limit exceeded). The Judge0 server did not respond in time.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export const executeCode = async (
   code: string,
   functionName: string,
@@ -106,7 +130,7 @@ export const executeCode = async (
     for (let i = 0; i < testCases.length; i++) {
       const tc = testCases[i];
       
-      const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
+      const response = await fetchJudge0WithTimeout('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +187,7 @@ export const executeCode = async (
 export const executeCustomCode = async (code: string, input: string, options?: CompilerOptions): Promise<ExecutionResult> => {
   try {
     const compiler_options = getCompilerOptionsString(options);
-    const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
+    const response = await fetchJudge0WithTimeout('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
