@@ -1135,10 +1135,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                 <button
                                   onClick={() => setSelectedStudent(st)}
                                   className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-800 bg-neutral-100 hover:bg-neutral-200/90 rounded-md transition-colors cursor-pointer"
-                                  title="View full profile and submitted solutions"
+                                  title="View student status and submitted solutions"
                                 >
                                   <FileCode size={12} className="text-neutral-600" />
-                                  <span>View Code</span>
+                                  <span>View Status</span>
                                 </button>
 
                                 <button
