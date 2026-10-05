@@ -195,9 +195,25 @@ export default function App() {
 
   // Listen to Firebase Auth state for ps-portal-practice
   useEffect(() => {
-    // Complete a pending redirect sign-in (the popup-blocked fallback on
-    // mobile) and surface any error it produced. No-op when there is none.
-    getRedirectResult(auth).catch((err: any) => {
+    // Complete a pending redirect sign-in (the mobile flow) and surface any
+    // error it produced. No-op when there is none.
+    const redirectPendingAt = (() => { try { return localStorage.getItem('fxec_redirect_pending'); } catch { return null; } })();
+    const clearRedirectFlag = () => { try { localStorage.removeItem('fxec_redirect_pending'); } catch {} };
+
+    getRedirectResult(auth).then((result) => {
+      if (result?.user) {
+        clearRedirectFlag();
+      } else if (redirectPendingAt) {
+        // A redirect sign-in was started but came back with no result: the
+        // browser dropped the handoff or the Google step wasn't finished.
+        const ageMin = (Date.now() - new Date(redirectPendingAt).getTime()) / 60000;
+        clearRedirectFlag();
+        if (ageMin < 30) {
+          setAuthError('Sign-in didn\'t complete. Please tap "Sign in with Google Account" again and finish the Google account step without going back or switching tabs.');
+        }
+      }
+    }).catch((err: any) => {
+      clearRedirectFlag();
       if (!err) return;
       console.error('Redirect sign-in error:', err);
       if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
@@ -207,6 +223,7 @@ export default function App() {
 
     const unsubscribe = onAuthStateChanged(auth, async (fbUser: FirebaseUser | null) => {
       if (fbUser) {
+        clearRedirectFlag();
         const email = fbUser.email || '';
         if (isFrancisXavierEmail(email)) {
           setUnauthorizedEmail(null);
@@ -470,18 +487,27 @@ export default function App() {
   // mobile where popups are unreliable (blocked by Edge, or opened and
   // instantly closed by the OS — both strand the user on the sign-in page).
   // Returns null when a redirect is in flight (page navigates away).
+  const startRedirectSignIn = async () => {
+    // Remember that a redirect was started (localStorage survives even if the
+    // browser drops the redirect state). On return, if there's no signed-in
+    // user and no redirect result, we can tell the user what happened instead
+    // of failing silently.
+    try { localStorage.setItem('fxec_redirect_pending', new Date().toISOString()); } catch {}
+    await signInWithRedirect(auth, googleProvider);
+  };
+
   const signInWithGoogle = async () => {
     const isMobileBrowser =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobileBrowser) {
-      await signInWithRedirect(auth, googleProvider);
+      await startRedirectSignIn();
       return null;
     }
     try {
       return await signInWithPopup(auth, googleProvider);
     } catch (err: any) {
       if (err?.code === 'auth/popup-blocked') {
-        await signInWithRedirect(auth, googleProvider);
+        await startRedirectSignIn();
         return null;
       }
       throw err;
