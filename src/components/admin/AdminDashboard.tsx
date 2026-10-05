@@ -2208,6 +2208,59 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         onRefresh={refreshData}
       />
 
+      {/* Confirmation Modal (bulk reset/delete + row actions) */}
+      <ConfirmationModal
+        isOpen={confirmModalState.isOpen}
+        title={confirmModalState.title}
+        message={confirmModalState.message}
+        confirmText={confirmModalState.confirmText}
+        confirmVariant={confirmModalState.confirmVariant}
+        requireTextMatch={confirmModalState.requireTextMatch}
+        onConfirm={confirmModalState.onConfirm}
+        onClose={() => setConfirmModalState(prev => ({ ...prev, isOpen: false }))}
+      />
+
+      {/* Bulk Assign Batch Modal */}
+      {bulkBatchModalOpen && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white border border-neutral-200 rounded-xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95">
+            <div className="px-5 py-4 border-b border-neutral-100 bg-neutral-50/70">
+              <h3 className="font-semibold text-sm text-neutral-900">Assign Batch</h3>
+              <p className="text-xs text-neutral-500 mt-0.5">
+                Assign <span className="font-bold text-neutral-900">{selectedUids.size} selected student(s)</span> to a batch
+              </p>
+            </div>
+            <div className="p-5 space-y-4">
+              <select
+                value={bulkBatchChoice}
+                onChange={(e) => setBulkBatchChoice(e.target.value)}
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2 text-sm text-neutral-800 focus:outline-none cursor-pointer"
+              >
+                <option value="">Select a batch…</option>
+                {batches.map(b => (
+                  <option key={b.name} value={b.name}>{b.name}</option>
+                ))}
+              </select>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setBulkBatchModalOpen(false)}
+                  className="px-3.5 py-2 text-xs font-medium rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleBulkAssignBatchSubmit}
+                  disabled={!bulkBatchChoice}
+                  className="px-3.5 py-2 text-xs font-medium rounded-lg bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                >
+                  Assign Batch
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Similarity Review Modal */}
       <SimilarityReviewModal
         isOpen={showSimilarityModal}
