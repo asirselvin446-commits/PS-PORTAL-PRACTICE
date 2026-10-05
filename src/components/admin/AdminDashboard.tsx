@@ -1045,7 +1045,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </tr>
                     ) : (
                       filteredStudents.map((st, idx) => {
-                        const solvedCount = st.solvedProblems?.length || 0;
+                        // Count only solved IDs that still exist in the problem set (deduped);
+                        // stale IDs from renamed/removed problems must not inflate the count.
+                        const solvedSet = new Set(st.solvedProblems || []);
+                        const solvedCount = problems.filter(p => solvedSet.has(p.id)).length;
                         const pct = Math.round((solvedCount / problems.length) * 100);
                         const isMenuOpen = activeRowMenuUid === st.uid;
 
@@ -1600,6 +1603,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             .filter(s => isDeveloper || s.email.trim().toLowerCase() !== DEVELOPER_EMAIL.toLowerCase())
             .map(s => {
               const assigned = roleAssignments[s.email.trim().toLowerCase()];
+              const sSolved = new Set(s.solvedProblems || []);
               return {
                 uid: s.uid,
                 displayName: s.displayName,
@@ -1607,7 +1611,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 role: (assigned || 'student') as UserRole,
                 department: s.department,
                 rollNumber: s.rollNumber,
-                solvedCount: s.solvedProblems.length
+                solvedCount: problems.filter(p => sSolved.has(p.id)).length
               };
             });
 

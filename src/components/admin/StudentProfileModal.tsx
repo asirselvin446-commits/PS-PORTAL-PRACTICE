@@ -297,10 +297,10 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
               <div className="bg-white p-2.5 rounded-lg border border-neutral-200/80">
                 <div className="flex items-center justify-between text-[11px] mb-1">
                   <span className="text-neutral-500 font-medium">Overall Solved</span>
-                  <span className="font-mono font-bold text-neutral-900">{solvedSet.size} / {problems.length}</span>
+                  <span className="font-mono font-bold text-neutral-900">{solvedProblemsList.length} / {problems.length}</span>
                 </div>
                 <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-neutral-900 rounded-full" style={{ width: `${Math.round((solvedSet.size / problems.length) * 100)}%` }} />
+                  <div className="h-full bg-neutral-900 rounded-full" style={{ width: `${Math.round((solvedProblemsList.length / problems.length) * 100)}%` }} />
                 </div>
               </div>
 
