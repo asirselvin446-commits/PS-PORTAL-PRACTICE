@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, deleteField, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Problem, TestCase, problems as defaultProblems, LEVELS } from '../data/problems';
 import { 
@@ -665,6 +665,20 @@ export async function overrideStudentProblem(
       attemptedProblems: student.attemptedProblems,
       updatedAt: new Date().toISOString()
     }, { merge: true });
+
+    // Keep the submissions map on the user doc in sync so the solve record is
+    // consistent on every device (previously only the progress doc was updated,
+    // leaving solved-without-code records visible elsewhere).
+    const userRef = doc(db, 'users', uid);
+    if (action === 'solve' && student.submissions?.[problemId]) {
+      await setDoc(userRef, {
+        [`submissions.${problemId}`]: student.submissions[problemId]
+      }, { merge: true });
+    } else if (action === 'unsolve' || action === 'attempt') {
+      await updateDoc(userRef, {
+        [`submissions.${problemId}`]: deleteField()
+      }).catch(() => {});
+    }
   } catch (err) {
     console.warn('Firestore override sync notice:', err);
   }
