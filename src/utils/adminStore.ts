@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, deleteField, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, deleteField, collection, getDocs, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Problem, TestCase, problems as defaultProblems, LEVELS } from '../data/problems';
 import { 
@@ -351,6 +351,17 @@ export function getEffectiveProblems(): Problem[] {
   return [...mergedDefaults, ...custom];
 }
 
+// Real test-case count for a problem (default + overrides + custom). Used so
+// stored submission records carry actual counts instead of hardcoded placeholders.
+export function getProblemTestCount(problemId: string): number {
+  try {
+    const p = getEffectiveProblems().find(x => x.id === problemId);
+    return p ? p.testCases.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export async function saveProblemOverride(override: ProblemOverride): Promise<void> {
   const overrides = getProblemOverrides();
   overrides[override.id] = { ...(overrides[override.id] || {}), ...override };
@@ -430,15 +441,20 @@ export async function fetchStudentsFromFirestore(throwOnError = false): Promise<
         let solvedArr: string[] = Array.isArray(data.solvedProblems) ? data.solvedProblems : [];
         let attemptedArr: string[] = Array.isArray(data.attemptedProblems) ? data.attemptedProblems : [];
 
-        // Check if user has progress doc
+        // Check if user has progress doc. The progress subdoc is the canonical
+        // progress record; when both docs carry arrays, prefer the NEWER one by
+        // updatedAt (never by array length — a reset produces a shorter array).
         try {
           const progDoc = await getDoc(doc(db, 'users', uid, 'progress', 'current'));
           if (progDoc.exists()) {
             const pData = progDoc.data();
-            if (Array.isArray(pData.solvedProblems) && pData.solvedProblems.length >= solvedArr.length) {
+            const progTime = pData.updatedAt ? Date.parse(pData.updatedAt) : -1;
+            const userTime = data.updatedAt ? Date.parse(data.updatedAt) : -1;
+            const useProgress = progTime >= userTime;
+            if (Array.isArray(pData.solvedProblems) && (useProgress || !Array.isArray(data.solvedProblems))) {
               solvedArr = pData.solvedProblems;
             }
-            if (Array.isArray(pData.attemptedProblems)) {
+            if (Array.isArray(pData.attemptedProblems) && (useProgress || !Array.isArray(data.attemptedProblems))) {
               attemptedArr = pData.attemptedProblems;
             }
           }
@@ -473,8 +489,11 @@ export async function fetchStudentsFromFirestore(throwOnError = false): Promise<
           unlockedLevels: data.unlockedLevels || local?.unlockedLevels || [],
           role: resolvedRole,
           photoURL: data.photoURL || undefined,
-          solvedProblems: Array.from(new Set([...solvedArr, ...(local?.solvedProblems || [])])),
-          attemptedProblems: Array.from(new Set([...attemptedArr, ...(local?.attemptedProblems || [])])),
+          // Firestore is authoritative for progress. Do NOT union with the local
+          // roster cache here — that resurrects solved IDs cleared elsewhere
+          // (e.g. a reset on another device) and bakes the ghosts into localStorage.
+          solvedProblems: Array.from(new Set(solvedArr)),
+          attemptedProblems: Array.from(new Set(attemptedArr)),
           lastActive: data.lastActive || data.lastLoginAt || data.updatedAt || new Date().toISOString(),
           joinedAt: data.createdAt || data.joinedAt || new Date().toISOString(),
           submissions: {
@@ -546,10 +565,12 @@ export async function registerOrUpdateStudent(profile: Partial<StudentProfile> &
   effectiveSolved.forEach((pid: string) => {
     const code = localStorage.getItem(`code_${profile.uid}_${pid}`) || localStorage.getItem(`passed_code_${profile.uid}_${pid}`);
     if (code) {
+      const storedPassed = parseInt(localStorage.getItem(`passed_count_${profile.uid}_${pid}`) || '', 10);
+      const total = getProblemTestCount(pid);
       submissions[pid] = {
         code,
-        passedCount: 4,
-        totalCount: 4,
+        passedCount: Number.isFinite(storedPassed) ? storedPassed : total,
+        totalCount: total,
         passedAt: new Date().toISOString()
       };
     }
@@ -631,11 +652,12 @@ export async function overrideStudentProblem(
     attempted.delete(problemId);
     if (!student.submissions) student.submissions = {};
     if (!student.submissions[problemId]) {
+      const testTotal = getProblemTestCount(problemId);
       student.submissions[problemId] = {
         code: `// Manually verified & credited by Faculty Administrator\n// Date: ${new Date().toLocaleDateString()}\n#include <stdio.h>\n\nint main() {\n    // Solution approved by evaluation committee\n    return 0;\n}`,
         passedAt: new Date().toISOString(),
-        passedCount: 4,
-        totalCount: 4
+        passedCount: testTotal,
+        totalCount: testTotal
       };
     }
     localStorage.setItem(`passed_code_${uid}_${problemId}`, student.submissions[problemId].code);
@@ -658,8 +680,11 @@ export async function overrideStudentProblem(
   localStorage.setItem(`attempted_${uid}`, JSON.stringify(student.attemptedProblems));
 
   try {
+    // Batch all Firestore writes so the progress subdoc and the roster doc
+    // stay in sync (partial failure used to leave solved-without-code records).
+    const batch = writeBatch(db);
     const progressRef = doc(db, 'users', uid, 'progress', 'current');
-    await setDoc(progressRef, {
+    batch.set(progressRef, {
       userId: uid,
       solvedProblems: student.solvedProblems,
       attemptedProblems: student.attemptedProblems,
@@ -671,14 +696,16 @@ export async function overrideStudentProblem(
     // leaving solved-without-code records visible elsewhere).
     const userRef = doc(db, 'users', uid);
     if (action === 'solve' && student.submissions?.[problemId]) {
-      await setDoc(userRef, {
+      batch.set(userRef, {
         [`submissions.${problemId}`]: student.submissions[problemId]
       }, { merge: true });
     } else if (action === 'unsolve' || action === 'attempt') {
-      await updateDoc(userRef, {
+      // set+merge with deleteField is safe even if the doc doesn't exist yet.
+      batch.set(userRef, {
         [`submissions.${problemId}`]: deleteField()
-      }).catch(() => {});
+      }, { merge: true });
     }
+    await batch.commit();
   } catch (err) {
     console.warn('Firestore override sync notice:', err);
   }
@@ -690,12 +717,18 @@ export async function resetStudentProgress(uid: string, level?: number, allProbl
   if (idx < 0) return;
 
   const student = students[idx];
+  // Problem IDs whose submission records must be deleted server-side too.
+  // (Firestore merge:set with an empty/partial map does NOT remove existing
+  // keys — they must be deleted explicitly, otherwise the Timeline tab keeps
+  // showing pre-reset submissions.)
+  let submissionPidsToDelete: string[] | 'all' = [];
   if (level !== undefined && allProblems) {
     const levelProblemIds = new Set(allProblems.filter(p => p.level === level).map(p => p.id));
     student.solvedProblems = (student.solvedProblems || []).filter(pid => !levelProblemIds.has(pid));
     student.attemptedProblems = (student.attemptedProblems || []).filter(pid => !levelProblemIds.has(pid));
     if (student.submissions) {
       for (const pid of levelProblemIds) {
+        if (student.submissions[pid]) submissionPidsToDelete.push(pid);
         delete student.submissions[pid];
         localStorage.removeItem(`passed_code_${uid}_${pid}`);
         localStorage.removeItem(`code_${uid}_${pid}`);
@@ -705,6 +738,7 @@ export async function resetStudentProgress(uid: string, level?: number, allProbl
     student.solvedProblems = [];
     student.attemptedProblems = [];
     student.submissions = {};
+    submissionPidsToDelete = 'all';
     localStorage.removeItem(`solved_${uid}`);
     localStorage.removeItem(`attempted_${uid}`);
     for (let k = localStorage.length - 1; k >= 0; k--) {
@@ -719,22 +753,35 @@ export async function resetStudentProgress(uid: string, level?: number, allProbl
   saveStudents(students);
 
   try {
+    // Batch both writes so the roster doc and the progress subdoc can never
+    // disagree (partial failure was one source of ghost solved counts).
+    const batch = writeBatch(db);
     const userRef = doc(db, 'users', uid);
-    await setDoc(userRef, {
+    const userUpdate: Record<string, unknown> = {
       solvedProblems: student.solvedProblems,
       attemptedProblems: student.attemptedProblems,
-      submissions: student.submissions || {},
       lastActive: student.lastActive,
       updatedAt: new Date().toISOString()
-    }, { merge: true });
+    };
+    if (submissionPidsToDelete === 'all') {
+      // Delete the whole submissions map: merge-setting an empty object would
+      // silently keep every existing key server-side.
+      userUpdate['submissions'] = deleteField();
+    } else {
+      for (const pid of submissionPidsToDelete) {
+        userUpdate[`submissions.${pid}`] = deleteField();
+      }
+    }
+    batch.set(userRef, userUpdate, { merge: true });
 
     const progressRef = doc(db, 'users', uid, 'progress', 'current');
-    await setDoc(progressRef, {
+    batch.set(progressRef, {
       userId: uid,
       solvedProblems: student.solvedProblems,
       attemptedProblems: student.attemptedProblems,
       updatedAt: new Date().toISOString()
     }, { merge: true });
+    await batch.commit();
   } catch (err) {
     console.warn('Firestore reset progress notice:', err);
   }
