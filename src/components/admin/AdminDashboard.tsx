@@ -224,6 +224,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     try {
       const cloudStudents = await fetchStudentsFromFirestore(showCloudToast);
       setStudents(cloudStudents);
+      // Keep an open profile modal in sync — otherwise it shows stale
+      // solved counts / timeline entries after actions like reset.
+      setSelectedStudent(prev => prev ? (cloudStudents.find(s => s.uid === prev.uid) || null) : prev);
       setLeaderboardRows(computeLeaderboard(problems));
       if (showCloudToast) {
         showToast(`Synced ${cloudStudents.length} student profiles from cloud`, 'success');
