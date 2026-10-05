@@ -27,6 +27,8 @@ import {
   auth,
   googleProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   COLLEGE_DOMAIN, 
   COLLEGE_NAME,
@@ -193,6 +195,16 @@ export default function App() {
 
   // Listen to Firebase Auth state for ps-portal-practice
   useEffect(() => {
+    // Complete a pending redirect sign-in (the popup-blocked fallback on
+    // mobile) and surface any error it produced. No-op when there is none.
+    getRedirectResult(auth).catch((err: any) => {
+      if (!err) return;
+      console.error('Redirect sign-in error:', err);
+      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+        setAuthError(err.message || 'Google Authentication failed. Please try again.');
+      }
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (fbUser: FirebaseUser | null) => {
       if (fbUser) {
         const email = fbUser.email || '';
@@ -454,13 +466,29 @@ export default function App() {
     }
   };
 
+  // Google sign-in: popup first (best UX on desktop), falling back to a
+  // full-page redirect when the browser blocks popups (mobile Edge, in-app
+  // browsers). Returns null when a redirect is in flight (page navigates away).
+  const signInWithGoogle = async () => {
+    try {
+      return await signInWithPopup(auth, googleProvider);
+    } catch (err: any) {
+      if (err?.code === 'auth/popup-blocked') {
+        await signInWithRedirect(auth, googleProvider);
+        return null;
+      }
+      throw err;
+    }
+  };
+
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
     setAuthError(null);
     setAuthErrorLink(null);
 
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await signInWithGoogle();
+      if (!result) return; // redirect flow — page is navigating to Google
       const email = result.user.email || '';
       
       if (!isFrancisXavierEmail(email)) {
@@ -494,7 +522,8 @@ export default function App() {
     try {
       await signOut(auth);
       localStorage.removeItem('fxec_session_user');
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await signInWithGoogle();
+      if (!result) return; // redirect flow — page is navigating to Google
       const email = result.user.email || '';
 
       if (!isFrancisXavierEmail(email)) {
