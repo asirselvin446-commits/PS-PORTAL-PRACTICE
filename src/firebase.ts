@@ -20,7 +20,7 @@ export const AUTHORIZED_ADMIN_EMAILS = [
   'faculty.admin@francisxavier.ac.in'
 ];
 
-export type UserRole = 'developer' | 'admin' | 'staff' | 'student';
+export type UserRole = 'developer' | 'primary_admin' | 'admin' | 'staff' | 'student';
 
 export interface PortalUser {
   uid: string;
@@ -29,6 +29,9 @@ export interface PortalUser {
   rollNumber: string;
   department: string;
   role: UserRole;
+  batch?: string;
+  isSuspended?: boolean;
+  unlockedLevels?: number[];
   photoURL?: string;
   signedInAt: string;
 }

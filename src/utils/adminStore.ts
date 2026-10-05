@@ -1,7 +1,17 @@
-import { doc, getDoc, setDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Problem, TestCase, problems as defaultProblems } from '../data/problems';
-import { AdminSettings, StudentProfile, ProblemOverride, LeaderboardRow, StudentSubmission, UserRole } from '../types/admin';
+import { Problem, TestCase, problems as defaultProblems, LEVELS } from '../data/problems';
+import { 
+  AdminSettings, 
+  StudentProfile, 
+  ProblemOverride, 
+  LeaderboardRow, 
+  StudentSubmission, 
+  UserRole,
+  Batch,
+  Announcement,
+  CodeSimilarityPair
+} from '../types/admin';
 
 const SETTINGS_KEY = 'fxec_admin_settings';
 const OVERRIDES_KEY = 'fxec_problem_overrides';
@@ -11,8 +21,10 @@ const LEADERBOARD_SNAPSHOT_KEY = 'fxec_leaderboard_frozen_snapshot';
 
 export const DEFAULT_MIN_PROBLEMS_TO_UNLOCK_LEVEL: Record<number, number> = (() => {
   const map: Record<number, number> = { 2: 5, 3: 15 };
-  for (let lvl = 4; lvl <= 40; lvl++) {
-    map[lvl] = 15 + (lvl - 3) * 10;
+  for (const lvl of LEVELS) {
+    if (lvl > 3 && !map[lvl]) {
+      map[lvl] = 15 + (lvl - 3) * 10;
+    }
   }
   return map;
 })();
@@ -41,7 +53,9 @@ const problemsListeners: Set<Listener<Problem[]>> = new Set();
 // Settings Management
 // -------------------------------------------------------------
 
-export function getAdminSettings(): AdminSettings {
+let isSyncingSettings = false;
+
+function readLocalAdminSettings(): AdminSettings {
   try {
     const raw = localStorage.getItem(SETTINGS_KEY);
     if (raw) {
@@ -62,10 +76,74 @@ export function getAdminSettings(): AdminSettings {
   return { ...DEFAULT_ADMIN_SETTINGS };
 }
 
-export async function assignUserRole(email: string, role: UserRole): Promise<void> {
+export async function fetchAdminSettingsFromFirestore(): Promise<AdminSettings> {
+  const local = readLocalAdminSettings();
+  try {
+    const settingsDocRef = doc(db, 'settings', 'global');
+    const snap = await getDoc(settingsDocRef);
+    if (snap.exists()) {
+      const remoteData = snap.data() as Partial<AdminSettings> & { updatedAt?: string };
+      const remoteUpdatedAt = remoteData.updatedAt ? new Date(remoteData.updatedAt).getTime() : 0;
+      const localUpdatedAt = local.updatedAt ? new Date(local.updatedAt).getTime() : 0;
+
+      // Use Firestore document when it is newer
+      if (remoteUpdatedAt > localUpdatedAt) {
+        const merged: AdminSettings = {
+          ...DEFAULT_ADMIN_SETTINGS,
+          ...remoteData,
+          roleAssignments: remoteData.roleAssignments || {},
+          minProblemsToUnlockLevel: {
+            ...DEFAULT_MIN_PROBLEMS_TO_UNLOCK_LEVEL,
+            ...(remoteData.minProblemsToUnlockLevel || {})
+          },
+          updatedAt: remoteData.updatedAt
+        };
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(merged));
+        settingsListeners.forEach(listener => listener(merged));
+        return merged;
+      }
+    }
+  } catch (err) {
+    console.warn('Error fetching admin settings from Firestore, falling back to localStorage:', err);
+  }
+  return local;
+}
+
+export function getAdminSettings(): AdminSettings {
+  const local = readLocalAdminSettings();
+
+  // Load path: fetch Firestore document and use it when newer, falling back to localStorage
+  if (!isSyncingSettings && typeof window !== 'undefined') {
+    isSyncingSettings = true;
+    fetchAdminSettingsFromFirestore().finally(() => {
+      isSyncingSettings = false;
+    });
+  }
+
+  return local;
+}
+
+export async function assignUserRole(email: string, role: UserRole, operatorRole?: UserRole): Promise<void> {
   const normalized = email.trim().toLowerCase();
-  if (normalized === 'asirselvin446@gmail.com' && role !== 'developer') {
+  if (normalized === 'asirselvin446@gmail.com') {
     throw new Error('Developer account role cannot be changed.');
+  }
+
+  // Operator authorization check
+  if (operatorRole && operatorRole !== 'developer' && operatorRole !== 'primary_admin') {
+    throw new Error('Unauthorized: Only Master Developer or Primary Administrator can assign roles.');
+  }
+
+  // Permission checks if operator is Primary Admin
+  if (operatorRole === 'primary_admin') {
+    if (role !== 'admin' && role !== 'staff') {
+      throw new Error('Primary Administrator can only assign Sub-Admin or Staff roles.');
+    }
+    const currentSettings = getAdminSettings();
+    const existingTargetRole = currentSettings.roleAssignments?.[normalized];
+    if (existingTargetRole === 'primary_admin' || existingTargetRole === 'developer') {
+      throw new Error('Primary Administrator cannot modify another Primary Admin or Developer.');
+    }
   }
 
   const settings = getAdminSettings();
@@ -97,13 +175,25 @@ export async function assignUserRole(email: string, role: UserRole): Promise<voi
   }
 }
 
-export async function removeUserRole(email: string): Promise<void> {
+export async function removeUserRole(email: string, operatorRole?: UserRole): Promise<void> {
   const normalized = email.trim().toLowerCase();
   if (normalized === 'asirselvin446@gmail.com') {
     throw new Error('Developer account role cannot be removed.');
   }
 
+  // Operator authorization check
+  if (operatorRole && operatorRole !== 'developer' && operatorRole !== 'primary_admin') {
+    throw new Error('Unauthorized: Only Master Developer or Primary Administrator can remove roles.');
+  }
+
   const settings = getAdminSettings();
+  if (operatorRole === 'primary_admin') {
+    const existingTargetRole = settings.roleAssignments?.[normalized];
+    if (existingTargetRole === 'primary_admin' || existingTargetRole === 'developer') {
+      throw new Error('Primary Administrator cannot remove Primary Admin or Developer accounts.');
+    }
+  }
+
   const updatedAssignments = { ...(settings.roleAssignments || {}) };
   delete updatedAssignments[normalized];
 
@@ -131,16 +221,18 @@ export async function removeUserRole(email: string): Promise<void> {
 }
 
 export async function saveAdminSettings(newSettings: AdminSettings): Promise<void> {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
-  settingsListeners.forEach(listener => listener(newSettings));
+  const timestamp = new Date().toISOString();
+  const settingsWithTimestamp: AdminSettings = {
+    ...newSettings,
+    updatedAt: timestamp
+  };
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settingsWithTimestamp));
+  settingsListeners.forEach(listener => listener(settingsWithTimestamp));
 
   // Sync to Firestore
   try {
     const settingsDoc = doc(db, 'settings', 'global');
-    await setDoc(settingsDoc, {
-      ...newSettings,
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
+    await setDoc(settingsDoc, settingsWithTimestamp, { merge: true });
   } catch (err) {
     console.warn('Firestore settings sync notice:', err);
   }
@@ -148,6 +240,13 @@ export async function saveAdminSettings(newSettings: AdminSettings): Promise<voi
 
 export function subscribeAdminSettings(listener: Listener<AdminSettings>): () => void {
   settingsListeners.add(listener);
+  // Also initiate background Firestore sync if not already done
+  if (!isSyncingSettings && typeof window !== 'undefined') {
+    isSyncingSettings = true;
+    fetchAdminSettingsFromFirestore().finally(() => {
+      isSyncingSettings = false;
+    });
+  }
   return () => { settingsListeners.delete(listener); };
 }
 
@@ -155,22 +254,79 @@ export function subscribeAdminSettings(listener: Listener<AdminSettings>): () =>
 // Problem & Test Case Overrides
 // -------------------------------------------------------------
 
+let hasFetchedOverrides = false;
+let hasFetchedCustomProblems = false;
+
+export async function fetchProblemOverridesFromFirestore(): Promise<Record<string, ProblemOverride>> {
+  try {
+    const overrideDoc = doc(db, 'settings', 'problem_overrides');
+    const snap = await getDoc(overrideDoc);
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data.overrides) {
+        localStorage.setItem(OVERRIDES_KEY, JSON.stringify(data.overrides));
+        const updatedProblems = getEffectiveProblems();
+        problemsListeners.forEach(listener => listener(updatedProblems));
+        return data.overrides;
+      }
+    }
+  } catch (err) {
+    console.warn('Firestore problem overrides fetch notice:', err);
+  }
+  return getProblemOverrides();
+}
+
 export function getProblemOverrides(): Record<string, ProblemOverride> {
+  let overrides: Record<string, ProblemOverride> = {};
   try {
     const raw = localStorage.getItem(OVERRIDES_KEY);
-    return raw ? JSON.parse(raw) : {};
+    overrides = raw ? JSON.parse(raw) : {};
   } catch {
-    return {};
+    overrides = {};
   }
+
+  if (!hasFetchedOverrides && typeof window !== 'undefined') {
+    hasFetchedOverrides = true;
+    fetchProblemOverridesFromFirestore().catch(() => {});
+  }
+
+  return overrides;
+}
+
+export async function fetchCustomProblemsFromFirestore(): Promise<Problem[]> {
+  try {
+    const customDoc = doc(db, 'settings', 'custom_problems');
+    const snap = await getDoc(customDoc);
+    if (snap.exists()) {
+      const data = snap.data();
+      if (Array.isArray(data.problems)) {
+        localStorage.setItem(CUSTOM_PROBLEMS_KEY, JSON.stringify(data.problems));
+        const updatedProblems = getEffectiveProblems();
+        problemsListeners.forEach(listener => listener(updatedProblems));
+        return data.problems;
+      }
+    }
+  } catch (err) {
+    console.warn('Firestore custom problems fetch notice:', err);
+  }
+  return getCustomAddedProblems();
 }
 
 export function getCustomAddedProblems(): Problem[] {
+  let list: Problem[] = [];
   try {
     const raw = localStorage.getItem(CUSTOM_PROBLEMS_KEY);
-    return raw ? JSON.parse(raw) : [];
+    list = raw ? JSON.parse(raw) : [];
   } catch {
-    return [];
+    list = [];
   }
+
+  if (!hasFetchedCustomProblems && typeof window !== 'undefined') {
+    hasFetchedCustomProblems = true;
+    fetchCustomProblemsFromFirestore().catch(() => {});
+  }
+
+  return list;
 }
 
 export function getEffectiveProblems(): Problem[] {
@@ -219,6 +375,14 @@ export async function addCustomProblem(problem: Problem): Promise<void> {
 
   const updatedProblems = getEffectiveProblems();
   problemsListeners.forEach(listener => listener(updatedProblems));
+
+  // Sync to Firestore so custom problems survive across devices, consistent with problem overrides
+  try {
+    const customDoc = doc(db, 'settings', 'custom_problems');
+    await setDoc(customDoc, { problems: filtered, updatedAt: new Date().toISOString() }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore custom problem sync notice:', err);
+  }
 }
 
 export async function deleteCustomProblem(problemId: string): Promise<void> {
@@ -231,6 +395,13 @@ export async function deleteCustomProblem(problemId: string): Promise<void> {
 
   const updatedProblems = getEffectiveProblems();
   problemsListeners.forEach(listener => listener(updatedProblems));
+
+  try {
+    const customDoc = doc(db, 'settings', 'custom_problems');
+    await setDoc(customDoc, { problems: custom, updatedAt: new Date().toISOString() }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore custom problem delete notice:', err);
+  }
 }
 
 export function subscribeProblems(listener: Listener<Problem[]>): () => void {
@@ -242,7 +413,7 @@ export function subscribeProblems(listener: Listener<Problem[]>): () => void {
 // Student Profiles & Submissions Management
 // -------------------------------------------------------------
 
-export async function fetchStudentsFromFirestore(): Promise<StudentProfile[]> {
+export async function fetchStudentsFromFirestore(throwOnError = false): Promise<StudentProfile[]> {
   try {
     const usersCol = collection(db, 'users');
     const snapshot = await getDocs(usersCol);
@@ -297,6 +468,9 @@ export async function fetchStudentsFromFirestore(): Promise<StudentProfile[]> {
           displayName: data.displayName || data.email?.split('@')[0] || 'Student',
           rollNumber: data.rollNumber || data.email?.split('@')[0]?.toUpperCase() || 'UNREGISTERED',
           department: data.department || 'Computer Science & Engineering',
+          batch: data.batch || local?.batch || undefined,
+          isSuspended: data.isSuspended ?? local?.isSuspended ?? false,
+          unlockedLevels: data.unlockedLevels || local?.unlockedLevels || [],
           role: resolvedRole,
           photoURL: data.photoURL || undefined,
           solvedProblems: Array.from(new Set([...solvedArr, ...(local?.solvedProblems || [])])),
@@ -319,6 +493,9 @@ export async function fetchStudentsFromFirestore(): Promise<StudentProfile[]> {
     }
   } catch (err) {
     console.warn('Notice: Firestore student fetch fallback to local cache:', err);
+    if (throwOnError) {
+      throw err;
+    }
   }
 
   return getStoredStudents();
@@ -384,6 +561,9 @@ export async function registerOrUpdateStudent(profile: Partial<StudentProfile> &
     displayName: profile.displayName || profile.email.split('@')[0],
     rollNumber: profile.rollNumber || profile.email.split('@')[0].toUpperCase(),
     department: profile.department || 'Computer Science & Engineering',
+    batch: profile.batch || (existingIdx >= 0 ? students[existingIdx].batch : undefined),
+    isSuspended: profile.isSuspended ?? (existingIdx >= 0 ? students[existingIdx].isSuspended : false),
+    unlockedLevels: profile.unlockedLevels || (existingIdx >= 0 ? students[existingIdx].unlockedLevels : []),
     role: profile.role || 'student',
     photoURL: profile.photoURL,
     solvedProblems: Array.from(new Set(effectiveSolved)),
@@ -490,26 +670,55 @@ export async function overrideStudentProblem(
   }
 }
 
-export async function resetStudentProgress(uid: string): Promise<void> {
+export async function resetStudentProgress(uid: string, level?: number, allProblems?: Problem[]): Promise<void> {
   const students = getStoredStudents();
   const idx = students.findIndex(s => s.uid === uid);
-  if (idx >= 0) {
-    students[idx].solvedProblems = [];
-    students[idx].attemptedProblems = [];
-    students[idx].submissions = {};
-    students[idx].lastActive = new Date().toISOString();
-    saveStudents(students);
-  }
+  if (idx < 0) return;
 
-  localStorage.removeItem(`solved_${uid}`);
-  localStorage.removeItem(`attempted_${uid}`);
+  const student = students[idx];
+  if (level !== undefined && allProblems) {
+    const levelProblemIds = new Set(allProblems.filter(p => p.level === level).map(p => p.id));
+    student.solvedProblems = (student.solvedProblems || []).filter(pid => !levelProblemIds.has(pid));
+    student.attemptedProblems = (student.attemptedProblems || []).filter(pid => !levelProblemIds.has(pid));
+    if (student.submissions) {
+      for (const pid of levelProblemIds) {
+        delete student.submissions[pid];
+        localStorage.removeItem(`passed_code_${uid}_${pid}`);
+        localStorage.removeItem(`code_${uid}_${pid}`);
+      }
+    }
+  } else {
+    student.solvedProblems = [];
+    student.attemptedProblems = [];
+    student.submissions = {};
+    localStorage.removeItem(`solved_${uid}`);
+    localStorage.removeItem(`attempted_${uid}`);
+    for (let k = localStorage.length - 1; k >= 0; k--) {
+      const key = localStorage.key(k);
+      if (key && (key.startsWith(`code_${uid}_`) || key.startsWith(`passed_code_${uid}_`))) {
+        localStorage.removeItem(key);
+      }
+    }
+  }
+  student.lastActive = new Date().toISOString();
+  students[idx] = student;
+  saveStudents(students);
 
   try {
+    const userRef = doc(db, 'users', uid);
+    await setDoc(userRef, {
+      solvedProblems: student.solvedProblems,
+      attemptedProblems: student.attemptedProblems,
+      submissions: student.submissions || {},
+      lastActive: student.lastActive,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+
     const progressRef = doc(db, 'users', uid, 'progress', 'current');
     await setDoc(progressRef, {
       userId: uid,
-      solvedProblems: [],
-      attemptedProblems: [],
+      solvedProblems: student.solvedProblems,
+      attemptedProblems: student.attemptedProblems,
       updatedAt: new Date().toISOString()
     }, { merge: true });
   } catch (err) {
@@ -517,9 +726,119 @@ export async function resetStudentProgress(uid: string): Promise<void> {
   }
 }
 
+export async function toggleStudentLevelUnlock(uid: string, level: number): Promise<number[]> {
+  const students = getStoredStudents();
+  const idx = students.findIndex(s => s.uid === uid);
+  if (idx < 0) return [];
+
+  const student = students[idx];
+  const unlocked = new Set<number>(student.unlockedLevels || []);
+  if (unlocked.has(level)) {
+    unlocked.delete(level);
+  } else {
+    unlocked.add(level);
+  }
+  const newUnlocked = Array.from(unlocked).sort((a, b) => a - b);
+  student.unlockedLevels = newUnlocked;
+  students[idx] = student;
+  saveStudents(students);
+
+  try {
+    const userRef = doc(db, 'users', uid);
+    await setDoc(userRef, {
+      unlockedLevels: newUnlocked,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore toggle level unlock sync notice:', err);
+  }
+
+  return newUnlocked;
+}
+
+export async function toggleStudentSuspension(uid: string, isSuspended: boolean): Promise<void> {
+  const students = getStoredStudents();
+  const idx = students.findIndex(s => s.uid === uid);
+  if (idx < 0) return;
+
+  const student = students[idx];
+  student.isSuspended = isSuspended;
+  students[idx] = student;
+  saveStudents(students);
+
+  try {
+    const userRef = doc(db, 'users', uid);
+    await setDoc(userRef, {
+      isSuspended,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore suspension sync notice:', err);
+  }
+}
+
+export async function updateStudentRole(uid: string, newRole: UserRole, operatorRole?: UserRole): Promise<void> {
+  const students = getStoredStudents();
+  const student = students.find(s => s.uid === uid);
+  if (!student) throw new Error('Student not found');
+
+  if (student.email?.toLowerCase().trim() === 'asirselvin446@gmail.com') {
+    throw new Error('Developer account role cannot be changed.');
+  }
+
+  await assignUserRole(student.email, newRole, operatorRole);
+}
+
+export async function assignStudentBatch(uid: string, batchName: string): Promise<void> {
+  const students = getStoredStudents();
+  const idx = students.findIndex(s => s.uid === uid);
+  if (idx < 0) return;
+
+  students[idx].batch = batchName || undefined;
+  saveStudents(students);
+
+  try {
+    const userRef = doc(db, 'users', uid);
+    await setDoc(userRef, {
+      batch: batchName || '',
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore batch assignment notice:', err);
+  }
+}
+
+export async function bulkAssignBatch(uids: string[], batchName: string): Promise<void> {
+  const uidSet = new Set(uids);
+  const students = getStoredStudents();
+  students.forEach(s => {
+    if (uidSet.has(s.uid)) {
+      s.batch = batchName || undefined;
+    }
+  });
+  saveStudents(students);
+
+  await Promise.all(
+    uids.map(async (uid) => {
+      try {
+        const userRef = doc(db, 'users', uid);
+        await setDoc(userRef, { batch: batchName || '', updatedAt: new Date().toISOString() }, { merge: true });
+      } catch (e) {
+        console.warn('Error syncing batch for user:', uid, e);
+      }
+    })
+  );
+}
+
+export async function bulkResetProgress(uids: string[], level?: number, allProblems?: Problem[]): Promise<void> {
+  for (const uid of uids) {
+    await resetStudentProgress(uid, level, allProblems);
+  }
+}
+
 export function updateStudentDetails(
   uid: string,
-  details: { displayName: string; rollNumber: string; department: string; role?: UserRole }
+  details: { displayName: string; rollNumber: string; department: string; batch?: string; role?: UserRole }
 ): void {
   const students = getStoredStudents();
   const idx = students.findIndex(s => s.uid === uid);
@@ -530,16 +849,538 @@ export function updateStudentDetails(
       lastActive: new Date().toISOString()
     };
     saveStudents(students);
+
+    try {
+      const userRef = doc(db, 'users', uid);
+      updateDoc(userRef, { ...details, updatedAt: new Date().toISOString() });
+    } catch {}
   }
 }
 
-export function deleteStudent(uid: string): void {
+export async function deleteStudent(uid: string): Promise<void> {
   const students = getStoredStudents().filter(s => s.uid !== uid);
   saveStudents(students);
   localStorage.removeItem(`solved_${uid}`);
   localStorage.removeItem(`attempted_${uid}`);
   localStorage.removeItem(`code_${uid}`);
+
+  try {
+    const userRef = doc(db, 'users', uid);
+    await deleteDoc(userRef);
+    const progressRef = doc(db, 'users', uid, 'progress', 'current');
+    await deleteDoc(progressRef).catch(() => {});
+  } catch (err) {
+    console.warn('Firestore delete student notice:', err);
+  }
 }
+
+export async function bulkDeleteStudents(uids: string[]): Promise<void> {
+  const uidSet = new Set(uids);
+  const students = getStoredStudents().filter(s => !uidSet.has(s.uid));
+  saveStudents(students);
+
+  await Promise.all(
+    uids.map(async (uid) => {
+      localStorage.removeItem(`solved_${uid}`);
+      localStorage.removeItem(`attempted_${uid}`);
+      try {
+        const userRef = doc(db, 'users', uid);
+        await deleteDoc(userRef);
+        const progressRef = doc(db, 'users', uid, 'progress', 'current');
+        await deleteDoc(progressRef).catch(() => {});
+      } catch (e) {
+        console.warn('Error deleting student from Firestore:', uid, e);
+      }
+    })
+  );
+}
+
+// -------------------------------------------------------------
+// Batches / Sections Management
+// -------------------------------------------------------------
+
+const BATCHES_KEY = 'fxec_batches';
+export const DEFAULT_BATCHES: Batch[] = [
+  { id: 'batch_2021_2025', name: 'Batch 2021-2025', createdAt: '2021-08-01T00:00:00.000Z' },
+  { id: 'batch_2022_2026', name: 'Batch 2022-2026', createdAt: '2022-08-01T00:00:00.000Z' },
+  { id: 'batch_2023_2027', name: 'Batch 2023-2027', createdAt: '2023-08-01T00:00:00.000Z' },
+  { id: 'batch_2024_2028', name: 'Batch 2024-2028', createdAt: '2024-08-01T00:00:00.000Z' }
+];
+
+export function getStoredBatches(): Batch[] {
+  try {
+    const raw = localStorage.getItem(BATCHES_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {}
+  return DEFAULT_BATCHES;
+}
+
+export async function fetchBatchesFromFirestore(): Promise<Batch[]> {
+  try {
+    const batchDocRef = doc(db, 'settings', 'batches');
+    const snap = await getDoc(batchDocRef);
+    if (snap.exists() && Array.isArray(snap.data()?.batches)) {
+      const batches: Batch[] = snap.data().batches;
+      localStorage.setItem(BATCHES_KEY, JSON.stringify(batches));
+      return batches;
+    }
+  } catch (err) {
+    console.warn('Error fetching batches from Firestore:', err);
+  }
+  return getStoredBatches();
+}
+
+export async function saveBatches(batches: Batch[]): Promise<void> {
+  localStorage.setItem(BATCHES_KEY, JSON.stringify(batches));
+  try {
+    const batchDocRef = doc(db, 'settings', 'batches');
+    await setDoc(batchDocRef, { batches, updatedAt: new Date().toISOString() }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore batches sync notice:', err);
+  }
+}
+
+export async function createBatch(name: string): Promise<Batch> {
+  const trimmed = name.trim();
+  if (!trimmed) throw new Error('Batch name cannot be empty');
+  const batches = getStoredBatches();
+  if (batches.some(b => b.name.toLowerCase() === trimmed.toLowerCase())) {
+    throw new Error('A batch with this name already exists');
+  }
+  const newBatch: Batch = {
+    id: `batch_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    name: trimmed,
+    createdAt: new Date().toISOString()
+  };
+  const updated = [...batches, newBatch];
+  await saveBatches(updated);
+  return newBatch;
+}
+
+export async function renameBatch(oldName: string, newName: string): Promise<void> {
+  const trimmed = newName.trim();
+  if (!trimmed) throw new Error('New batch name cannot be empty');
+  const batches = getStoredBatches();
+  const idx = batches.findIndex(b => b.name === oldName);
+  if (idx < 0) throw new Error('Batch not found');
+  batches[idx].name = trimmed;
+  await saveBatches(batches);
+
+  const students = getStoredStudents();
+  let changed = false;
+  students.forEach(s => {
+    if (s.batch === oldName) {
+      s.batch = trimmed;
+      changed = true;
+      try {
+        const userRef = doc(db, 'users', s.uid);
+        updateDoc(userRef, { batch: trimmed, updatedAt: new Date().toISOString() });
+      } catch {}
+    }
+  });
+  if (changed) saveStudents(students);
+}
+
+export async function deleteBatch(batchName: string): Promise<void> {
+  const batches = getStoredBatches().filter(b => b.name !== batchName);
+  await saveBatches(batches);
+
+  const students = getStoredStudents();
+  let changed = false;
+  students.forEach(s => {
+    if (s.batch === batchName) {
+      s.batch = undefined;
+      changed = true;
+      try {
+        const userRef = doc(db, 'users', s.uid);
+        updateDoc(userRef, { batch: '', updatedAt: new Date().toISOString() });
+      } catch {}
+    }
+  });
+  if (changed) saveStudents(students);
+}
+
+// -------------------------------------------------------------
+// Announcements Management
+// -------------------------------------------------------------
+
+const ANNOUNCEMENTS_KEY = 'fxec_announcements';
+const DISMISSED_ANNOUNCEMENTS_KEY = 'fxec_dismissed_announcements';
+
+export function getStoredAnnouncements(): Announcement[] {
+  try {
+    const raw = localStorage.getItem(ANNOUNCEMENTS_KEY);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+  } catch {}
+  return [];
+}
+
+export async function fetchAnnouncementsFromFirestore(): Promise<Announcement[]> {
+  try {
+    const annDocRef = doc(db, 'settings', 'announcements');
+    const snap = await getDoc(annDocRef);
+    if (snap.exists() && Array.isArray(snap.data()?.announcements)) {
+      const announcements: Announcement[] = snap.data().announcements;
+      localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(announcements));
+      return announcements;
+    }
+  } catch (err) {
+    console.warn('Error fetching announcements from Firestore:', err);
+  }
+  return getStoredAnnouncements();
+}
+
+export async function saveAnnouncements(announcements: Announcement[]): Promise<void> {
+  localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(announcements));
+  try {
+    const annDocRef = doc(db, 'settings', 'announcements');
+    await setDoc(annDocRef, { announcements, updatedAt: new Date().toISOString() }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore announcements sync notice:', err);
+  }
+}
+
+export async function createAnnouncement(
+  title: string,
+  message: string,
+  targetUids?: string[],
+  createdBy?: string
+): Promise<Announcement> {
+  const announcements = getStoredAnnouncements();
+  const newAnn: Announcement = {
+    id: `ann_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    title: title.trim(),
+    message: message.trim(),
+    createdAt: new Date().toISOString(),
+    createdBy,
+    targetUids: targetUids && targetUids.length > 0 ? targetUids : undefined,
+    active: true
+  };
+  const updated = [newAnn, ...announcements];
+  await saveAnnouncements(updated);
+  return newAnn;
+}
+
+export async function deleteAnnouncement(id: string): Promise<void> {
+  const announcements = getStoredAnnouncements().filter(a => a.id !== id);
+  await saveAnnouncements(announcements);
+}
+
+export function dismissAnnouncement(id: string): void {
+  try {
+    const dismissed = getDismissedAnnouncements();
+    if (!dismissed.includes(id)) {
+      dismissed.push(id);
+      localStorage.setItem(DISMISSED_ANNOUNCEMENTS_KEY, JSON.stringify(dismissed));
+    }
+  } catch {}
+}
+
+export function getDismissedAnnouncements(): string[] {
+  try {
+    const raw = localStorage.getItem(DISMISSED_ANNOUNCEMENTS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+// -------------------------------------------------------------
+// Manual Student Add & CSV Import
+// -------------------------------------------------------------
+
+export function validateCollegeEmail(email: string): boolean {
+  const norm = email.trim().toLowerCase();
+  return /^[a-zA-Z0-9._%+-]+@francisxavier\.ac\.in$/.test(norm);
+}
+
+export async function addManualStudent(data: {
+  displayName: string;
+  rollNumber: string;
+  email: string;
+  department: string;
+  batch?: string;
+}): Promise<StudentProfile> {
+  const email = data.email.trim().toLowerCase();
+  if (!validateCollegeEmail(email)) {
+    throw new Error('Invalid email: Must be an official @francisxavier.ac.in institutional account.');
+  }
+  const roll = data.rollNumber.trim().toUpperCase();
+  const name = data.displayName.trim();
+  if (!roll || !name) {
+    throw new Error('Name and Roll Number are required.');
+  }
+
+  const existing = getStoredStudents();
+  if (existing.some(s => s.email.toLowerCase() === email)) {
+    throw new Error(`A student with email ${email} already exists.`);
+  }
+  if (existing.some(s => s.rollNumber.toUpperCase() === roll)) {
+    throw new Error(`A student with roll number ${roll} already exists.`);
+  }
+
+  const uid = `student_${roll.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Date.now()}`;
+  const newProfile: StudentProfile = {
+    uid,
+    email,
+    displayName: name,
+    rollNumber: roll,
+    department: data.department || 'Computer Science & Engineering',
+    batch: data.batch?.trim() || undefined,
+    role: 'student',
+    solvedProblems: [],
+    attemptedProblems: [],
+    lastActive: new Date().toISOString(),
+    joinedAt: new Date().toISOString(),
+    submissions: {}
+  };
+
+  const updated = [newProfile, ...existing];
+  saveStudents(updated);
+
+  try {
+    const userRef = doc(db, 'users', uid);
+    await setDoc(userRef, {
+      ...newProfile,
+      college: 'Francis Xavier Engineering College',
+      createdAt: newProfile.joinedAt,
+      lastLoginAt: newProfile.lastActive,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Firestore manual student add notice:', err);
+  }
+
+  return newProfile;
+}
+
+export async function importStudentsFromCSV(csvText: string): Promise<{
+  successCount: number;
+  errors: string[];
+  imported: StudentProfile[];
+}> {
+  const lines = csvText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (lines.length < 2) {
+    throw new Error('CSV must contain a header row and at least one student data row.');
+  }
+
+  const header = lines[0].toLowerCase().split(',').map(h => h.trim().replace(/^["']|["']$/g, ''));
+  const nameIdx = header.findIndex(h => h.includes('name'));
+  const rollIdx = header.findIndex(h => h.includes('roll'));
+  const emailIdx = header.findIndex(h => h.includes('email') || h.includes('mail'));
+  const deptIdx = header.findIndex(h => h.includes('dept') || h.includes('department'));
+  const batchIdx = header.findIndex(h => h.includes('batch') || h.includes('section'));
+
+  if (emailIdx === -1) {
+    throw new Error('CSV must include an "Email" column.');
+  }
+
+  const existing = getStoredStudents();
+  const emailSet = new Set(existing.map(s => s.email.toLowerCase().trim()));
+  const rollSet = new Set(existing.map(s => s.rollNumber.toUpperCase().trim()));
+
+  const imported: StudentProfile[] = [];
+  const errors: string[] = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const row = lines[i];
+    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)?.map(c => c.trim().replace(/^"|"$/g, '')) || row.split(',').map(c => c.trim());
+    const email = (cols[emailIdx] || '').trim().toLowerCase();
+    const name = nameIdx !== -1 && cols[nameIdx] ? cols[nameIdx].trim() : (email.split('@')[0] || `Student ${i}`);
+    const roll = rollIdx !== -1 && cols[rollIdx] ? cols[rollIdx].trim().toUpperCase() : email.split('@')[0].toUpperCase();
+    const dept = deptIdx !== -1 && cols[deptIdx] ? cols[deptIdx].trim() : 'Computer Science & Engineering';
+    const batch = batchIdx !== -1 && cols[batchIdx] ? cols[batchIdx].trim() : undefined;
+
+    if (!email) {
+      errors.push(`Row ${i + 1}: Missing email.`);
+      continue;
+    }
+    if (!validateCollegeEmail(email)) {
+      errors.push(`Row ${i + 1} (${email}): Skipped — Must be @francisxavier.ac.in email.`);
+      continue;
+    }
+    if (emailSet.has(email)) {
+      errors.push(`Row ${i + 1} (${email}): Skipped — Student email already registered.`);
+      continue;
+    }
+    if (rollSet.has(roll)) {
+      errors.push(`Row ${i + 1} (${roll}): Skipped — Roll number already registered.`);
+      continue;
+    }
+
+    const uid = `student_${roll.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Date.now()}_${i}`;
+    const newStudent: StudentProfile = {
+      uid,
+      email,
+      displayName: name,
+      rollNumber: roll,
+      department: dept,
+      batch: batch || undefined,
+      role: 'student',
+      solvedProblems: [],
+      attemptedProblems: [],
+      lastActive: new Date().toISOString(),
+      joinedAt: new Date().toISOString(),
+      submissions: {}
+    };
+
+    imported.push(newStudent);
+    emailSet.add(email);
+    rollSet.add(roll);
+
+    try {
+      const userRef = doc(db, 'users', uid);
+      setDoc(userRef, {
+        ...newStudent,
+        college: 'Francis Xavier Engineering College',
+        createdAt: newStudent.joinedAt,
+        lastLoginAt: newStudent.lastActive,
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    } catch (e) {
+      console.warn('Error saving imported student to Firestore:', email, e);
+    }
+  }
+
+  if (imported.length > 0) {
+    const updatedAll = [...imported, ...existing];
+    saveStudents(updatedAll);
+  }
+
+  return {
+    successCount: imported.length,
+    errors,
+    imported
+  };
+}
+
+// -------------------------------------------------------------
+// Similarity & Integrity Flagging
+// -------------------------------------------------------------
+
+function cleanCodeForComparison(code: string): string {
+  let cleaned = code.replace(/\/\/.*$/gm, '');
+  cleaned = cleaned.replace(/\/\*[\s\S]*?\*\//g, '');
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  return cleaned;
+}
+
+function calculateDiceSimilarity(a: string, b: string): number {
+  if (a === b) return 100;
+  if (!a || !b) return 0;
+  const getBigrams = (str: string) => {
+    const s = str.replace(/\s+/g, ' ').trim();
+    const bigrams = new Map<string, number>();
+    for (let i = 0; i < s.length - 1; i++) {
+      const bg = s.substring(i, i + 2);
+      bigrams.set(bg, (bigrams.get(bg) || 0) + 1);
+    }
+    return bigrams;
+  };
+  const bgA = getBigrams(a);
+  const bgB = getBigrams(b);
+  let intersection = 0;
+  let totalA = 0;
+  for (const [bg, count] of bgA) {
+    totalA += count;
+    if (bgB.has(bg)) {
+      intersection += Math.min(count, bgB.get(bg)!);
+    }
+  }
+  let totalB = 0;
+  for (const count of bgB.values()) {
+    totalB += count;
+  }
+  if (totalA + totalB === 0) return 0;
+  return Math.round((2 * intersection / (totalA + totalB)) * 100);
+}
+
+export function computeCodeSimilarity(
+  allProblems: Problem[],
+  students: StudentProfile[],
+  threshold = 75
+): CodeSimilarityPair[] {
+  const problemMap = new Map<string, Problem>();
+  allProblems.forEach(p => problemMap.set(p.id, p));
+
+  interface SubEntry {
+    student: StudentProfile;
+    code: string;
+    submittedAt?: string;
+  }
+  const problemSubmissions = new Map<string, SubEntry[]>();
+
+  students.forEach(student => {
+    if (student.submissions) {
+      Object.entries(student.submissions).forEach(([pid, sub]) => {
+        if (sub && sub.code) {
+          const list = problemSubmissions.get(pid) || [];
+          list.push({
+            student,
+            code: sub.code,
+            submittedAt: sub.passedAt
+          });
+          problemSubmissions.set(pid, list);
+        }
+      });
+    }
+  });
+
+  const flaggedPairs: CodeSimilarityPair[] = [];
+
+  for (const [pid, subs] of problemSubmissions.entries()) {
+    if (subs.length < 2) continue;
+    const problem = problemMap.get(pid);
+    if (!problem) continue;
+
+    for (let i = 0; i < subs.length; i++) {
+      for (let j = i + 1; j < subs.length; j++) {
+        const sub1 = subs[i];
+        const sub2 = subs[j];
+        if (sub1.student.uid === sub2.student.uid) continue;
+
+        const clean1 = cleanCodeForComparison(sub1.code);
+        const clean2 = cleanCodeForComparison(sub2.code);
+
+        if (clean1.length < 30 || clean2.length < 30) continue;
+
+        const score = calculateDiceSimilarity(clean1, clean2);
+        if (score >= threshold) {
+          flaggedPairs.push({
+            problemId: pid,
+            problemTitle: problem.title,
+            problemLevel: problem.level,
+            studentA: {
+              uid: sub1.student.uid,
+              name: sub1.student.displayName,
+              roll: sub1.student.rollNumber,
+              email: sub1.student.email,
+              submittedAt: sub1.submittedAt,
+              code: sub1.code
+            },
+            studentB: {
+              uid: sub2.student.uid,
+              name: sub2.student.displayName,
+              roll: sub2.student.rollNumber,
+              email: sub2.student.email,
+              submittedAt: sub2.submittedAt,
+              code: sub2.code
+            },
+            similarityScore: score
+          });
+        }
+      }
+    }
+  }
+
+  return flaggedPairs.sort((a, b) => b.similarityScore - a.similarityScore);
+}
+
 
 // -------------------------------------------------------------
 // Seed Sample Students (for evaluation & realistic testing)
@@ -706,7 +1547,7 @@ export function computeLeaderboard(allProblems: Problem[], currentUid?: string):
   const excluded = new Set(settings.excludedLeaderboardUids || []);
 
   const rows: LeaderboardRow[] = students
-    .filter(s => !excluded.has(s.uid) && s.role !== 'admin' && s.role !== 'developer' && s.email?.toLowerCase().trim() !== 'asirselvin446@gmail.com')
+    .filter(s => !excluded.has(s.uid) && s.role !== 'admin' && s.role !== 'primary_admin' && s.role !== 'staff' && s.role !== 'developer' && s.email?.toLowerCase().trim() !== 'asirselvin446@gmail.com')
     .map(s => {
       const solvedList = s.solvedProblems || [];
       let l1 = 0, l2 = 0, l3 = 0;
@@ -726,6 +1567,7 @@ export function computeLeaderboard(allProblems: Problem[], currentUid?: string):
         displayName: s.displayName,
         rollNumber: s.rollNumber,
         department: s.department,
+        batch: s.batch,
         solvedCount: solvedList.length,
         attemptedCount: (s.attemptedProblems || []).length,
         score,

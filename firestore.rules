@@ -28,20 +28,50 @@ service cloud.firestore {
       allow write: if isCollegeDomain();
     }
 
+    // Top-level custom problems collection
+    match /custom_problems/{problemId} {
+      allow read: if isSignedIn();
+      allow write: if isCollegeDomain();
+    }
+
+    // Top-level problem overrides collection
+    match /problem_overrides/{overrideId} {
+      allow read: if isSignedIn();
+      allow write: if isCollegeDomain();
+    }
+
+    // Top-level problems collection
+    match /problems/{problemId} {
+      allow read: if isSignedIn();
+      allow write: if isCollegeDomain();
+    }
+
     // Leaderboard document
     match /leaderboard/{studentId} {
       allow read: if true;
       allow write: if isCollegeDomain();
     }
 
-    // User profile document
+    // Announcements collection
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow write: if isCollegeDomain();
+    }
+
+    // Batches collection
+    match /batches/{batchId} {
+      allow read: if isSignedIn();
+      allow write: if isCollegeDomain();
+    }
+
+    // User profile document and all subcollections
     match /users/{userId} {
       allow read: if isCollegeDomain();
       allow create, update: if isCollegeDomain();
       allow delete: if isCollegeDomain();
 
-      // User progress subcollection
-      match /progress/{progressId} {
+      // User progress & subcollections
+      match /{allSubcollections=**} {
         allow read: if isCollegeDomain();
         allow create, update: if isCollegeDomain();
         allow delete: if isCollegeDomain();

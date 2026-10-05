@@ -14,9 +14,14 @@ import {
   getEffectiveProblems, 
   subscribeProblems, 
   registerOrUpdateStudent, 
-  computeLeaderboard
+  computeLeaderboard,
+  getStoredAnnouncements,
+  fetchAnnouncementsFromFirestore,
+  dismissAnnouncement,
+  getDismissedAnnouncements,
+  getStudent
 } from './utils/adminStore';
-import { AdminSettings } from './types/admin';
+import { AdminSettings, Announcement } from './types/admin';
 import { 
   auth,
   googleProvider,
@@ -57,7 +62,10 @@ import {
   Flame,
   AlertTriangle,
   Info,
-  Sparkles
+  Sparkles,
+  UserX,
+  Megaphone,
+  X
 } from 'lucide-react';
 
 type ViewState = 'list' | 'solve' | 'admin';
@@ -134,6 +142,21 @@ export default function App() {
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [reportNotification, setReportNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
+  // Broadcast announcements state
+  const [announcements, setAnnouncements] = useState<Announcement[]>(() => getStoredAnnouncements());
+  const [dismissedAnnouncements, setDismissedAnnouncements] = useState<string[]>(() => getDismissedAnnouncements());
+
+  useEffect(() => {
+    fetchAnnouncementsFromFirestore().then(anns => {
+      setAnnouncements(anns);
+    }).catch(() => {});
+  }, []);
+
+  const handleDismissAnnouncement = (id: string) => {
+    dismissAnnouncement(id);
+    setDismissedAnnouncements(prev => [...prev, id]);
+  };
+
   // Subscribe to Admin settings and problems updates
   useEffect(() => {
     const unsubSettings = subscribeAdminSettings((newSettings) => {
@@ -185,6 +208,9 @@ export default function App() {
           if (isDev) {
             roll = 'DEVELOPER';
             dept = 'System Architecture & Engineering';
+          } else if (assignedRole === 'primary_admin') {
+            roll = 'PRIMARY ADMIN';
+            dept = 'Principal Academic Administration';
           } else if (assignedRole === 'admin') {
             roll = 'ADMIN';
             dept = 'Academic Administration & Controls';
@@ -209,7 +235,7 @@ export default function App() {
           };
 
           setCurrentUser(portalUser);
-          if (portalUser.role === 'developer' || portalUser.role === 'admin' || portalUser.role === 'staff') {
+          if (portalUser.role === 'developer' || portalUser.role === 'primary_admin' || portalUser.role === 'admin' || portalUser.role === 'staff') {
             setIsAdminAuthenticated(true);
           } else {
             setIsAdminAuthenticated(false);
@@ -239,6 +265,12 @@ export default function App() {
               const existingData = userSnap.data();
               // Preserve assigned role if set by developer
               const finalRole = isDev ? 'developer' : (portalUser.role !== 'student' ? portalUser.role : (existingData.role || 'student'));
+              portalUser.batch = existingData.batch || portalUser.batch;
+              portalUser.isSuspended = Boolean(existingData.isSuspended);
+              portalUser.unlockedLevels = existingData.unlockedLevels || [];
+              portalUser.role = finalRole;
+              setCurrentUser({ ...portalUser });
+              localStorage.setItem('fxec_session_user', JSON.stringify(portalUser));
               await updateDoc(userDocRef, {
                 displayName: portalUser.displayName,
                 photoURL: fbUser.photoURL || '',
@@ -250,6 +282,18 @@ export default function App() {
             }
           } catch (syncErr) {
             console.warn('Firestore user profile sync notice:', syncErr);
+          }
+
+          // Check local student cache fallback
+          const localStudent = getStudent(fbUser.uid);
+          if (localStudent) {
+            if (localStudent.isSuspended !== undefined) portalUser.isSuspended = localStudent.isSuspended;
+            if (localStudent.unlockedLevels && localStudent.unlockedLevels.length > 0) {
+              portalUser.unlockedLevels = localStudent.unlockedLevels;
+            }
+            if (localStudent.batch) portalUser.batch = localStudent.batch;
+            setCurrentUser({ ...portalUser });
+            localStorage.setItem('fxec_session_user', JSON.stringify(portalUser));
           }
 
           // 2. Load Progress from Firestore & localStorage
@@ -304,8 +348,14 @@ export default function App() {
           if (stored) {
             const parsed: PortalUser = JSON.parse(stored);
             if (parsed && isFrancisXavierEmail(parsed.email)) {
+              const localStudent = getStudent(parsed.uid);
+              if (localStudent) {
+                if (localStudent.isSuspended !== undefined) parsed.isSuspended = localStudent.isSuspended;
+                if (localStudent.unlockedLevels && localStudent.unlockedLevels.length > 0) parsed.unlockedLevels = localStudent.unlockedLevels;
+                if (localStudent.batch) parsed.batch = localStudent.batch;
+              }
               setCurrentUser(parsed);
-              if (parsed.role === 'developer' || parsed.role === 'admin' || parsed.role === 'staff') {
+              if (parsed.role === 'developer' || parsed.role === 'primary_admin' || parsed.role === 'admin' || parsed.role === 'staff') {
                 setIsAdminAuthenticated(true);
               }
               const savedSolved = localStorage.getItem(`solved_${parsed.uid}`);
@@ -460,7 +510,7 @@ export default function App() {
   };
 
   const handleOpenAdminView = () => {
-    if (currentUser?.role === 'developer' || currentUser?.role === 'admin' || currentUser?.role === 'staff') {
+    if (currentUser?.role === 'developer' || currentUser?.role === 'primary_admin' || currentUser?.role === 'admin' || currentUser?.role === 'staff') {
       setView('admin');
     }
   };
@@ -716,6 +766,62 @@ export default function App() {
     );
   }
 
+  // Case 2b: Account Suspended -> Clear notification screen
+  if (currentUser && currentUser.isSuspended && currentUser.role !== 'developer') {
+    return (
+      <div className="min-h-screen bg-[#0c0d10] flex items-center justify-center p-4 text-neutral-100 font-sans">
+        <div className="w-full max-w-md bg-[#131418] border border-rose-900/60 rounded-2xl p-6 sm:p-8 shadow-2xl text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-rose-950/70 border border-rose-800/60 text-rose-400 mb-4">
+            <UserX size={24} />
+          </div>
+          
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-950/80 border border-rose-800/80 text-rose-300 text-[11px] font-semibold tracking-wide mb-3">
+            <span>Account Temporarily Suspended</span>
+          </div>
+
+          <h1 className="text-lg font-semibold text-white tracking-tight mb-2">
+            Access Restricted
+          </h1>
+
+          <p className="text-neutral-400 text-xs leading-relaxed mb-5">
+            Your student account has been temporarily suspended by the department coordinator or administrator. Practice problems and submissions are temporarily locked.
+          </p>
+
+          <div className="bg-[#0b0c10] border border-neutral-800/80 rounded-lg p-3.5 mb-5 text-xs text-left space-y-1.5">
+            <div className="flex justify-between items-center text-[11px]">
+              <span className="text-neutral-500">Student:</span>
+              <span className="font-semibold text-neutral-200">{currentUser.displayName}</span>
+            </div>
+            <div className="flex justify-between items-center text-[11px]">
+              <span className="text-neutral-500">Roll Number:</span>
+              <span className="font-mono text-neutral-300 font-bold">{currentUser.rollNumber}</span>
+            </div>
+            <div className="flex justify-between items-center text-[11px]">
+              <span className="text-neutral-500">Email:</span>
+              <span className="font-mono text-neutral-400">{currentUser.email}</span>
+            </div>
+            <div className="flex justify-between items-center text-[11px] pt-1.5 border-t border-neutral-800/60">
+              <span className="text-neutral-500">Department:</span>
+              <span className="text-neutral-300">{currentUser.department}</span>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-neutral-500 mb-5 leading-normal">
+            Please contact your faculty advisor or department administration for assistance or reactivation.
+          </p>
+
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 bg-neutral-100 hover:bg-white text-neutral-900 font-medium py-2.5 px-4 rounded-lg text-xs transition-colors cursor-pointer"
+          >
+            <LogOut size={14} />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // Case 3: Not Authenticated -> Clean Minimal Login
   if (!currentUser) {
     return (
@@ -796,7 +902,7 @@ export default function App() {
   // VIEW: ADMIN DASHBOARD
   // =========================================================================
   if (view === 'admin') {
-    if (!currentUser || (currentUser.role !== 'developer' && currentUser.role !== 'admin' && currentUser.role !== 'staff')) {
+    if (!currentUser || (currentUser.role !== 'developer' && currentUser.role !== 'primary_admin' && currentUser.role !== 'admin' && currentUser.role !== 'staff')) {
       return null;
     }
     return (
@@ -831,7 +937,8 @@ export default function App() {
     }
   }
 
-  const isLevelLocked = isLevelLockedByAdmin || isLevelLockedByProgress;
+  const isManuallyUnlocked = Boolean(currentUser?.unlockedLevels?.includes(selectedLevel));
+  const isLevelLocked = !isManuallyUnlocked && (isLevelLockedByAdmin || isLevelLockedByProgress);
   
   const displayedProblems = allProblems.filter(p => {
     const matchesLevel = p.level === selectedLevel;
@@ -847,12 +954,43 @@ export default function App() {
   const levelPercent = levelTotalProblems.length > 0 ? Math.round((levelSolvedCount / levelTotalProblems.length) * 100) : 0;
   const displayName = currentUser.displayName;
 
+  // Active targeted or campus-wide announcements
+  const activeAnnouncements = announcements.filter(ann => {
+    if (!ann.active) return false;
+    if (dismissedAnnouncements.includes(ann.id)) return false;
+    if (!ann.targetUids || ann.targetUids.length === 0 || ann.targetUids.includes('all')) {
+      return true;
+    }
+    return currentUser ? ann.targetUids.includes(currentUser.uid) : false;
+  });
+
   if (view === 'list') {
     return (
       <div className="min-h-screen bg-[#fafafa] text-neutral-900 flex flex-col font-sans">
         
-        {/* Top Announcement Banner if set by Faculty */}
-        {adminSettings.announcement && (
+        {/* Dynamic Broadcast Announcements */}
+        {activeAnnouncements.map(ann => (
+          <div 
+            key={ann.id} 
+            className="bg-neutral-900 text-neutral-100 text-xs py-2 px-4 border-b border-neutral-800 flex items-center justify-between gap-3 shadow-xs"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <Megaphone size={14} className="text-amber-400 shrink-0" />
+              <span className="font-semibold text-white shrink-0">{ann.title}:</span>
+              <span className="text-neutral-200 truncate">{ann.message}</span>
+            </div>
+            <button
+              onClick={() => handleDismissAnnouncement(ann.id)}
+              className="p-1 hover:bg-neutral-800 rounded text-neutral-400 hover:text-white transition-colors cursor-pointer shrink-0"
+              title="Dismiss announcement"
+            >
+              <X size={13} />
+            </button>
+          </div>
+        ))}
+
+        {/* Top Announcement Banner if set by Faculty in settings */}
+        {adminSettings.announcement && activeAnnouncements.length === 0 && (
           <div className="bg-neutral-900 text-neutral-200 text-xs py-2 px-4 border-b border-neutral-800 flex items-center justify-center gap-2">
             <Info size={13} className="text-indigo-400 shrink-0" />
             <span className="font-medium">{adminSettings.announcement}</span>
@@ -876,7 +1014,8 @@ export default function App() {
           {/* Zone 2: Level Segmented Controls */}
           <div className="hidden md:flex items-center bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80">
             {levels.map(level => {
-              const locked = adminSettings.lockedLevels?.includes(level);
+              const isUnlockedForUser = Boolean(currentUser?.unlockedLevels?.includes(level));
+              const locked = !isUnlockedForUser && adminSettings.lockedLevels?.includes(level);
               return (
                 <button
                   key={level}
@@ -909,13 +1048,15 @@ export default function App() {
               </button>
             )}
 
-            {/* Developer / Admin / Staff Switch - Only visible to privileged roles (Hidden from students) */}
-            {(currentUser.role === 'developer' || currentUser.role === 'admin' || currentUser.role === 'staff') && (
+            {/* Developer / Primary Admin / Admin / Staff Switch - Only visible to privileged roles (Hidden from students) */}
+            {(currentUser.role === 'developer' || currentUser.role === 'primary_admin' || currentUser.role === 'admin' || currentUser.role === 'staff') && (
               <button
                 onClick={handleOpenAdminView}
                 className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer border ${
                   currentUser.role === 'developer'
                     ? 'bg-neutral-900 text-white border-neutral-900 hover:bg-neutral-800'
+                    : currentUser.role === 'primary_admin'
+                    ? 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100'
                     : currentUser.role === 'admin'
                     ? 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
                     : 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
@@ -923,6 +1064,8 @@ export default function App() {
                 title={
                   currentUser.role === 'developer'
                     ? 'Master Developer Console'
+                    : currentUser.role === 'primary_admin'
+                    ? 'Primary Administrator Portal'
                     : currentUser.role === 'admin'
                     ? 'Administrator Portal'
                     : 'Staff Portal'
@@ -931,11 +1074,13 @@ export default function App() {
                 {currentUser.role === 'developer' ? (
                   <Sparkles size={13} className="text-amber-400" />
                 ) : (
-                  <ShieldCheck size={14} />
+                  <ShieldCheck size={14} className={currentUser.role === 'primary_admin' ? 'text-purple-600' : ''} />
                 )}
                 <span className="hidden sm:inline">
                   {currentUser.role === 'developer'
                     ? 'Developer Console'
+                    : currentUser.role === 'primary_admin'
+                    ? 'Primary Admin'
                     : currentUser.role === 'admin'
                     ? 'Admin Portal'
                     : 'Staff Portal'}
@@ -982,7 +1127,8 @@ export default function App() {
           {/* Mobile Level Tabs */}
           <div className="flex md:hidden items-center justify-between bg-neutral-100 p-0.5 rounded-lg border border-neutral-200 mb-5">
             {levels.map(level => {
-              const locked = adminSettings.lockedLevels?.includes(level);
+              const isUnlockedForUser = Boolean(currentUser?.unlockedLevels?.includes(level));
+              const locked = !isUnlockedForUser && adminSettings.lockedLevels?.includes(level);
               return (
                 <button
                   key={level}
@@ -1049,7 +1195,7 @@ export default function App() {
                 >
                   Return to Level 1
                 </button>
-                {(currentUser.role === 'developer' || currentUser.role === 'admin' || currentUser.role === 'staff') && (
+                {(currentUser.role === 'developer' || currentUser.role === 'primary_admin' || currentUser.role === 'admin' || currentUser.role === 'staff') && (
                   <button
                     onClick={handleOpenAdminView}
                     className="px-3 py-2 border border-neutral-200 text-neutral-600 hover:text-neutral-900 rounded-lg text-xs font-medium cursor-pointer"

@@ -70,9 +70,14 @@ const matchOutput = (actual: string, expected: string, matchType?: 'exact' | 'nu
   }
   
   if (matchType === 'regex') {
+    const trimmedActual = actual.trim();
+    const trimmedExpected = expected.trim();
+    if (trimmedActual === trimmedExpected) {
+      return true;
+    }
     try {
-      const regex = new RegExp(expected.trim());
-      return regex.test(actual.trim());
+      const regex = new RegExp(trimmedExpected);
+      return regex.test(trimmedActual);
     } catch {
       return false;
     }
@@ -93,6 +98,7 @@ const getCompilerOptionsString = (options?: CompilerOptions) => {
 };
 
 const JUDGE0_TIMEOUT_MS = 30000;
+const OVERALL_TIMEOUT_MS = 120000; // 120s total cap across all test cases
 
 async function fetchJudge0WithTimeout(url: string, init: RequestInit, timeoutMs = JUDGE0_TIMEOUT_MS): Promise<Response> {
   const controller = new AbortController();
@@ -125,9 +131,26 @@ export const executeCode = async (
   try {
     const results: TestResult[] = [];
     const compiler_options = getCompilerOptionsString(options);
+    const overallStartTime = Date.now();
     
     // Process test cases one by one to avoid rate limiting
     for (let i = 0; i < testCases.length; i++) {
+      // Enforce overall 120s timeout cap across all test cases
+      if (Date.now() - overallStartTime > OVERALL_TIMEOUT_MS) {
+        const timeoutMsg = 'Overall time limit exceeded (120s limit reached across test cases).';
+        for (let j = i; j < testCases.length; j++) {
+          results.push({
+            index: j,
+            input: testCases[j].input,
+            expected: testCases[j].expected,
+            passed: false,
+            error: timeoutMsg,
+            hidden: testCases[j].hidden,
+          });
+        }
+        break;
+      }
+
       const tc = testCases[i];
       
       const response = await fetchJudge0WithTimeout('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
@@ -150,7 +173,10 @@ export const executeCode = async (
       const data = await response.json();
       
       if (data.status.id !== 3) {
-        const errorMsg = decodeBase64(data.compile_output) || decodeBase64(data.stderr) || data.status.description || 'Compilation Error';
+        const rawCompileErr = decodeBase64(data.compile_output).trim();
+        const rawStderr = decodeBase64(data.stderr).trim();
+        const errorMsg = rawCompileErr || rawStderr || data.status.description || 'Compilation Error';
+        
         results.push({
           index: i,
           input: tc.input,
@@ -161,6 +187,27 @@ export const executeCode = async (
           time: data.time,
           memory: data.memory,
         });
+
+        // When a submission returns a compilation error (status.id !== 3), do NOT submit the remaining test cases.
+        // Instead, immediately mark every remaining test case as failed with the same compile error message and break out of the loop.
+        const isCompileError = data.status.id === 6 || 
+          Boolean(rawCompileErr) || 
+          data.status.description?.toLowerCase().includes('compil') ||
+          (i === 0 && data.status.id !== 4 && data.status.id !== 5);
+
+        if (isCompileError) {
+          for (let j = i + 1; j < testCases.length; j++) {
+            results.push({
+              index: j,
+              input: testCases[j].input,
+              expected: testCases[j].expected,
+              passed: false,
+              error: errorMsg,
+              hidden: testCases[j].hidden,
+            });
+          }
+          break;
+        }
       } else {
         const actualOutput = decodeBase64(data.stdout).trim();
         const expectedOutput = tc.expected.trim();
@@ -175,6 +222,22 @@ export const executeCode = async (
           time: data.time,
           memory: data.memory,
         });
+      }
+
+      // Check overall timeout after each test case completion as well
+      if (i < testCases.length - 1 && Date.now() - overallStartTime > OVERALL_TIMEOUT_MS) {
+        const timeoutMsg = 'Overall time limit exceeded (120s limit reached across test cases).';
+        for (let j = i + 1; j < testCases.length; j++) {
+          results.push({
+            index: j,
+            input: testCases[j].input,
+            expected: testCases[j].expected,
+            passed: false,
+            error: timeoutMsg,
+            hidden: testCases[j].hidden,
+          });
+        }
+        break;
       }
     }
     

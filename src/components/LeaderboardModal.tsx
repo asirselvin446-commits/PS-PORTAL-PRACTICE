@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { LeaderboardRow, AdminSettings } from '../types/admin';
+import React, { useState, useEffect, useMemo } from 'react';
+import { LeaderboardRow, AdminSettings, Batch } from '../types/admin';
 import { X, Trophy, Lock, Search } from 'lucide-react';
+import { getStoredBatches, fetchBatchesFromFirestore } from '../utils/adminStore';
 
 interface LeaderboardModalProps {
   rows: LeaderboardRow[];
   settings: AdminSettings;
   currentUserId?: string;
+  batches?: Batch[];
   onClose: () => void;
 }
 
@@ -13,13 +15,48 @@ export const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
   rows,
   settings,
   currentUserId,
+  batches: initialBatches,
   onClose
 }) => {
   const [search, setSearch] = useState('');
   const [deptFilter, setDeptFilter] = useState('All');
+  const [batchFilter, setBatchFilter] = useState<'all' | 'unassigned' | string>('all');
+  const [batches, setBatches] = useState<Batch[]>(() => initialBatches || getStoredBatches());
+
+  useEffect(() => {
+    if (!initialBatches) {
+      fetchBatchesFromFirestore()
+        .then(latest => {
+          if (latest && latest.length > 0) {
+            setBatches(latest);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [initialBatches]);
+
+  // Combine batches from the data source with any other batch names present on rows
+  const availableBatches = useMemo(() => {
+    const list: Array<{ id: string; name: string }> = [...batches];
+    const seen = new Set(batches.map(b => b.name.toLowerCase()));
+    rows.forEach(r => {
+      if (r.batch && !seen.has(r.batch.toLowerCase())) {
+        seen.add(r.batch.toLowerCase());
+        list.push({ id: `batch_${r.batch}`, name: r.batch });
+      }
+    });
+    return list;
+  }, [batches, rows]);
 
   const filtered = rows.filter(r => {
     if (deptFilter !== 'All' && r.department !== deptFilter) return false;
+    if (batchFilter !== 'all') {
+      if (batchFilter === 'unassigned') {
+        if (r.batch) return false;
+      } else if (r.batch !== batchFilter) {
+        return false;
+      }
+    }
     if (search) {
       const q = search.toLowerCase();
       return r.displayName.toLowerCase().includes(q) || r.rollNumber.toLowerCase().includes(q);
@@ -108,6 +145,19 @@ export const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
             <option value="Electrical & Electronics Engineering">EEE</option>
             <option value="Mechanical Engineering">Mechanical</option>
           </select>
+
+          {/* Batch Filter */}
+          <select
+            value={batchFilter}
+            onChange={(e) => setBatchFilter(e.target.value)}
+            className="bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-1 text-xs text-neutral-700 focus:outline-none cursor-pointer"
+          >
+            <option value="all">All Batches</option>
+            {availableBatches.map(b => (
+              <option key={b.id} value={b.name}>{b.name}</option>
+            ))}
+            <option value="unassigned">Unassigned</option>
+          </select>
         </div>
 
         {/* Rows */}
@@ -151,7 +201,14 @@ export const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] text-neutral-400 font-mono">{row.rollNumber}</span>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="text-[10px] text-neutral-400 font-mono">{row.rollNumber}</span>
+                        {row.batch && (
+                          <span className="text-[9px] px-1 py-0.2 rounded bg-neutral-100 text-neutral-600 font-medium">
+                            {row.batch}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="py-2.5 px-4 font-sans text-neutral-600">
                       {row.department.replace('&', '·')}

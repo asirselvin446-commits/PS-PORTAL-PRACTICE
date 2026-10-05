@@ -5091,3 +5091,5 @@ export const problems: Problem[] = [
     ]
   }
 ];
+
+export const LEVELS: number[] = Array.from(new Set(problems.map(p => Number(p.level)))).sort((a, b) => a - b);

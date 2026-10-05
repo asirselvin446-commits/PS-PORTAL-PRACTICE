@@ -69,6 +69,67 @@
         }
       },
       "required": ["userId", "solvedProblems", "attemptedProblems"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Institutional announcements for students",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Announcement title",
+          "maxLength": 200
+        },
+        "message": {
+          "type": "string",
+          "description": "Announcement message content",
+          "maxLength": 2000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Publication timestamp"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "Admin or faculty email who created it"
+        },
+        "targetUids": {
+          "type": "array",
+          "description": "Optional target student UIDs, empty for all students"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the announcement is currently active"
+        }
+      },
+      "required": ["id", "title", "message", "createdAt"]
+    },
+    "Batch": {
+      "title": "Batch",
+      "description": "Academic student batch or section",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique batch ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Batch or Section name",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["id", "name"]
     }
   },
   "firestore": {
@@ -79,6 +140,14 @@
     "/users/{userId}/progress/{progressId}": {
       "schema": "UserProgress",
       "description": "Stores user problem progress"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Stores institutional announcements"
+    },
+    "/batches/{batchId}": {
+      "schema": "Batch",
+      "description": "Stores academic student batches"
     }
   }
 }

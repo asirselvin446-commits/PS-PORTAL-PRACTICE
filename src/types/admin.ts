@@ -1,6 +1,6 @@
 import { TestCase } from '../data/problems';
 
-export type UserRole = 'developer' | 'admin' | 'staff' | 'student';
+export type UserRole = 'developer' | 'primary_admin' | 'admin' | 'staff' | 'student';
 
 export type HiddenTestVisibilityMode = 'strictly_hidden' | 'allow_reveal' | 'always_visible';
 export type LevelUnlockMode = 'open' | 'progressive' | 'locked';
@@ -18,6 +18,7 @@ export interface AdminSettings {
   adminPasscode?: string;
   announcement?: string;
   roleAssignments?: Record<string, UserRole>; // email -> role mapping
+  updatedAt?: string;
 }
 
 export interface StudentSubmission {
@@ -35,12 +36,54 @@ export interface StudentProfile {
   rollNumber: string;
   department: string;
   role: UserRole;
+  batch?: string;
+  isSuspended?: boolean;
+  unlockedLevels?: number[];
   photoURL?: string;
   solvedProblems: string[];
   attemptedProblems: string[];
   lastActive: string;
   joinedAt: string;
   submissions?: Record<string, StudentSubmission>;
+}
+
+export interface Batch {
+  id: string;
+  name: string;
+  createdAt: string;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  message: string;
+  createdAt: string;
+  createdBy?: string;
+  targetUids?: string[]; // Empty or contains 'all' = all students
+  active: boolean;
+}
+
+export interface CodeSimilarityPair {
+  problemId: string;
+  problemTitle: string;
+  problemLevel: number;
+  studentA: {
+    uid: string;
+    name: string;
+    roll: string;
+    email: string;
+    submittedAt?: string;
+    code: string;
+  };
+  studentB: {
+    uid: string;
+    name: string;
+    roll: string;
+    email: string;
+    submittedAt?: string;
+    code: string;
+  };
+  similarityScore: number; // 0 to 100
 }
 
 export interface ProblemOverride {
@@ -60,6 +103,7 @@ export interface LeaderboardRow {
   displayName: string;
   rollNumber: string;
   department: string;
+  batch?: string;
   solvedCount: number;
   attemptedCount: number;
   score: number;

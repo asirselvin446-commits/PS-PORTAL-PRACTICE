@@ -1,26 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Problem } from '../../data/problems';
 import { 
   AdminSettings, 
   StudentProfile, 
   LeaderboardRow, 
   HiddenTestVisibilityMode,
-  UserRole
+  UserRole,
+  Batch,
+  Announcement
 } from '../../types/admin';
 import { 
   getAdminSettings, 
   saveAdminSettings, 
+  fetchAdminSettingsFromFirestore,
+  fetchCustomProblemsFromFirestore,
+  fetchProblemOverridesFromFirestore,
   getStoredStudents, 
   fetchStudentsFromFirestore,
   computeLeaderboard, 
   exportLeaderboardCSV, 
   freezeLeaderboard,
   assignUserRole,
-  removeUserRole
+  removeUserRole,
+  getStoredBatches,
+  fetchBatchesFromFirestore,
+  getStoredAnnouncements,
+  fetchAnnouncementsFromFirestore,
+  resetStudentProgress,
+  toggleStudentLevelUnlock,
+  toggleStudentSuspension,
+  updateStudentRole,
+  assignStudentBatch,
+  bulkAssignBatch,
+  bulkResetProgress,
+  deleteStudent,
+  bulkDeleteStudents
 } from '../../utils/adminStore';
 import { PortalUser, DEVELOPER_EMAIL } from '../../firebase';
+import { generateReport } from '../../utils/report';
 import { StudentProfileModal } from './StudentProfileModal';
 import { RequestDeveloperModal } from './RequestDeveloperModal';
+import { ConfirmationModal } from './ConfirmationModal';
+import { BatchManageModal } from './BatchManageModal';
+import { CSVImportModal } from './CSVImportModal';
+import { AddStudentModal } from './AddStudentModal';
+import { AnnouncementModal } from './AnnouncementModal';
+import { SimilarityReviewModal } from './SimilarityReviewModal';
 import { 
   ShieldCheck, 
   Users, 
@@ -47,7 +72,22 @@ import {
   Shield,
   GraduationCap,
   Trash2,
-  UserCheck
+  UserCheck,
+  UserMinus,
+  Upload,
+  FolderCheck,
+  Megaphone,
+  FileDown,
+  RotateCcw,
+  UserX,
+  SlidersHorizontal,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  MoreHorizontal,
+  CheckSquare,
+  Square,
+  FolderPlus
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -77,48 +117,124 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // Filters
   const [studentSearch, setStudentSearch] = useState('');
   const [studentDeptFilter, setStudentDeptFilter] = useState('All');
+  const [studentRoleFilter, setStudentRoleFilter] = useState<'all' | UserRole>('all');
+  const [studentActivityFilter, setStudentActivityFilter] = useState<'all' | '24h' | '7d' | 'inactive7d' | 'inactive30d'>('all');
+  const [studentBatchFilter, setStudentBatchFilter] = useState<'all' | 'unassigned' | string>('all');
+
+  // Sorting
+  const [sortField, setSortField] = useState<'name' | 'roll' | 'dept' | 'solved' | 'lastActive'>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  // Multi-select bulk checkboxes
+  const [selectedUids, setSelectedUids] = useState<Set<string>>(new Set());
+
+  // Batches & Announcements State
+  const [batches, setBatches] = useState<Batch[]>(getStoredBatches());
+  const [announcements, setAnnouncements] = useState<Announcement[]>(getStoredAnnouncements());
+
+  // Additional Modals
+  const [showBatchModal, setShowBatchModal] = useState(false);
+  const [showCSVImportModal, setShowCSVImportModal] = useState(false);
+  const [showAddStudentModal, setShowAddStudentModal] = useState(false);
+  const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
+  const [announcementTargets, setAnnouncementTargets] = useState<string[] | undefined>(undefined);
+  const [showSimilarityModal, setShowSimilarityModal] = useState(false);
+  const [bulkBatchModalOpen, setBulkBatchModalOpen] = useState(false);
+  const [bulkBatchChoice, setBulkBatchChoice] = useState('');
+  const [activeRowMenuUid, setActiveRowMenuUid] = useState<string | null>(null);
+
+  // Generic Confirmation Modal state
+  const [confirmModalState, setConfirmModalState] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: React.ReactNode;
+    confirmText?: string;
+    confirmVariant?: 'danger' | 'warning' | 'primary';
+    requireTextMatch?: string;
+    onConfirm: () => Promise<void> | void;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {}
+  });
+
   const [problemSearch, setProblemSearch] = useState('');
   const [problemLevelFilter, setProblemLevelFilter] = useState<number | 'all'>('all');
 
+  const availableLevels = useMemo(() => {
+    return Array.from(new Set<number>(problems.map(p => Number(p.level)))).sort((a: number, b: number) => a - b);
+  }, [problems]);
+
   // Role Management State
   const [roleAssignEmail, setRoleAssignEmail] = useState('');
-  const [roleAssignType, setRoleAssignType] = useState<'admin' | 'staff'>('staff');
+  const [roleAssignType, setRoleAssignType] = useState<UserRole>('staff');
   const [roleAssignError, setRoleAssignError] = useState<string | null>(null);
-  const [roleDirectoryFilter, setRoleDirectoryFilter] = useState<'all' | 'admin' | 'staff' | 'student'>('all');
+  const [roleDirectoryFilter, setRoleDirectoryFilter] = useState<'all' | 'primary_admin' | 'admin' | 'staff' | 'student'>('all');
   const [roleSearch, setRoleSearch] = useState('');
   const [isAssigningRole, setIsAssigningRole] = useState(false);
 
   // Status & Toast
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
 
   const isDeveloper = currentUser.role === 'developer' || currentUser.email.toLowerCase() === DEVELOPER_EMAIL.toLowerCase();
+  const isPrimaryAdmin = currentUser.role === 'primary_admin';
+  const canManageRoles = isDeveloper || isPrimaryAdmin;
 
-  // Guard against non-developer accounts accessing roles tab
+  // Guard against non-authorized accounts accessing roles tab
   useEffect(() => {
-    if (!isDeveloper && activeTab === 'roles') {
+    if (!canManageRoles && activeTab === 'roles') {
       setActiveTab('students');
     }
-  }, [isDeveloper, activeTab]);
+  }, [canManageRoles, activeTab]);
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
+  const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message: msg, type });
+    setTimeout(() => setToast(null), 3500);
   };
 
   const refreshData = async (showCloudToast = false) => {
-    setSettings(getAdminSettings());
+    try {
+      const latestSettings = await fetchAdminSettingsFromFirestore();
+      setSettings(latestSettings);
+    } catch {
+      setSettings(getAdminSettings());
+    }
+
+    try {
+      const latestBatches = await fetchBatchesFromFirestore();
+      setBatches(latestBatches);
+    } catch {}
+
+    try {
+      const latestAnn = await fetchAnnouncementsFromFirestore();
+      setAnnouncements(latestAnn);
+    } catch {}
+
+    try {
+      await fetchCustomProblemsFromFirestore();
+      await fetchProblemOverridesFromFirestore();
+      onRefreshProblems();
+    } catch (e) {
+      console.warn('Error refreshing custom problems from Firestore:', e);
+    }
+
     setIsSyncingCloud(true);
     try {
-      const cloudStudents = await fetchStudentsFromFirestore();
+      const cloudStudents = await fetchStudentsFromFirestore(showCloudToast);
       setStudents(cloudStudents);
       setLeaderboardRows(computeLeaderboard(problems));
       if (showCloudToast) {
-        showToast(`Synced ${cloudStudents.length} student profiles from cloud`);
+        showToast(`Synced ${cloudStudents.length} student profiles from cloud`, 'success');
       }
-    } catch {
+    } catch (err: any) {
       setStudents(getStoredStudents());
       setLeaderboardRows(computeLeaderboard(problems));
+      if (showCloudToast) {
+        const reason = err?.message || 'Unable to sync with Firestore';
+        showToast(`Cloud sync failed: ${reason}`, 'error');
+      }
     } finally {
       setIsSyncingCloud(false);
     }
@@ -164,11 +280,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       setRoleAssignError('Developer account is hardcoded and cannot be modified.');
       return;
     }
+    if (isPrimaryAdmin && (roleAssignType === 'primary_admin' || roleAssignType === 'developer')) {
+      setRoleAssignError('Primary Administrator can only assign Sub-Admin or Staff roles.');
+      return;
+    }
 
     setIsAssigningRole(true);
     try {
-      await assignUserRole(cleanEmail, roleAssignType);
-      showToast(`Assigned ${roleAssignType.toUpperCase()} role to ${cleanEmail}`);
+      await assignUserRole(cleanEmail, roleAssignType, currentUser.role);
+      const roleLabel = roleAssignType === 'primary_admin' ? 'Primary Admin' : roleAssignType === 'admin' ? 'Sub-Admin' : 'Staff';
+      showToast(`Assigned ${roleLabel} role to ${cleanEmail}`);
       setRoleAssignEmail('');
       await refreshData();
     } catch (err: any) {
@@ -181,11 +302,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleRoleChange = async (email: string, newRole: UserRole) => {
     try {
       if (newRole === 'student') {
-        await removeUserRole(email);
+        await removeUserRole(email, currentUser.role);
         showToast(`Reverted ${email} to default Student`);
       } else {
-        await assignUserRole(email, newRole);
-        showToast(`Updated ${email} to ${newRole.toUpperCase()}`);
+        await assignUserRole(email, newRole, currentUser.role);
+        const roleLabel = newRole === 'primary_admin' ? 'Primary Admin' : newRole === 'admin' ? 'Sub-Admin' : 'Staff';
+        showToast(`Updated ${email} to ${roleLabel}`);
       }
       await refreshData();
     } catch (err: any) {
@@ -208,18 +330,299 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     s => s.email.toLowerCase().trim() !== DEVELOPER_EMAIL.toLowerCase() && s.role !== 'developer'
   );
 
-  const filteredStudents = displayStudents.filter(s => {
-    if (studentDeptFilter !== 'All' && s.department !== studentDeptFilter) return false;
-    if (studentSearch) {
-      const q = studentSearch.toLowerCase();
-      return (
-        s.displayName.toLowerCase().includes(q) ||
-        s.rollNumber.toLowerCase().includes(q) ||
-        s.email.toLowerCase().includes(q)
-      );
+  const filteredStudents = useMemo(() => {
+    const list = displayStudents.filter(s => {
+      if (studentDeptFilter !== 'All' && s.department !== studentDeptFilter) return false;
+      if (studentRoleFilter !== 'all' && s.role !== studentRoleFilter) return false;
+      if (studentBatchFilter !== 'all') {
+        if (studentBatchFilter === 'unassigned') {
+          if (s.batch) return false;
+        } else if (s.batch !== studentBatchFilter) {
+          return false;
+        }
+      }
+      if (studentActivityFilter !== 'all') {
+        const lastActiveTime = s.lastActive ? new Date(s.lastActive).getTime() : 0;
+        const now = Date.now();
+        const diffMs = now - lastActiveTime;
+        const oneDay = 24 * 60 * 60 * 1000;
+        if (studentActivityFilter === '24h') {
+          if (diffMs > oneDay) return false;
+        } else if (studentActivityFilter === '7d') {
+          if (diffMs > 7 * oneDay) return false;
+        } else if (studentActivityFilter === 'inactive7d') {
+          if (diffMs <= 7 * oneDay) return false;
+        } else if (studentActivityFilter === 'inactive30d') {
+          if (diffMs <= 30 * oneDay) return false;
+        }
+      }
+      if (studentSearch) {
+        const q = studentSearch.toLowerCase();
+        return (
+          s.displayName.toLowerCase().includes(q) ||
+          s.rollNumber.toLowerCase().includes(q) ||
+          s.email.toLowerCase().includes(q) ||
+          (s.batch && s.batch.toLowerCase().includes(q))
+        );
+      }
+      return true;
+    });
+
+    list.sort((a, b) => {
+      let cmp = 0;
+      if (sortField === 'name') {
+        cmp = a.displayName.localeCompare(b.displayName);
+      } else if (sortField === 'roll') {
+        cmp = a.rollNumber.localeCompare(b.rollNumber);
+      } else if (sortField === 'dept') {
+        cmp = a.department.localeCompare(b.department);
+      } else if (sortField === 'solved') {
+        const aCount = a.solvedProblems?.length || 0;
+        const bCount = b.solvedProblems?.length || 0;
+        cmp = aCount - bCount;
+      } else if (sortField === 'lastActive') {
+        const aTime = a.lastActive ? new Date(a.lastActive).getTime() : 0;
+        const bTime = b.lastActive ? new Date(b.lastActive).getTime() : 0;
+        cmp = aTime - bTime;
+      }
+      return sortOrder === 'asc' ? cmp : -cmp;
+    });
+
+    return list;
+  }, [displayStudents, studentDeptFilter, studentRoleFilter, studentBatchFilter, studentActivityFilter, studentSearch, sortField, sortOrder]);
+
+  // Bulk selection helpers
+  const isAllFilteredSelected = filteredStudents.length > 0 && filteredStudents.every(s => selectedUids.has(s.uid));
+  const isSomeFilteredSelected = filteredStudents.some(s => selectedUids.has(s.uid)) && !isAllFilteredSelected;
+
+  const handleToggleSelectAll = () => {
+    if (isAllFilteredSelected) {
+      setSelectedUids(new Set());
+    } else {
+      const next = new Set(selectedUids);
+      filteredStudents.forEach(s => next.add(s.uid));
+      setSelectedUids(next);
     }
-    return true;
-  });
+  };
+
+  const handleToggleSelectOne = (uid: string) => {
+    const next = new Set(selectedUids);
+    if (next.has(uid)) {
+      next.delete(uid);
+    } else {
+      next.add(uid);
+    }
+    setSelectedUids(next);
+  };
+
+  const handleBulkExportCSV = () => {
+    const selected = displayStudents.filter(s => selectedUids.has(s.uid));
+    if (selected.length === 0) return;
+    const header = "Name,Roll Number,Email,Department,Batch,Role,Status,Solved Count,Total Count,Percentage,Last Active\n";
+    const csvRows = selected.map(s => {
+      const solved = s.solvedProblems?.length || 0;
+      const pct = Math.round((solved / problems.length) * 100);
+      return `"${s.displayName}","${s.rollNumber}","${s.email}","${s.department}","${s.batch || 'Unassigned'}","${s.role}","${s.isSuspended ? 'Suspended' : 'Active'}",${solved},${problems.length},"${pct}%","${s.lastActive}"`;
+    }).join('\n');
+    const blob = new Blob([header + csvRows], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fxec_students_export_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`Exported ${selected.length} students to CSV`);
+  };
+
+  const handleTriggerBulkReset = () => {
+    setConfirmModalState({
+      isOpen: true,
+      title: 'Bulk Reset Student Progress',
+      message: (
+        <div className="space-y-2">
+          <p>
+            Are you sure you want to reset all test progress for <span className="font-bold text-neutral-900">{selectedUids.size} selected students</span>?
+          </p>
+          <p className="text-[11px] text-rose-600 font-medium">
+            This will permanently clear solved problem statuses and saved codes for these students across devices.
+          </p>
+        </div>
+      ),
+      confirmText: 'Reset Progress',
+      confirmVariant: 'danger',
+      onConfirm: async () => {
+        await bulkResetProgress(Array.from(selectedUids));
+        setSelectedUids(new Set());
+        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+        showToast(`Reset progress for ${selectedUids.size} students`);
+        await refreshData();
+      }
+    });
+  };
+
+  const handleTriggerBulkDelete = () => {
+    setConfirmModalState({
+      isOpen: true,
+      title: 'Bulk Delete Students (Permanent)',
+      message: (
+        <div className="space-y-2">
+          <p>
+            This action will permanently delete <span className="font-bold text-neutral-900">{selectedUids.size} selected student accounts</span> from Firestore and local cache.
+          </p>
+          <p className="text-[11px] text-rose-600 font-medium">
+            Their submissions, solved records, and profiles cannot be recovered.
+          </p>
+        </div>
+      ),
+      confirmText: 'Permanently Delete',
+      confirmVariant: 'danger',
+      requireTextMatch: 'DELETE',
+      onConfirm: async () => {
+        await bulkDeleteStudents(Array.from(selectedUids));
+        setSelectedUids(new Set());
+        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+        showToast(`Deleted ${selectedUids.size} students`);
+        await refreshData();
+      }
+    });
+  };
+
+  const handleBulkAssignBatchSubmit = async () => {
+    if (!bulkBatchChoice) return;
+    await bulkAssignBatch(Array.from(selectedUids), bulkBatchChoice);
+    setBulkBatchModalOpen(false);
+    setSelectedUids(new Set());
+    showToast(`Assigned ${selectedUids.size} students to ${bulkBatchChoice}`);
+    await refreshData();
+  };
+
+  // Row Action Handlers with Confirmation Dialogs
+  const handleRowResetProgress = (st: StudentProfile) => {
+    setConfirmModalState({
+      isOpen: true,
+      title: 'Reset Student Progress',
+      message: (
+        <div className="space-y-2">
+          <p>
+            Reset all problem solving progress for <span className="font-bold text-neutral-900">{st.displayName}</span> ({st.rollNumber})?
+          </p>
+          <p className="text-[11px] text-rose-600">
+            This will clear their solved problems list and test scores from Firestore.
+          </p>
+        </div>
+      ),
+      confirmText: 'Reset Progress',
+      confirmVariant: 'danger',
+      onConfirm: async () => {
+        await resetStudentProgress(st.uid);
+        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+        showToast(`Reset progress for ${st.displayName}`);
+        await refreshData();
+      }
+    });
+  };
+
+  const handleRowToggleUnlock = (st: StudentProfile, lvl: number) => {
+    const isCurrentlyUnlocked = st.unlockedLevels?.includes(lvl);
+    setConfirmModalState({
+      isOpen: true,
+      title: `Toggle Level ${lvl} Unlock Override`,
+      message: (
+        <p>
+          {isCurrentlyUnlocked ? 'Lock' : 'Manually unlock'} Level {lvl} for <span className="font-semibold text-neutral-900">{st.displayName}</span>?
+        </p>
+      ),
+      confirmText: isCurrentlyUnlocked ? 'Lock Level' : 'Unlock Level',
+      confirmVariant: 'primary',
+      onConfirm: async () => {
+        await toggleStudentLevelUnlock(st.uid, lvl);
+        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+        showToast(`Updated Level ${lvl} unlock override for ${st.displayName}`);
+        await refreshData();
+      }
+    });
+  };
+
+  const handleRowToggleSuspend = (st: StudentProfile) => {
+    const willSuspend = !st.isSuspended;
+    setConfirmModalState({
+      isOpen: true,
+      title: willSuspend ? 'Suspend Student Account' : 'Reactivate Student Account',
+      message: willSuspend ? (
+        <p>
+          Temporarily suspend <span className="font-semibold text-neutral-900">{st.displayName}</span>? They will see a suspension notice on login.
+        </p>
+      ) : (
+        <p>
+          Reactivate access for <span className="font-semibold text-neutral-900">{st.displayName}</span>?
+        </p>
+      ),
+      confirmText: willSuspend ? 'Suspend Student' : 'Reactivate Student',
+      confirmVariant: willSuspend ? 'danger' : 'primary',
+      onConfirm: async () => {
+        await toggleStudentSuspension(st.uid, willSuspend);
+        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+        showToast(`${willSuspend ? 'Suspended' : 'Reactivated'} ${st.displayName}`);
+        await refreshData();
+      }
+    });
+  };
+
+  const handleRowDeleteStudent = (st: StudentProfile) => {
+    setConfirmModalState({
+      isOpen: true,
+      title: 'Delete Student Account',
+      message: (
+        <div className="space-y-2">
+          <p>
+            Permanently delete <span className="font-bold text-neutral-900">{st.displayName}</span> ({st.rollNumber})?
+          </p>
+          <p className="text-[11px] text-rose-600 font-medium">
+            This action cannot be undone. All user data and submissions will be removed from Firestore.
+          </p>
+        </div>
+      ),
+      confirmText: 'Delete Permanently',
+      confirmVariant: 'danger',
+      onConfirm: async () => {
+        await deleteStudent(st.uid);
+        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+        showToast(`Deleted ${st.displayName}`);
+        await refreshData();
+      }
+    });
+  };
+
+  const handleRowChangeRole = (st: StudentProfile, newRole: UserRole) => {
+    if (st.email.toLowerCase() === DEVELOPER_EMAIL.toLowerCase()) {
+      showToast('Developer account role cannot be changed');
+      return;
+    }
+    const roleTitle = newRole === 'primary_admin' ? 'Primary Admin' : newRole === 'admin' ? 'Sub-Admin' : newRole === 'staff' ? 'Staff' : 'Student';
+    setConfirmModalState({
+      isOpen: true,
+      title: `Change User Role to ${roleTitle}`,
+      message: (
+        <p>
+          Change role of <span className="font-semibold text-neutral-900">{st.displayName}</span> ({st.email}) to <span className="font-bold text-neutral-900">{roleTitle}</span>?
+        </p>
+      ),
+      confirmText: `Set Role to ${roleTitle}`,
+      confirmVariant: 'primary',
+      onConfirm: async () => {
+        try {
+          await updateStudentRole(st.uid, newRole, currentUser.role);
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`Updated role of ${st.displayName} to ${roleTitle}`);
+          await refreshData();
+        } catch (e: any) {
+          showToast(e?.message || 'Error updating role');
+        }
+      }
+    });
+  };
 
   const filteredProblems = problems.filter(p => {
     if (problemLevelFilter !== 'all' && p.level !== problemLevelFilter) return false;
@@ -313,8 +716,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             Problem Suite ({problems.length})
           </button>
 
-          {/* Roles & Access Tab: ONLY accessible to Developer */}
-          {isDeveloper && (
+          {/* Roles & Access Tab: ONLY accessible to Developer & Primary Admin (Completely hidden from Sub-Admin & Staff) */}
+          {canManageRoles && (
             <button
               onClick={() => setActiveTab('roles')}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${
@@ -325,8 +728,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             >
               <ShieldCheck size={13} />
               <span>Roles & Access</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-400 text-neutral-950 font-bold">
-                Dev
+              <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${
+                isDeveloper ? 'bg-amber-400 text-neutral-950' : 'bg-purple-100 text-purple-800'
+              }`}>
+                {isDeveloper ? 'Dev' : 'Primary Admin'}
               </span>
             </button>
           )}
@@ -342,24 +747,134 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {activeTab === 'students' && (
           <div className="space-y-4">
             
-            {/* Search and Filters Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              <div className="relative flex-1 max-w-md">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                <input
-                  type="text"
-                  placeholder="Search by student name, roll number, or email..."
-                  value={studentSearch}
-                  onChange={(e) => setStudentSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-neutral-200 rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-400"
-                />
+            {/* Top Toolbar: Directory Header & Management Action Buttons */}
+            <div className="bg-white border border-neutral-200/90 rounded-xl p-3.5 shadow-2xs space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-100">
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                    Student Roster & Cohort Management
+                  </h3>
+                  <p className="text-xs text-neutral-800 font-medium mt-0.5">
+                    {filteredStudents.length} of {displayStudents.length} registered students
+                    {selectedUids.size > 0 && ` · ${selectedUids.size} selected`}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    onClick={() => setShowAddStudentModal(true)}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <UserPlus size={13} />
+                    <span>Add Student</span>
+                  </button>
+
+                  <button
+                    onClick={() => setShowCSVImportModal(true)}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-50 border border-neutral-200 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <Upload size={13} className="text-neutral-500" />
+                    <span>Import CSV</span>
+                  </button>
+
+                  <button
+                    onClick={() => setShowBatchModal(true)}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-50 border border-neutral-200 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <FolderCheck size={13} className="text-neutral-500" />
+                    <span>Batches ({batches.length})</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setAnnouncementTargets(undefined);
+                      setShowAnnouncementModal(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-50 border border-neutral-200 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <Megaphone size={13} className="text-neutral-500" />
+                    <span>Announcements</span>
+                  </button>
+
+                  <button
+                    onClick={() => setShowSimilarityModal(true)}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition-colors cursor-pointer"
+                    title="Automated Cross-Student Code Similarity Analysis"
+                  >
+                    <ShieldAlert size={13} className="text-rose-600" />
+                    <span>Integrity Audit</span>
+                  </button>
+
+                  <button
+                    onClick={() => refreshData(true)}
+                    disabled={isSyncingCloud}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-neutral-700 bg-white border border-neutral-200 hover:bg-neutral-50 disabled:opacity-60 rounded-lg transition-colors cursor-pointer"
+                    title="Fetch latest student registrations from Google Auth"
+                  >
+                    <RefreshCw size={12} className={isSyncingCloud ? 'animate-spin text-neutral-900' : 'text-neutral-500'} />
+                    <span>{isSyncingCloud ? 'Syncing...' : 'Sync'}</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2 self-start sm:self-auto">
+              {/* Filters Bar: Search, Role, Batch, Activity, Dept */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-xs">
+                {/* Search */}
+                <div className="relative lg:col-span-1 sm:col-span-2">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+                  <input
+                    type="text"
+                    placeholder="Search name, roll, email..."
+                    value={studentSearch}
+                    onChange={(e) => setStudentSearch(e.target.value)}
+                    className="w-full pl-8 pr-3 py-1.5 text-xs bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-400"
+                  />
+                </div>
+
+                {/* Role Filter */}
+                <select
+                  value={studentRoleFilter}
+                  onChange={(e) => setStudentRoleFilter(e.target.value as any)}
+                  className="bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-1.5 text-xs text-neutral-700 focus:outline-none cursor-pointer"
+                >
+                  <option value="all">All Roles</option>
+                  <option value="student">Role: Student</option>
+                  <option value="staff">Role: Staff</option>
+                  <option value="admin">Role: Sub-Admin</option>
+                  <option value="primary_admin">Role: Primary Admin</option>
+                </select>
+
+                {/* Batch Filter */}
+                <select
+                  value={studentBatchFilter}
+                  onChange={(e) => setStudentBatchFilter(e.target.value)}
+                  className="bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-1.5 text-xs text-neutral-700 focus:outline-none cursor-pointer"
+                >
+                  <option value="all">All Batches</option>
+                  {batches.map(b => (
+                    <option key={b.id} value={b.name}>{b.name}</option>
+                  ))}
+                  <option value="unassigned">Unassigned</option>
+                </select>
+
+                {/* Activity Filter */}
+                <select
+                  value={studentActivityFilter}
+                  onChange={(e) => setStudentActivityFilter(e.target.value as any)}
+                  className="bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-1.5 text-xs text-neutral-700 focus:outline-none cursor-pointer"
+                >
+                  <option value="all">All Activity</option>
+                  <option value="24h">Active Today (&lt; 24h)</option>
+                  <option value="7d">Active Past 7 Days</option>
+                  <option value="inactive7d">Inactive 7+ Days</option>
+                  <option value="inactive30d">Inactive 30+ Days</option>
+                </select>
+
+                {/* Department Filter */}
                 <select
                   value={studentDeptFilter}
                   onChange={(e) => setStudentDeptFilter(e.target.value)}
-                  className="bg-white border border-neutral-200 rounded-lg px-3 py-1.5 text-xs text-neutral-700 focus:outline-none cursor-pointer"
+                  className="bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-1.5 text-xs text-neutral-700 focus:outline-none cursor-pointer"
                 >
                   <option value="All">All Departments</option>
                   <option value="Computer Science & Engineering">CSE</option>
@@ -369,84 +884,398 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <option value="Electrical & Electronics Engineering">EEE</option>
                   <option value="Mechanical Engineering">Mechanical</option>
                 </select>
-
-                <button
-                  onClick={() => refreshData(true)}
-                  disabled={isSyncingCloud}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 bg-white border border-neutral-200 hover:bg-neutral-50 disabled:opacity-60 rounded-lg transition-colors cursor-pointer whitespace-nowrap"
-                  title="Fetch latest student registrations from Google Auth"
-                >
-                  <RefreshCw size={12} className={isSyncingCloud ? 'animate-spin text-neutral-900' : 'text-neutral-500'} />
-                  <span>{isSyncingCloud ? 'Syncing...' : 'Sync Cloud'}</span>
-                </button>
               </div>
             </div>
 
+            {/* Bulk Actions Floating Bar (Active when students are selected) */}
+            {selectedUids.size > 0 && (
+              <div className="bg-neutral-900 text-white rounded-xl p-3 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs animate-in slide-in-from-top-2">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-center justify-center w-5 h-5 rounded bg-neutral-800 text-amber-300 font-bold text-[11px] font-mono">
+                    {selectedUids.size}
+                  </div>
+                  <span className="font-medium">student(s) selected</span>
+                  <button
+                    onClick={() => setSelectedUids(new Set())}
+                    className="text-[11px] text-neutral-400 hover:text-white underline cursor-pointer ml-1"
+                  >
+                    Deselect All
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    onClick={handleTriggerBulkReset}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw size={12} className="text-amber-400" />
+                    <span>Reset Progress</span>
+                  </button>
+
+                  <button
+                    onClick={handleBulkExportCSV}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors cursor-pointer"
+                  >
+                    <Download size={12} className="text-emerald-400" />
+                    <span>Export CSV</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setBulkBatchChoice(batches[0]?.name || '');
+                      setBulkBatchModalOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors cursor-pointer"
+                  >
+                    <FolderPlus size={12} className="text-blue-400" />
+                    <span>Assign Batch</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setAnnouncementTargets(Array.from(selectedUids));
+                      setShowAnnouncementModal(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors cursor-pointer"
+                  >
+                    <Megaphone size={12} className="text-indigo-400" />
+                    <span>Broadcast Notice</span>
+                  </button>
+
+                  <button
+                    onClick={handleTriggerBulkDelete}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 transition-colors cursor-pointer ml-1"
+                  >
+                    <Trash2 size={12} />
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Students Table */}
             <div className="bg-white border border-neutral-200/90 rounded-xl divide-y divide-neutral-100 overflow-hidden shadow-2xs">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-neutral-50/75 text-neutral-500 font-medium border-b border-neutral-200/80">
-                  <tr>
-                    <th className="py-2.5 px-4 w-12">#</th>
-                    <th className="py-2.5 px-4">Student</th>
-                    <th className="py-2.5 px-4">Department</th>
-                    <th className="py-2.5 px-4 w-48">Problems Solved</th>
-                    <th className="py-2.5 px-4 text-right w-32">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-neutral-100">
-                  {filteredStudents.length === 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-neutral-50/75 text-neutral-500 font-medium border-b border-neutral-200/80">
                     <tr>
-                      <td colSpan={5} className="py-12 text-center text-neutral-400 text-xs">
-                        No students found matching your search criteria.
-                      </td>
+                      <th className="py-2.5 px-3 w-10 text-center">
+                        <input
+                          type="checkbox"
+                          checked={isAllFilteredSelected}
+                          ref={el => {
+                            if (el) el.indeterminate = isSomeFilteredSelected;
+                          }}
+                          onChange={handleToggleSelectAll}
+                          className="rounded accent-neutral-900 cursor-pointer"
+                          title="Select / Deselect all"
+                        />
+                      </th>
+                      <th className="py-2.5 px-3 w-10">#</th>
+                      <th 
+                        onClick={() => {
+                          if (sortField === 'name') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortField('name'); setSortOrder('asc'); }
+                        }}
+                        className="py-2.5 px-4 cursor-pointer hover:text-neutral-900 select-none"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Student</span>
+                          {sortField === 'name' ? (
+                            sortOrder === 'asc' ? <ArrowUp size={11} className="text-neutral-900" /> : <ArrowDown size={11} className="text-neutral-900" />
+                          ) : <ArrowUpDown size={11} className="text-neutral-300" />}
+                        </div>
+                      </th>
+                      <th className="py-2.5 px-3 w-28">Batch</th>
+                      <th 
+                        onClick={() => {
+                          if (sortField === 'dept') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortField('dept'); setSortOrder('asc'); }
+                        }}
+                        className="py-2.5 px-3 cursor-pointer hover:text-neutral-900 select-none"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Department</span>
+                          {sortField === 'dept' ? (
+                            sortOrder === 'asc' ? <ArrowUp size={11} className="text-neutral-900" /> : <ArrowDown size={11} className="text-neutral-900" />
+                          ) : <ArrowUpDown size={11} className="text-neutral-300" />}
+                        </div>
+                      </th>
+                      <th 
+                        onClick={() => {
+                          if (sortField === 'solved') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortField('solved'); setSortOrder('desc'); }
+                        }}
+                        className="py-2.5 px-4 w-44 cursor-pointer hover:text-neutral-900 select-none"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Problems Solved</span>
+                          {sortField === 'solved' ? (
+                            sortOrder === 'asc' ? <ArrowUp size={11} className="text-neutral-900" /> : <ArrowDown size={11} className="text-neutral-900" />
+                          ) : <ArrowUpDown size={11} className="text-neutral-300" />}
+                        </div>
+                      </th>
+                      <th 
+                        onClick={() => {
+                          if (sortField === 'lastActive') setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+                          else { setSortField('lastActive'); setSortOrder('desc'); }
+                        }}
+                        className="py-2.5 px-3 w-32 cursor-pointer hover:text-neutral-900 select-none"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Last Active</span>
+                          {sortField === 'lastActive' ? (
+                            sortOrder === 'asc' ? <ArrowUp size={11} className="text-neutral-900" /> : <ArrowDown size={11} className="text-neutral-900" />
+                          ) : <ArrowUpDown size={11} className="text-neutral-300" />}
+                        </div>
+                      </th>
+                      <th className="py-2.5 px-4 text-right w-44">Actions</th>
                     </tr>
-                  ) : (
-                    filteredStudents.map((st, idx) => {
-                      const solvedCount = st.solvedProblems?.length || 0;
-                      const pct = Math.round((solvedCount / problems.length) * 100);
+                  </thead>
+                  <tbody className="divide-y divide-neutral-100">
+                    {filteredStudents.length === 0 ? (
+                      <tr>
+                        <td colSpan={8} className="py-12 text-center text-neutral-400 text-xs">
+                          No students found matching your search and filter criteria.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredStudents.map((st, idx) => {
+                        const solvedCount = st.solvedProblems?.length || 0;
+                        const pct = Math.round((solvedCount / problems.length) * 100);
+                        const isMenuOpen = activeRowMenuUid === st.uid;
 
-                      return (
-                        <tr key={st.uid} className="hover:bg-neutral-50/60 transition-colors">
-                          <td className="py-3 px-4 text-neutral-400 font-mono">{idx + 1}</td>
-                          <td className="py-3 px-4">
-                            <div className="font-medium text-neutral-900 flex items-center gap-1.5">
-                              <span>{st.displayName}</span>
-                              <span className="font-mono text-[10px] text-neutral-500 bg-neutral-100 px-1 py-0.5 rounded">
-                                {st.rollNumber}
+                        return (
+                          <tr 
+                            key={st.uid} 
+                            className={`hover:bg-neutral-50/60 transition-colors ${
+                              selectedUids.has(st.uid) ? 'bg-neutral-50/90' : ''
+                            }`}
+                          >
+                            <td className="py-3 px-3 text-center">
+                              <input
+                                type="checkbox"
+                                checked={selectedUids.has(st.uid)}
+                                onChange={() => handleToggleSelectOne(st.uid)}
+                                className="rounded accent-neutral-900 cursor-pointer"
+                              />
+                            </td>
+                            <td className="py-3 px-3 text-neutral-400 font-mono text-[11px]">{idx + 1}</td>
+                            <td className="py-3 px-4">
+                              <div className="font-medium text-neutral-900 flex items-center gap-1.5 flex-wrap">
+                                <span>{st.displayName}</span>
+                                <span className="font-mono text-[10px] text-neutral-500 bg-neutral-100 px-1 py-0.5 rounded">
+                                  {st.rollNumber}
+                                </span>
+                                {st.role === 'admin' && (
+                                  <span className="text-[10px] px-1 py-0.2 rounded bg-blue-100 text-blue-800 font-bold">
+                                    Sub-Admin
+                                  </span>
+                                )}
+                                {st.role === 'staff' && (
+                                  <span className="text-[10px] px-1 py-0.2 rounded bg-amber-100 text-amber-800 font-medium">
+                                    Staff
+                                  </span>
+                                )}
+                                {st.role === 'primary_admin' && (
+                                  <span className="text-[10px] px-1 py-0.2 rounded bg-purple-100 text-purple-800 font-bold">
+                                    Primary Admin
+                                  </span>
+                                )}
+                                {st.isSuspended && (
+                                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 font-semibold flex items-center gap-0.5">
+                                    <UserX size={10} /> Suspended
+                                  </span>
+                                )}
+                                {st.unlockedLevels && st.unlockedLevels.length > 0 && (
+                                  <span className="text-[10px] px-1 py-0.2 rounded bg-emerald-50 text-emerald-700 font-mono">
+                                    🔓 L{st.unlockedLevels.join(',')}
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[11px] text-neutral-400 block font-mono">
+                                {st.email}
                               </span>
-                            </div>
-                            <span className="text-[11px] text-neutral-400 block font-mono">
-                              {st.email}
-                            </span>
-                          </td>
-                          <td className="py-3 px-4 text-neutral-600">
-                            {st.department.replace('&', '·')}
-                          </td>
-                          <td className="py-3 px-4">
-                            <div className="flex items-center justify-between text-[11px] mb-1 font-mono">
-                              <span className="font-semibold text-neutral-900">{solvedCount}</span>
-                              <span className="text-neutral-400">/ {problems.length} ({pct}%)</span>
-                            </div>
-                            <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-                              <div className="h-full bg-neutral-900 rounded-full transition-all" style={{ width: `${pct}%` }} />
-                            </div>
-                          </td>
-                          <td className="py-3 px-4 text-right">
-                            <button
-                              onClick={() => setSelectedStudent(st)}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-neutral-800 bg-neutral-100 hover:bg-neutral-200/90 rounded-md transition-colors cursor-pointer"
-                            >
-                              <FileCode size={12} className="text-neutral-600" />
-                              <span>View Code</span>
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
+                            </td>
+
+                            <td className="py-3 px-3 text-neutral-600 font-mono text-[11px]">
+                              {st.batch ? (
+                                <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700">
+                                  {st.batch}
+                                </span>
+                              ) : (
+                                <span className="text-neutral-300">—</span>
+                              )}
+                            </td>
+
+                            <td className="py-3 px-3 text-neutral-600">
+                              {st.department.replace('&', '·')}
+                            </td>
+
+                            <td className="py-3 px-4">
+                              <div className="flex items-center justify-between text-[11px] mb-1 font-mono">
+                                <span className="font-semibold text-neutral-900">{solvedCount}</span>
+                                <span className="text-neutral-400">/ {problems.length} ({pct}%)</span>
+                              </div>
+                              <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-neutral-900 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                              </div>
+                            </td>
+
+                            <td className="py-3 px-3 text-neutral-500 font-mono text-[11px]">
+                              {st.lastActive ? new Date(st.lastActive).toLocaleDateString() : '—'}
+                            </td>
+
+                            <td className="py-3 px-4 text-right">
+                              <div className="inline-flex items-center gap-1.5 relative">
+                                <button
+                                  onClick={() => setSelectedStudent(st)}
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-neutral-800 bg-neutral-100 hover:bg-neutral-200/90 rounded-md transition-colors cursor-pointer"
+                                  title="View full profile and submitted solutions"
+                                >
+                                  <FileCode size={12} className="text-neutral-600" />
+                                  <span>View Code</span>
+                                </button>
+
+                                <button
+                                  onClick={() => {
+                                    generateReport({
+                                      userId: st.uid,
+                                      userName: st.displayName,
+                                      problems,
+                                      solvedProblemIds: new Set(st.solvedProblems || []),
+                                      attemptedProblemIds: new Set(st.attemptedProblems || []),
+                                      userEmail: st.email,
+                                      rollNumber: st.rollNumber,
+                                      department: st.department
+                                    });
+                                    showToast(`Generated PDF for ${st.displayName}`);
+                                  }}
+                                  className="p-1 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-md transition-colors cursor-pointer"
+                                  title="Download Performance PDF"
+                                >
+                                  <FileDown size={14} />
+                                </button>
+
+                                {/* More Row Actions Dropdown */}
+                                <div className="relative">
+                                  <button
+                                    onClick={() => setActiveRowMenuUid(isMenuOpen ? null : st.uid)}
+                                    className="p-1 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-md transition-colors cursor-pointer"
+                                    title="More student management actions"
+                                  >
+                                    <MoreHorizontal size={14} />
+                                  </button>
+
+                                  {isMenuOpen && (
+                                    <>
+                                      <div 
+                                        className="fixed inset-0 z-20 cursor-default" 
+                                        onClick={() => setActiveRowMenuUid(null)} 
+                                      />
+                                      <div className="absolute right-0 top-full mt-1 w-52 bg-white border border-neutral-200 rounded-xl shadow-xl py-1.5 z-30 text-left text-xs divide-y divide-neutral-100 animate-in fade-in">
+                                        
+                                        {/* Group 1: Progress & Overrides */}
+                                        <div className="py-1">
+                                          <button
+                                            onClick={() => {
+                                              setActiveRowMenuUid(null);
+                                              handleRowResetProgress(st);
+                                            }}
+                                            className="w-full px-3 py-1.5 text-left text-amber-700 hover:bg-amber-50 flex items-center gap-2 cursor-pointer"
+                                          >
+                                            <RotateCcw size={12} />
+                                            <span>Reset Progress</span>
+                                          </button>
+
+                                          <div className="px-3 py-1 text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">
+                                            Level Unlock Override:
+                                          </div>
+                                          {[2, 3].map(lvl => {
+                                            const isUnlocked = st.unlockedLevels?.includes(lvl);
+                                            return (
+                                              <button
+                                                key={lvl}
+                                                onClick={() => {
+                                                  setActiveRowMenuUid(null);
+                                                  handleRowToggleUnlock(st, lvl);
+                                                }}
+                                                className="w-full px-3 py-1 text-left text-neutral-700 hover:bg-neutral-100 flex items-center justify-between cursor-pointer"
+                                              >
+                                                <span>Level {lvl} Override</span>
+                                                <span className="text-[10px] font-mono font-medium">
+                                                  {isUnlocked ? 'Unlocked' : 'Locked'}
+                                                </span>
+                                              </button>
+                                            );
+                                          })}
+                                        </div>
+
+                                        {/* Group 2: Account Status */}
+                                        <div className="py-1">
+                                          <button
+                                            onClick={() => {
+                                              setActiveRowMenuUid(null);
+                                              handleRowToggleSuspend(st);
+                                            }}
+                                            className={`w-full px-3 py-1.5 text-left flex items-center gap-2 cursor-pointer ${
+                                              st.isSuspended ? 'text-emerald-700 hover:bg-emerald-50' : 'text-rose-700 hover:bg-rose-50'
+                                            }`}
+                                          >
+                                            {st.isSuspended ? <UserCheck size={12} /> : <UserX size={12} />}
+                                            <span>{st.isSuspended ? 'Reactivate Account' : 'Suspend Account'}</span>
+                                          </button>
+                                        </div>
+
+                                        {/* Group 3: Role Change */}
+                                        <div className="py-1">
+                                          <div className="px-3 py-1 text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">
+                                            Change Role:
+                                          </div>
+                                          {(['student', 'staff', 'admin'] as UserRole[]).map(r => (
+                                            <button
+                                              key={r}
+                                              disabled={st.role === r}
+                                              onClick={() => {
+                                                setActiveRowMenuUid(null);
+                                                handleRowChangeRole(st, r);
+                                              }}
+                                              className="w-full px-3 py-1 text-left text-neutral-700 hover:bg-neutral-100 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-between cursor-pointer"
+                                            >
+                                              <span className="capitalize">{r === 'admin' ? 'Sub-Admin' : r}</span>
+                                              {st.role === r && <span className="text-[10px] font-mono text-emerald-600">Current</span>}
+                                            </button>
+                                          ))}
+                                        </div>
+
+                                        {/* Group 4: Delete */}
+                                        <div className="py-1">
+                                          <button
+                                            onClick={() => {
+                                              setActiveRowMenuUid(null);
+                                              handleRowDeleteStudent(st);
+                                            }}
+                                            className="w-full px-3 py-1.5 text-left text-rose-700 hover:bg-rose-50 flex items-center gap-2 cursor-pointer"
+                                          >
+                                            <Trash2 size={12} />
+                                            <span>Delete Account</span>
+                                          </button>
+                                        </div>
+
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
           </div>
@@ -530,7 +1359,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-1.5">
-                    {[1, 2, 3].map(lvl => {
+                    {availableLevels.map(lvl => {
                       const isLocked = settings.lockedLevels?.includes(lvl);
                       return (
                         <button
@@ -550,8 +1379,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
                 </div>
 
-                {/* Control 3: Role-Based Access Control Summary - Developer Only */}
-                {isDeveloper && (
+                {/* Control 3: Role-Based Access Control Summary - Developer & Primary Admin Only (Hidden from Sub-Admin & Staff) */}
+                {canManageRoles && (
                   <div className="p-3 bg-neutral-50/60 border border-neutral-200/80 rounded-lg sm:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <div className="flex items-center gap-2">
@@ -559,12 +1388,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <span className="text-xs font-semibold text-neutral-900">
                           Role-Based Access Management
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-neutral-900 text-amber-300 font-semibold">
-                          Developer Console
+                        <span className={`text-[10px] px-2 py-0.5 rounded font-semibold ${
+                          isDeveloper ? 'bg-neutral-900 text-amber-300' : 'bg-purple-900 text-purple-200'
+                        }`}>
+                          {isDeveloper ? 'Developer Console' : 'Primary Admin Console'}
                         </span>
                       </div>
                       <p className="text-[11px] text-neutral-500 mt-0.5">
-                        Configure administrative and staff access for faculty members.
+                        {isDeveloper
+                          ? 'Assign Primary Admin, Sub-Admins, and Staff permissions.'
+                          : 'Assign Sub-Admins and Staff roles, and remove staff permissions.'}
                       </p>
                     </div>
 
@@ -573,7 +1406,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 bg-white border border-neutral-200 hover:bg-neutral-50 rounded-lg transition-colors cursor-pointer self-start sm:self-auto shrink-0"
                     >
                       <UserCog size={13} className="text-neutral-500" />
-                      <span>Manage Roles ({Object.keys(settings.roleAssignments || {}).length})</span>
+                      <span>Manage Roles ({Object.keys(settings.roleAssignments || {}).filter(e => isDeveloper || e.toLowerCase() !== DEVELOPER_EMAIL.toLowerCase()).length})</span>
                     </button>
                   </div>
                 )}
@@ -677,9 +1510,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   className="bg-white border border-neutral-200 rounded-lg px-2.5 py-1.5 text-xs text-neutral-700 focus:outline-none cursor-pointer"
                 >
                   <option value="all">All Levels</option>
-                  <option value={1}>Level 1</option>
-                  <option value={2}>Level 2</option>
-                  <option value={3}>Level 3</option>
+                  {availableLevels.map(lvl => (
+                    <option key={lvl} value={lvl}>Level {lvl}</option>
+                  ))}
                 </select>
               </div>
 
@@ -745,27 +1578,37 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         )}
 
         {/* ========================================================================= */}
-        {/* 4. ROLE-BASED ACCESS CONTROL TAB (DEVELOPER ONLY) */}
+        {/* 4. ROLE-BASED ACCESS CONTROL TAB (DEVELOPER & PRIMARY ADMIN ONLY) */}
         {/* ========================================================================= */}
-        {activeTab === 'roles' && isDeveloper && (() => {
+        {activeTab === 'roles' && canManageRoles && (() => {
           const roleAssignments = settings.roleAssignments || {};
-          const assignedEntries = Object.entries(roleAssignments);
+          
+          // STRICT PRIVACY: If operator is NOT developer, NEVER show developer email or root account
+          const assignedEntries = Object.entries(roleAssignments).filter(([email]) => {
+            if (!isDeveloper && email.toLowerCase() === DEVELOPER_EMAIL.toLowerCase()) {
+              return false;
+            }
+            return true;
+          });
           
           // Candidate students/users for role management (never include developer)
-          const allUsers = displayStudents.map(s => {
-            const assigned = roleAssignments[s.email.trim().toLowerCase()];
-            return {
-              uid: s.uid,
-              displayName: s.displayName,
-              email: s.email,
-              role: (assigned || 'student') as UserRole,
-              department: s.department,
-              rollNumber: s.rollNumber,
-              solvedCount: s.solvedProblems.length
-            };
-          });
+          const allUsers = displayStudents
+            .filter(s => isDeveloper || s.email.trim().toLowerCase() !== DEVELOPER_EMAIL.toLowerCase())
+            .map(s => {
+              const assigned = roleAssignments[s.email.trim().toLowerCase()];
+              return {
+                uid: s.uid,
+                displayName: s.displayName,
+                email: s.email,
+                role: (assigned || 'student') as UserRole,
+                department: s.department,
+                rollNumber: s.rollNumber,
+                solvedCount: s.solvedProblems.length
+              };
+            });
 
-          const totalAdmins = allUsers.filter(u => u.role === 'admin').length;
+          const totalPrimaryAdmins = allUsers.filter(u => u.role === 'primary_admin').length;
+          const totalSubAdmins = allUsers.filter(u => u.role === 'admin').length;
           const totalStaff = allUsers.filter(u => u.role === 'staff').length;
           const totalStudents = allUsers.filter(u => u.role === 'student').length;
 
@@ -795,21 +1638,36 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       <h2 className="text-base font-semibold text-neutral-900">
                         Role-Based Access Control (RBAC)
                       </h2>
-                      <span className="px-2 py-0.5 text-[11px] font-semibold bg-neutral-900 text-amber-300 rounded-full flex items-center gap-1">
-                        <Sparkles size={11} className="text-amber-400" />
-                        Master Developer
-                      </span>
+                      {isDeveloper ? (
+                        <span className="px-2 py-0.5 text-[11px] font-semibold bg-neutral-900 text-amber-300 rounded-full flex items-center gap-1">
+                          <Sparkles size={11} className="text-amber-400" />
+                          Master Developer
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 text-[11px] font-semibold bg-purple-100 text-purple-800 rounded-full flex items-center gap-1">
+                          <ShieldCheck size={11} className="text-purple-600" />
+                          Primary Administrator
+                        </span>
+                      )}
                     </div>
                     <p className="text-xs text-neutral-500 max-w-2xl">
-                      Access to the administrative portal is determined strictly by account role. The Developer account can assign staff and admin permissions. Any college account not explicitly assigned defaults to <span className="font-semibold text-neutral-800">Student</span> access.
+                      {isDeveloper
+                        ? 'Access to the administrative portal is determined strictly by account role. As Master Developer, you can assign Primary Administrators (who have permissions to assign sub-admins and remove staff roles), assign Sub-Admins and Staff, or revert accounts to default Student status.'
+                        : 'As Primary Administrator, you have delegated administrative authority to assign Sub-Admins and Staff roles, and remove the staff role. Unassigned college accounts default to Student status.'}
                     </p>
                   </div>
 
                   {/* Summary Metric Chips */}
                   <div className="flex items-center gap-2 shrink-0">
+                    {isDeveloper && (
+                      <div className="px-3 py-1.5 bg-purple-50/60 border border-purple-200/70 rounded-lg text-center">
+                        <div className="text-[10px] text-purple-600 font-medium uppercase tracking-wider">Primary Admin</div>
+                        <div className="text-xs font-bold text-purple-900">{totalPrimaryAdmins}</div>
+                      </div>
+                    )}
                     <div className="px-3 py-1.5 bg-blue-50/60 border border-blue-200/70 rounded-lg text-center">
-                      <div className="text-[10px] text-blue-600 font-medium uppercase tracking-wider">Admins</div>
-                      <div className="text-xs font-bold text-blue-900">{totalAdmins}</div>
+                      <div className="text-[10px] text-blue-600 font-medium uppercase tracking-wider">Sub-Admins</div>
+                      <div className="text-xs font-bold text-blue-900">{totalSubAdmins}</div>
                     </div>
                     <div className="px-3 py-1.5 bg-emerald-50/60 border border-emerald-200/70 rounded-lg text-center">
                       <div className="text-[10px] text-emerald-600 font-medium uppercase tracking-wider">Staff</div>
@@ -823,17 +1681,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
               </div>
 
-              {/* Developer Action: Assign Role to Email */}
+              {/* Role Assignment Card */}
               <div className="bg-white border border-neutral-200/90 rounded-xl p-5 shadow-2xs space-y-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <UserPlus size={16} className="text-neutral-700" />
                     <h3 className="text-sm font-semibold text-neutral-900">
-                      Assign New Admin or Staff Role
+                      {isDeveloper ? 'Assign Primary Admin, Sub-Admin, or Staff Role' : 'Assign Sub-Admin or Staff Role'}
                     </h3>
                   </div>
                   <p className="text-xs text-neutral-500 mt-0.5">
-                    Grant elevated portal access to any college account by entering their institutional email.
+                    {isDeveloper
+                      ? 'Grant elevated access to any college account by assigning Primary Admin, Sub-Admin, or Staff roles.'
+                      : 'Grant elevated access to any college account by assigning Sub-Admin or Staff roles.'}
                   </p>
                 </div>
 
@@ -858,11 +1718,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </label>
                       <select
                         value={roleAssignType}
-                        onChange={(e) => setRoleAssignType(e.target.value as 'admin' | 'staff')}
+                        onChange={(e) => setRoleAssignType(e.target.value as UserRole)}
                         className="w-full px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-xs font-medium text-neutral-800 focus:outline-none focus:border-neutral-400 cursor-pointer"
                       >
+                        {isDeveloper && (
+                          <option value="primary_admin">Primary Admin (Can manage Sub-Admins & Staff)</option>
+                        )}
+                        <option value="admin">Sub-Admin (Class & Contest Management)</option>
                         <option value="staff">Staff (Review & Monitor)</option>
-                        <option value="admin">Admin (Full Control)</option>
                       </select>
                     </div>
 
@@ -882,20 +1745,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <p className="text-xs text-rose-600 font-medium">{roleAssignError}</p>
                   )}
 
-                  {/* Quick Suggestions Chips from active students list */}
-                  {displayStudents.length > 0 && (
+                  {/* Quick Suggestions Chips from active accounts */}
+                  {allUsers.length > 0 && (
                     <div className="pt-2 border-t border-neutral-100 flex items-center flex-wrap gap-1.5">
                       <span className="text-[11px] text-neutral-500 font-medium">
                         Quick-fill from active accounts:
                       </span>
-                      {displayStudents.slice(0, 5).map((s) => (
+                      {allUsers.slice(0, 5).map((u) => (
                         <button
-                          key={s.uid}
+                          key={u.uid}
                           type="button"
-                          onClick={() => setRoleAssignEmail(s.email)}
+                          onClick={() => setRoleAssignEmail(u.email)}
                           className="px-2 py-0.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-[11px] rounded transition-colors cursor-pointer font-mono"
                         >
-                          {s.email}
+                          {u.email}
                         </button>
                       ))}
                     </div>
@@ -903,12 +1766,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </form>
               </div>
 
-              {/* Assigned Faculty Roles (Admins & Staff) */}
+              {/* Assigned Faculty Roles (Primary Admins, Sub-Admins & Staff) */}
               <div className="bg-white border border-neutral-200/90 rounded-xl divide-y divide-neutral-100 overflow-hidden shadow-2xs">
                 <div className="p-4 bg-neutral-50/75 border-b border-neutral-200/80 flex items-center justify-between">
                   <div>
                     <h3 className="text-xs font-semibold text-neutral-900">
-                      Assigned Faculty Roles (Admins & Staff)
+                      Assigned Faculty Roles (Primary Admins, Sub-Admins & Staff)
                     </h3>
                     <p className="text-[11px] text-neutral-500">
                       Authorized faculty accounts with administrative or staff access.
@@ -948,10 +1811,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               <div className="text-[11px] text-neutral-400">Roll: {roll}</div>
                             </td>
                             <td className="py-3 px-4">
-                              {role === 'admin' ? (
+                              {role === 'primary_admin' ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+                                  <ShieldCheck size={11} className="text-purple-600" />
+                                  Primary Admin
+                                </span>
+                              ) : role === 'admin' ? (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                                   <Shield size={11} />
-                                  Admin
+                                  Sub-Admin
                                 </span>
                               ) : (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -961,26 +1829,72 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               )}
                             </td>
                             <td className="py-3 px-4 text-neutral-500 text-[11px]">
-                              Assigned by Developer
+                              {role === 'primary_admin'
+                                ? 'Master Dev Assigned'
+                                : role === 'admin'
+                                ? 'Sub-Admin Authority'
+                                : 'Staff Reviewer'}
                             </td>
                             <td className="py-3 px-4 text-right">
                               <div className="flex items-center justify-end gap-1.5">
-                                <select
-                                  value={role}
-                                  onChange={(e) => handleRoleChange(email, e.target.value as UserRole)}
-                                  className="px-2 py-1 bg-white border border-neutral-200 rounded text-[11px] font-medium text-neutral-700 focus:outline-none cursor-pointer"
-                                >
-                                  <option value="admin">Role: Admin</option>
-                                  <option value="staff">Role: Staff</option>
-                                  <option value="student">Revert to Student</option>
-                                </select>
-                                <button
-                                  onClick={() => handleRoleChange(email, 'student')}
-                                  title="Revert to default Student access"
-                                  className="p-1 text-neutral-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
-                                >
-                                  <Trash2 size={13} />
-                                </button>
+                                {isDeveloper ? (
+                                  <>
+                                    <select
+                                      value={role}
+                                      onChange={(e) => handleRoleChange(email, e.target.value as UserRole)}
+                                      className="px-2 py-1 bg-white border border-neutral-200 rounded text-[11px] font-medium text-neutral-700 focus:outline-none cursor-pointer"
+                                    >
+                                      <option value="primary_admin">Role: Primary Admin</option>
+                                      <option value="admin">Role: Sub-Admin</option>
+                                      <option value="staff">Role: Staff</option>
+                                      <option value="student">Revert to Student</option>
+                                    </select>
+                                    <button
+                                      onClick={() => handleRoleChange(email, 'student')}
+                                      title="Revert to default Student access"
+                                      className="p-1 text-neutral-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+                                    >
+                                      <Trash2 size={13} />
+                                    </button>
+                                  </>
+                                ) : isPrimaryAdmin ? (
+                                  role === 'primary_admin' ? (
+                                    <span className="text-[11px] text-neutral-400 italic">Protected (Primary Admin)</span>
+                                  ) : role === 'staff' ? (
+                                    <>
+                                      <button
+                                        onClick={() => handleRoleChange(email, 'admin')}
+                                        className="px-2 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-neutral-200 hover:border-blue-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      >
+                                        Promote to Sub-Admin
+                                      </button>
+                                      <button
+                                        onClick={() => handleRoleChange(email, 'student')}
+                                        title="Remove Staff Role (Revert to Student)"
+                                        className="inline-flex items-center gap-1 px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      >
+                                        <UserMinus size={11} />
+                                        <span>Remove Staff Role</span>
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <button
+                                        onClick={() => handleRoleChange(email, 'staff')}
+                                        className="px-2 py-1 bg-white hover:bg-emerald-50 text-emerald-700 border border-neutral-200 hover:border-emerald-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      >
+                                        Demote to Staff
+                                      </button>
+                                      <button
+                                        onClick={() => handleRoleChange(email, 'student')}
+                                        title="Revert to Student access"
+                                        className="p-1 text-neutral-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+                                      >
+                                        <Trash2 size={13} />
+                                      </button>
+                                    </>
+                                  )
+                                ) : null}
                               </div>
                             </td>
                           </tr>
@@ -990,7 +1904,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       {assignedEntries.length === 0 && (
                         <tr>
                           <td colSpan={5} className="py-6 text-center text-neutral-400 text-xs">
-                            No faculty accounts currently assigned as Admin or Staff. All accounts default to Student status.
+                            No faculty accounts currently assigned as Primary Admin, Sub-Admin, or Staff. All accounts default to Student status.
                           </td>
                         </tr>
                       )}
@@ -1008,23 +1922,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         Full User Directory & Quick Role Promotion
                       </h3>
                       <p className="text-[11px] text-neutral-500">
-                        Search any student or faculty to promote them to Staff/Admin or revert to Student.
+                        {isDeveloper
+                          ? 'Search any student or faculty to promote them to Primary Admin, Sub-Admin, Staff, or revert to Student.'
+                          : 'Search any student or faculty to promote to Sub-Admin or Staff, or remove staff role.'}
                       </p>
                     </div>
 
                     {/* Filter Pills */}
                     <div className="flex items-center gap-1 bg-white border border-neutral-200 p-0.5 rounded-lg text-xs self-start sm:self-auto">
-                      {(['all', 'admin', 'staff', 'student'] as const).map((r) => (
+                      {(isDeveloper
+                        ? (['all', 'primary_admin', 'admin', 'staff', 'student'] as const)
+                        : (['all', 'admin', 'staff', 'student'] as const)
+                      ).map((r) => (
                         <button
                           key={r}
                           onClick={() => setRoleDirectoryFilter(r)}
-                          className={`px-2 py-0.5 rounded font-medium capitalize transition-colors cursor-pointer ${
+                          className={`px-2 py-0.5 rounded font-medium transition-colors cursor-pointer ${
                             roleDirectoryFilter === r
                               ? 'bg-neutral-900 text-white'
                               : 'text-neutral-600 hover:text-neutral-900'
                           }`}
                         >
-                          {r}
+                          {r === 'primary_admin' ? 'Primary Admin' : r === 'admin' ? 'Sub-Admin' : r.charAt(0).toUpperCase() + r.slice(1)}
                         </button>
                       ))}
                     </div>
@@ -1070,10 +1989,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                               {user.solvedCount} solved
                             </td>
                             <td className="py-2.5 px-4">
-                              {user.role === 'admin' ? (
+                              {user.role === 'primary_admin' ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+                                  <ShieldCheck size={11} className="text-purple-600" />
+                                  Primary Admin
+                                </span>
+                              ) : user.role === 'admin' ? (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                                   <Shield size={11} />
-                                  Admin
+                                  Sub-Admin
                                 </span>
                               ) : user.role === 'staff' ? (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -1088,6 +2012,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             </td>
                             <td className="py-2.5 px-4 text-right">
                               <div className="flex items-center justify-end gap-1.5">
+                                {/* User is Student */}
                                 {user.role === 'student' && (
                                   <>
                                     <button
@@ -1100,26 +2025,48 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                       onClick={() => handleRoleChange(user.email, 'admin')}
                                       className="px-2 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-neutral-200 hover:border-blue-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
                                     >
-                                      + Make Admin
+                                      + Make Sub-Admin
                                     </button>
+                                    {isDeveloper && (
+                                      <button
+                                        onClick={() => handleRoleChange(user.email, 'primary_admin')}
+                                        className="px-2 py-1 bg-white hover:bg-purple-50 text-purple-700 border border-neutral-200 hover:border-purple-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      >
+                                        + Primary Admin
+                                      </button>
+                                    )}
                                   </>
                                 )}
+
+                                {/* User is Staff */}
                                 {user.role === 'staff' && (
                                   <>
                                     <button
                                       onClick={() => handleRoleChange(user.email, 'admin')}
                                       className="px-2 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-neutral-200 hover:border-blue-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
                                     >
-                                      Promote to Admin
+                                      Promote to Sub-Admin
                                     </button>
+                                    {isDeveloper && (
+                                      <button
+                                        onClick={() => handleRoleChange(user.email, 'primary_admin')}
+                                        className="px-2 py-1 bg-white hover:bg-purple-50 text-purple-700 border border-neutral-200 hover:border-purple-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      >
+                                        Make Primary Admin
+                                      </button>
+                                    )}
                                     <button
                                       onClick={() => handleRoleChange(user.email, 'student')}
-                                      className="px-2 py-1 bg-white hover:bg-neutral-100 text-neutral-600 border border-neutral-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      className="inline-flex items-center gap-1 px-2 py-1 bg-white hover:bg-rose-50 text-rose-700 border border-neutral-200 hover:border-rose-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      title="Remove staff role"
                                     >
-                                      Revert to Student
+                                      <UserMinus size={11} />
+                                      <span>Remove Staff Role</span>
                                     </button>
                                   </>
                                 )}
+
+                                {/* User is Sub-Admin */}
                                 {user.role === 'admin' && (
                                   <>
                                     <button
@@ -1128,12 +2075,44 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                     >
                                       Demote to Staff
                                     </button>
+                                    {isDeveloper && (
+                                      <button
+                                        onClick={() => handleRoleChange(user.email, 'primary_admin')}
+                                        className="px-2 py-1 bg-white hover:bg-purple-50 text-purple-700 border border-neutral-200 hover:border-purple-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                      >
+                                        Make Primary Admin
+                                      </button>
+                                    )}
                                     <button
                                       onClick={() => handleRoleChange(user.email, 'student')}
                                       className="px-2 py-1 bg-white hover:bg-neutral-100 text-neutral-600 border border-neutral-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
                                     >
                                       Revert to Student
                                     </button>
+                                  </>
+                                )}
+
+                                {/* User is Primary Admin */}
+                                {user.role === 'primary_admin' && (
+                                  <>
+                                    {isDeveloper ? (
+                                      <>
+                                        <button
+                                          onClick={() => handleRoleChange(user.email, 'admin')}
+                                          className="px-2 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-neutral-200 hover:border-blue-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                        >
+                                          Demote to Sub-Admin
+                                        </button>
+                                        <button
+                                          onClick={() => handleRoleChange(user.email, 'student')}
+                                          className="px-2 py-1 bg-white hover:bg-neutral-100 text-neutral-600 border border-neutral-200 rounded text-[11px] font-medium transition-colors cursor-pointer"
+                                        >
+                                          Revert to Student
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <span className="text-[11px] text-neutral-400 italic">Primary Admin (Protected)</span>
+                                    )}
                                   </>
                                 )}
                               </div>
