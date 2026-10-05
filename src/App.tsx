@@ -209,7 +209,7 @@ export default function App() {
         const ageMin = (Date.now() - new Date(redirectPendingAt).getTime()) / 60000;
         clearRedirectFlag();
         if (ageMin < 30) {
-          setAuthError('Sign-in didn\'t complete. Please tap "Sign in with Google Account" again and finish the Google account step without going back or switching tabs.');
+          setAuthError('Sign-in didn\'t complete. Your browser blocked the Google pop-up and the backup sign-in lost its way back. Please allow pop-ups for this site in your browser settings and try again.');
         }
       }
     }).catch((err: any) => {
@@ -483,9 +483,11 @@ export default function App() {
     }
   };
 
-  // Google sign-in: popup first on desktop (best UX), full-page redirect on
-  // mobile where popups are unreliable (blocked by Edge, or opened and
-  // instantly closed by the OS — both strand the user on the sign-in page).
+  // Google sign-in: popup-first on ALL platforms. The redirect flow's
+  // cross-origin iframe/cookie handoff silently breaks on modern mobile
+  // browsers (getRedirectResult returns null after the user picks an
+  // account), while popup returns the result via postMessage and works.
+  // If the popup itself is blocked, fall back to a full-page redirect.
   // Returns null when a redirect is in flight (page navigates away).
   const startRedirectSignIn = async () => {
     // Remember that a redirect was started (localStorage survives even if the
@@ -497,12 +499,6 @@ export default function App() {
   };
 
   const signInWithGoogle = async () => {
-    const isMobileBrowser =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobileBrowser) {
-      await startRedirectSignIn();
-      return null;
-    }
     try {
       return await signInWithPopup(auth, googleProvider);
     } catch (err: any) {
