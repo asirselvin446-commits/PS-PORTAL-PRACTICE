@@ -309,7 +309,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
 
               <div className="bg-white p-2.5 rounded-lg border border-neutral-200/80">
                 <div className="flex items-center justify-between text-[11px] mb-1">
-                  <span className="text-neutral-500 font-medium">Level 1 (Loops)</span>
+                  <span className="text-neutral-500 font-medium">Level 1 (Conditional Statements)</span>
                   <span className="font-mono font-bold text-neutral-900">{l1Solved} / {l1Total} ({l1Pct}%)</span>
                 </div>
                 <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
@@ -319,7 +319,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
 
               <div className="bg-white p-2.5 rounded-lg border border-neutral-200/80">
                 <div className="flex items-center justify-between text-[11px] mb-1">
-                  <span className="text-neutral-500 font-medium">Level 2 (Patterns)</span>
+                  <span className="text-neutral-500 font-medium">Level 2 (Loops & Patterns)</span>
                   <span className="font-mono font-bold text-neutral-900">{l2Solved} / {l2Total} ({l2Pct}%)</span>
                 </div>
                 <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
