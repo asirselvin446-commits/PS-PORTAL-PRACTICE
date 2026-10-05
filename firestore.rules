@@ -17,65 +17,72 @@ service cloud.firestore {
          request.auth.token.email == 'asirselvin446@gmail.com');
     }
 
+    // Developer bootstrap — always privileged so admins can never be locked out.
+    function isDeveloper() {
+      return isSignedIn() && request.auth.token.email == 'asirselvin446@gmail.com';
+    }
+
+    // Role assigned via the app's Roles tab (settings/global -> roleAssignments: email -> role).
+    // Evaluated lazily; callers must short-circuit before it when possible.
+    function assignedRole() {
+      return get(/databases/$(database)/documents/settings/global).data.roleAssignments[request.auth.token.email];
+    }
+
+    // Faculty roles allowed to use the admin dashboard (mirrors the app's UI gating).
+    function isPrivileged() {
+      return isCollegeDomain() && (
+        isDeveloper() ||
+        assignedRole() in ['developer', 'primary_admin', 'admin', 'staff']
+      );
+    }
+
+    // Roles allowed to change global settings and delete users.
+    function isAdmin() {
+      return isCollegeDomain() && (
+        isDeveloper() ||
+        assignedRole() in ['developer', 'primary_admin', 'admin']
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
     // Connection test document
     match /test/connection {
       allow read: if true;
     }
 
-    // Admin settings document
+    // Feature flags, batches, announcements, custom problems, overrides, role map.
+    // Reads: any signed-in user (students need the flags).
+    // Writes: faculty admins only (previously: any student could rewrite these).
     match /settings/{settingId} {
       allow read: if isSignedIn();
-      allow write: if isCollegeDomain();
+      allow write: if isAdmin();
     }
 
-    // Top-level custom problems collection
-    match /custom_problems/{problemId} {
-      allow read: if isSignedIn();
-      allow write: if isCollegeDomain();
-    }
-
-    // Top-level problem overrides collection
-    match /problem_overrides/{overrideId} {
-      allow read: if isSignedIn();
-      allow write: if isCollegeDomain();
-    }
-
-    // Top-level problems collection
-    match /problems/{problemId} {
-      allow read: if isSignedIn();
-      allow write: if isCollegeDomain();
-    }
-
-    // Leaderboard document
-    match /leaderboard/{studentId} {
-      allow read: if true;
-      allow write: if isCollegeDomain();
-    }
-
-    // Announcements collection
-    match /announcements/{announcementId} {
-      allow read: if isSignedIn();
-      allow write: if isCollegeDomain();
-    }
-
-    // Batches collection
-    match /batches/{batchId} {
-      allow read: if isSignedIn();
-      allow write: if isCollegeDomain();
-    }
-
-    // User profile document and all subcollections
+    // User profiles and progress subcollections.
+    // Reads: the owner, or faculty (the admin roster needs college-wide read).
+    //         (previously: every student could read everyone's submissions)
+    // Writes: the owner (own progress/submissions), or faculty (admin actions).
+    //         (previously: every student could rewrite anyone's record)
+    // Deletes: faculty admins only.
     match /users/{userId} {
-      allow read: if isCollegeDomain();
-      allow create, update: if isCollegeDomain();
-      allow delete: if isCollegeDomain();
+      allow read: if isCollegeDomain() && (isOwner(userId) || isPrivileged());
+      allow create, update: if isCollegeDomain() && (isOwner(userId) || isPrivileged());
+      allow delete: if isAdmin();
 
-      // User progress & subcollections
+      // Progress subcollections (e.g. progress/current)
       match /{allSubcollections=**} {
-        allow read: if isCollegeDomain();
-        allow create, update: if isCollegeDomain();
-        allow delete: if isCollegeDomain();
+        allow read: if isCollegeDomain() && (isOwner(userId) || isPrivileged());
+        allow create, update: if isCollegeDomain() && (isOwner(userId) || isPrivileged());
+        allow delete: if isAdmin();
       }
     }
+
+    // NOTE: top-level collections custom_problems, problem_overrides, problems,
+    // announcements, batches, and leaderboard/{studentId} were removed —
+    // the app does not read or write them (it uses settings/* single docs and
+    // computes the leaderboard client-side), so they now fall under default deny.
   }
 }
