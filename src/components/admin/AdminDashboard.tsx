@@ -637,10 +637,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     <div className="min-h-screen bg-[#fafafa] text-neutral-900 flex flex-col font-sans">
       
       {/* Toast */}
-      {toastMessage && (
+      {toast && (
         <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2 px-3.5 py-2 bg-neutral-900 text-neutral-100 rounded-lg shadow-lg text-xs font-medium animate-in fade-in">
-          <CheckCircle2 size={14} className="text-emerald-400" />
-          <span>{toastMessage}</span>
+          {toast.type === 'error' ? (
+            <AlertTriangle size={14} className="text-rose-400" />
+          ) : (
+            <CheckCircle2 size={14} className="text-emerald-400" />
+          )}
+          <span>{toast.message}</span>
         </div>
       )}
 
@@ -2157,6 +2161,56 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onSubmitted={(msg) => showToast(msg)}
         />
       )}
+
+      {/* Add Student Modal */}
+      <AddStudentModal
+        isOpen={showAddStudentModal}
+        batches={batches}
+        onClose={() => setShowAddStudentModal(false)}
+        onSuccess={() => {
+          setShowAddStudentModal(false);
+          refreshData();
+        }}
+      />
+
+      {/* CSV Import Modal */}
+      <CSVImportModal
+        isOpen={showCSVImportModal}
+        onClose={() => setShowCSVImportModal(false)}
+        onSuccess={() => {
+          setShowCSVImportModal(false);
+          refreshData();
+        }}
+      />
+
+      {/* Batch Management Modal */}
+      <BatchManageModal
+        isOpen={showBatchModal}
+        batches={batches}
+        students={students}
+        onClose={() => setShowBatchModal(false)}
+        onRefresh={refreshData}
+      />
+
+      {/* Announcement Modal */}
+      <AnnouncementModal
+        isOpen={showAnnouncementModal}
+        announcements={announcements}
+        students={students}
+        batches={batches}
+        initialTargetUids={announcementTargets}
+        currentUserEmail={currentUser.email}
+        onClose={() => setShowAnnouncementModal(false)}
+        onRefresh={refreshData}
+      />
+
+      {/* Similarity Review Modal */}
+      <SimilarityReviewModal
+        isOpen={showSimilarityModal}
+        problems={problems}
+        students={students}
+        onClose={() => setShowSimilarityModal(false)}
+      />
 
     </div>
   );
