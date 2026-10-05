@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
 import { CodeEditor, EditorMarker } from './components/CodeEditor';
 import { Console } from './components/Console';
 import { Problem } from './data/problems';
@@ -128,6 +129,7 @@ export default function App() {
   const [results, setResults] = useState<TestResult[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [submitCooldown, setSubmitCooldown] = useState(false); // brief gap between submissions to protect the shared Judge0 instance
   const [isCustomRun, setIsCustomRun] = useState(false);
   const [customInput, setCustomInput] = useState('');
   const [customOutput, setCustomOutput] = useState<ExecutionResult | null>(null);
@@ -326,7 +328,7 @@ export default function App() {
 
           // Register in Admin Directory (only students and assigned faculty, never developer)
           if (!isDev) {
-            registerOrUpdateStudent({
+            await registerOrUpdateStudent({
               uid: portalUser.uid,
               email: portalUser.email,
               displayName: portalUser.displayName,
@@ -354,8 +356,13 @@ export default function App() {
                 if (localStudent.unlockedLevels && localStudent.unlockedLevels.length > 0) parsed.unlockedLevels = localStudent.unlockedLevels;
                 if (localStudent.batch) parsed.batch = localStudent.batch;
               }
+              // Never trust the role stored in localStorage — re-derive it from
+              // the email + role assignments so a hand-edited session can't
+              // escalate to an admin role.
+              const restoredRole = resolveUserRole(parsed.email, getAdminSettings().roleAssignments);
+              parsed.role = restoredRole;
               setCurrentUser(parsed);
-              if (parsed.role === 'developer' || parsed.role === 'primary_admin' || parsed.role === 'admin' || parsed.role === 'staff') {
+              if (restoredRole === 'developer' || restoredRole === 'primary_admin' || restoredRole === 'admin' || restoredRole === 'staff') {
                 setIsAdminAuthenticated(true);
               }
               const savedSolved = localStorage.getItem(`solved_${parsed.uid}`);
@@ -379,10 +386,11 @@ export default function App() {
   }, []);
 
   const persistProgress = async (
-    newSolved: Set<string>, 
+    newSolved: Set<string>,
     newAttempted: Set<string>,
     submittedProblemId?: string,
-    submittedCode?: string
+    submittedCode?: string,
+    testCounts?: { passed: number; total: number }
   ) => {
     if (!currentUser) return;
     const uid = currentUser.uid;
@@ -397,15 +405,15 @@ export default function App() {
       localStorage.setItem(`passed_code_${uid}_${submittedProblemId}`, submittedCode);
       submissions[submittedProblemId] = {
         code: submittedCode,
-        passedCount: 4,
-        totalCount: 4,
+        passedCount: testCounts?.passed ?? 0,
+        totalCount: testCounts?.total ?? 0,
         passedAt: new Date().toISOString()
       };
     }
 
     // Register update in admin directory (only if not developer)
     if (currentUser.role !== 'developer') {
-      registerOrUpdateStudent({
+      await registerOrUpdateStudent({
         uid: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName,
@@ -419,8 +427,10 @@ export default function App() {
     }
 
     try {
+      // Single batch so the progress subdoc and the roster doc stay in sync.
+      const batch = writeBatch(db);
       const progressRef = doc(db, 'users', uid, 'progress', 'current');
-      await setDoc(progressRef, {
+      batch.set(progressRef, {
         userId: uid,
         solvedProblems: solvedArr,
         attemptedProblems: attemptedArr,
@@ -429,15 +439,16 @@ export default function App() {
 
       if (submittedProblemId && submittedCode) {
         const userRef = doc(db, 'users', uid);
-        await setDoc(userRef, {
+        batch.set(userRef, {
           [`submissions.${submittedProblemId}`]: {
             code: submittedCode,
             passedAt: new Date().toISOString(),
-            passedCount: 4,
-            totalCount: 4
+            passedCount: testCounts?.passed ?? 0,
+            totalCount: testCounts?.total ?? 0
           }
         }, { merge: true });
       }
+      await batch.commit();
     } catch (err) {
       console.warn('Firestore progress sync warning:', err);
     }
@@ -551,6 +562,11 @@ export default function App() {
             newAttempted.add(activeProblem.id);
             setAttemptedProblems(newAttempted);
             persistProgress(newSolved, newAttempted);
+            setReportNotification({
+              message: 'Code edited — problem no longer counts as solved. Run and submit again.',
+              type: 'error'
+            });
+            setTimeout(() => setReportNotification(null), 5000);
           }
         } else {
           if (!solvedProblems.has(activeProblem.id)) {
@@ -621,6 +637,11 @@ export default function App() {
 
   const handleSubmitCode = async () => {
     if (!activeProblem || !currentUser) return;
+    if (submitCooldown) {
+      setReportNotification({ message: 'Please wait a few seconds before submitting again.', type: 'error' });
+      setTimeout(() => setReportNotification(null), 3000);
+      return;
+    }
     setIsRunning(true);
     setIsCustomRun(false);
     setError(null);
@@ -638,7 +659,8 @@ export default function App() {
       if (res.results) {
         setResults(res.results);
         
-        const allPassed = res.results.every(r => r.passed);
+        // Guard against an empty result set — [].every() is vacuously true.
+        const allPassed = res.results.length > 0 && res.results.every(r => r.passed);
         const passedCount = res.results.filter(r => r.passed).length;
         
         localStorage.setItem(`passed_count_${currentUser.uid}_${activeProblem.id}`, passedCount.toString());
@@ -649,7 +671,7 @@ export default function App() {
           setSolvedProblems(newSolved);
           
           localStorage.setItem(`passed_code_${currentUser.uid}_${activeProblem.id}`, code);
-          persistProgress(newSolved, attemptedProblems, activeProblem.id, code);
+          persistProgress(newSolved, attemptedProblems, activeProblem.id, code, { passed: passedCount, total: res.results.length });
         } else {
           const newAttempted = new Set<string>(attemptedProblems);
           newAttempted.add(activeProblem.id);
@@ -671,6 +693,9 @@ export default function App() {
       persistProgress(solvedProblems, newAttempted);
     } finally {
       setIsRunning(false);
+      // 5s cooldown before the next submit to avoid hammering the shared Judge0 instance
+      setSubmitCooldown(true);
+      setTimeout(() => setSubmitCooldown(false), 5000);
     }
   };
 
@@ -1154,10 +1179,10 @@ export default function App() {
               </div>
               <h2 className="text-lg font-semibold text-neutral-900 tracking-tight">
                 {selectedLevel === 1 
-                  ? 'For Loops & Iterative Logic' 
+                  ? 'Conditional Statements' 
                   : selectedLevel === 2 
-                  ? 'Nested Loops & Star Patterns' 
-                  : 'Arrays, Strings & Number Theory'}
+                  ? 'Loops & Patterns' 
+                  : 'Arrays'}
               </h2>
             </div>
 
@@ -1399,7 +1424,7 @@ export default function App() {
 
           <button
             onClick={handleSubmitCode}
-            disabled={isRunning}
+            disabled={isRunning || submitCooldown}
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-medium rounded-md transition-colors cursor-pointer shadow-xs"
             title="Submit against all test cases (Ctrl+Shift+Enter)"
           >
@@ -1443,7 +1468,7 @@ export default function App() {
             <div className="flex-1 overflow-y-auto p-4 sm:p-5 custom-scrollbar text-neutral-300 text-xs sm:text-sm leading-relaxed">
               <div 
                 className="prose prose-invert prose-xs max-w-none [&_pre]:bg-[#0c0d10] [&_pre]:border [&_pre]:border-neutral-800 [&_pre]:p-2.5 [&_pre]:rounded-lg [&_code]:font-mono [&_strong]:text-neutral-200" 
-                dangerouslySetInnerHTML={{ __html: activeProblem?.description || '' }} 
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(activeProblem?.description || '', { ALLOWED_TAGS: ['p', 'br', 'pre', 'code', 'strong', 'em', 'u', 'ul', 'ol', 'li', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'table', 'thead', 'tbody', 'tr', 'td', 'th'] }) }} 
               />
             </div>
           </div>
@@ -1476,6 +1501,21 @@ export default function App() {
             </div>
           </div>
         </div>
+        {/* Unsolve / status toast (reuses the report-notification style) */}
+        {reportNotification && (
+          <div className={`fixed bottom-5 right-5 z-50 text-xs px-4 py-2.5 rounded-lg shadow-lg border flex items-center gap-2 transition-all ${
+            reportNotification.type === 'success'
+              ? 'bg-neutral-900 text-neutral-100 border-neutral-800'
+              : 'bg-rose-950 text-rose-200 border-rose-900'
+          }`}>
+            {reportNotification.type === 'success' ? (
+              <Check size={14} className="text-emerald-400 shrink-0" />
+            ) : (
+              <ShieldAlert size={14} className="text-rose-400 shrink-0" />
+            )}
+            <span>{reportNotification.message}</span>
+          </div>
+        )}
       </div>
     </div>
   );
