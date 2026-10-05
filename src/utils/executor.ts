@@ -99,6 +99,7 @@ const getCompilerOptionsString = (options?: CompilerOptions) => {
 
 const JUDGE0_TIMEOUT_MS = 30000;
 const OVERALL_TIMEOUT_MS = 120000; // 120s total cap across all test cases
+const MAX_SUBMIT_ATTEMPTS = 4; // initial try + 3 retries on rate-limit / transient errors
 
 async function fetchJudge0WithTimeout(url: string, init: RequestInit, timeoutMs = JUDGE0_TIMEOUT_MS): Promise<Response> {
   const controller = new AbortController();
@@ -120,6 +121,44 @@ async function fetchJudge0WithTimeout(url: string, init: RequestInit, timeoutMs 
   } finally {
     clearTimeout(timer);
   }
+}
+
+// POST a submission with exponential backoff on 429 / 5xx. ce.judge0.com is a
+// shared public instance — bursts from a classroom can trip its rate limiter.
+async function postSubmissionWithRetry(body: string): Promise<Response> {
+  let lastErr: any = null;
+  for (let attempt = 1; attempt <= MAX_SUBMIT_ATTEMPTS; attempt++) {
+    try {
+      const response = await fetchJudge0WithTimeout('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+      });
+      if (response.status === 429 || (response.status >= 500 && response.status < 600)) {
+        lastErr = new Error(
+          response.status === 429
+            ? 'Execution server is busy (rate limit). Retrying…'
+            : `Execution server error (${response.status}). Retrying…`
+        );
+      } else if (!response.ok) {
+        throw new Error(`Failed to connect to execution server (HTTP ${response.status}).`);
+      } else {
+        return response;
+      }
+    } catch (err: any) {
+      // Network errors / timeouts are also worth one retry cycle
+      if (attempt >= MAX_SUBMIT_ATTEMPTS) throw err;
+      lastErr = err;
+    }
+    if (attempt < MAX_SUBMIT_ATTEMPTS) {
+      await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt - 1))); // 1s, 2s, 4s
+    }
+  }
+  // Retries exhausted — surface a human-readable rate-limit message when that's the cause.
+  if (lastErr?.message?.includes('rate limit')) {
+    throw new Error('Execution server is busy right now (too many requests). Please wait about 30 seconds and try again.');
+  }
+  throw lastErr || new Error('Failed to connect to execution server');
 }
 
 export const executeCode = async (
@@ -152,24 +191,14 @@ export const executeCode = async (
       }
 
       const tc = testCases[i];
-      
-      const response = await fetchJudge0WithTimeout('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          language_id: 50, // C (GCC 9.2.0)
-          compiler_options,
-          source_code: encodeBase64(code),
-          stdin: encodeBase64(tc.input),
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to connect to execution server');
-      }
-      
+
+      const response = await postSubmissionWithRetry(JSON.stringify({
+        language_id: 50, // C (GCC 9.2.0)
+        compiler_options,
+        source_code: encodeBase64(code),
+        stdin: encodeBase64(tc.input),
+      }));
+
       const data = await response.json();
       
       if (data.status.id !== 3) {
@@ -250,23 +279,13 @@ export const executeCode = async (
 export const executeCustomCode = async (code: string, input: string, options?: CompilerOptions): Promise<ExecutionResult> => {
   try {
     const compiler_options = getCompilerOptionsString(options);
-    const response = await fetchJudge0WithTimeout('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        language_id: 50, // C (GCC 9.2.0)
-        compiler_options,
-        source_code: encodeBase64(code),
-        stdin: encodeBase64(input),
-      }),
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to connect to execution server');
-    }
-    
+    const response = await postSubmissionWithRetry(JSON.stringify({
+      language_id: 50, // C (GCC 9.2.0)
+      compiler_options,
+      source_code: encodeBase64(code),
+      stdin: encodeBase64(input),
+    }));
+
     const data = await response.json();
     
     const res: ExecutionResult = {
