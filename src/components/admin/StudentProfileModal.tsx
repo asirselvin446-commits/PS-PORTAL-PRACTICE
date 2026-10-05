@@ -90,7 +90,10 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
     
     const prob = problems.find(p => p.id === problemId);
     if (isSelectedSolved && prob) {
-      return `// Verified Solution for ${prob.title}\n// Submitted by: ${student.displayName} (${student.rollNumber})\n// Status: Passed all test cases\n\n${prob.starterCode}`;
+      // Solved flag is set but no code was ever saved (e.g. marked solved manually
+      // before the submission was persisted). Never present starter code as a
+      // verified solution — say so plainly instead.
+      return `// No submitted code on record for "${prob.title}".\n// This problem is marked solved, but no code was saved with the solve record.\n// Ask the student to resubmit, or review the submission history.`;
     }
     return prob?.starterCode || '// No code recorded yet';
   };
