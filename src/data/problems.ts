@@ -5329,7 +5329,7 @@ export const problems: Problem[] = [
     "title": "19. Add Peak Num and Its Neighbour",
     "difficulty": "Hard",
     "level": 3,
-    "description": "Find peak elements (strictly greater than neighbours). Replace a peak element with the sum of itself and its neighbours. Handle edges: if first element is > second, sum them. Output the modified array.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n1 2 3 4 5 3 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>1 6 2 4 12 3 1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n2 1 3 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>3 1 6 2</pre>",
+    "description": "Find peak elements (strictly greater than neighbours). Replace a peak element with the sum of itself and its neighbours. Handle edges: if first element is > second, sum them. Output the modified array.\n<br/>\n<p><strong>Sample Input 1:</strong></p>\n<pre>7\n1 2 3 4 5 3 1</pre>\n<p><strong>Sample Output 1:</strong></p>\n<pre>1 2 3 4 12 3 1</pre>\n<br/>\n<p><strong>Sample Input 2:</strong></p>\n<pre>4\n2 1 3 2</pre>\n<p><strong>Sample Output 2:</strong></p>\n<pre>3 1 6 2</pre>",
     "functionName": "main",
     "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
     "testCases": [
