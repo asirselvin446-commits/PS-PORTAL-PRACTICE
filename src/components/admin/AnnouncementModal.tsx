@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Announcement, StudentProfile, Batch } from '../../types/admin';
 import { 
   X, 
@@ -41,6 +41,16 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
   const [selectedBatch, setSelectedBatch] = useState<string>(batches[0]?.name || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // The modal stays mounted while closed, so re-sync the audience every time it
+  // opens — otherwise a Broadcast Notice to selected students would silently go
+  // to everyone (stale 'all' target from a previous open).
+  useEffect(() => {
+    if (isOpen) {
+      setTargetType(initialTargetUids && initialTargetUids.length > 0 ? 'selected' : 'all');
+      setError(null);
+    }
+  }, [isOpen, initialTargetUids]);
 
   if (!isOpen) return null;
 
