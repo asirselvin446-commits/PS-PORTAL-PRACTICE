@@ -466,10 +466,17 @@ export default function App() {
     }
   };
 
-  // Google sign-in: popup first (best UX on desktop), falling back to a
-  // full-page redirect when the browser blocks popups (mobile Edge, in-app
-  // browsers). Returns null when a redirect is in flight (page navigates away).
+  // Google sign-in: popup first on desktop (best UX), full-page redirect on
+  // mobile where popups are unreliable (blocked by Edge, or opened and
+  // instantly closed by the OS — both strand the user on the sign-in page).
+  // Returns null when a redirect is in flight (page navigates away).
   const signInWithGoogle = async () => {
+    const isMobileBrowser =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobileBrowser) {
+      await signInWithRedirect(auth, googleProvider);
+      return null;
+    }
     try {
       return await signInWithPopup(auth, googleProvider);
     } catch (err: any) {
