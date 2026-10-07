@@ -1,5 +1,6 @@
 import React from 'react';
 import Editor, { useMonaco, OnMount } from '@monaco-editor/react';
+import '../utils/monaco-setup'; // bundle Monaco locally: never fetch the editor from a CDN at runtime
 import { setupMonacoCFeatures } from '../utils/monaco-c-features';
 
 export interface EditorMarker {
