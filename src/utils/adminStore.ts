@@ -563,7 +563,10 @@ export async function registerOrUpdateStudent(profile: Partial<StudentProfile> &
   // Collect submitted code from localStorage if available
   const submissions: Record<string, StudentSubmission> = {};
   effectiveSolved.forEach((pid: string) => {
-    const code = localStorage.getItem(`code_${profile.uid}_${pid}`) || localStorage.getItem(`passed_code_${profile.uid}_${pid}`);
+    // Collect submitted code from localStorage if available. Prefer the verified
+    // passed code over the unsaved draft: the draft may be starter/partial
+    // text, but the submission record must hold the code that earned the solve.
+    const code = localStorage.getItem(`passed_code_${profile.uid}_${pid}`) || localStorage.getItem(`code_${profile.uid}_${pid}`);
     if (code) {
       const storedPassed = parseInt(localStorage.getItem(`passed_count_${profile.uid}_${pid}`) || '', 10);
       const total = getProblemTestCount(pid);
@@ -654,7 +657,9 @@ export async function overrideStudentProblem(
     if (!student.submissions[problemId]) {
       const testTotal = getProblemTestCount(problemId);
       student.submissions[problemId] = {
-        code: `// Manually verified & credited by Faculty Administrator\n// Date: ${new Date().toLocaleDateString()}\n#include <stdio.h>\n\nint main() {\n    // Solution approved by evaluation committee\n    return 0;\n}`,
+        // Honest admin marker — deliberately NOT compilable-looking C code, so
+        // it can never be mistaken for a real student submission in reports.
+        code: `// [ADMIN MARK] Manually marked solved by a faculty administrator on ${new Date().toLocaleDateString()}. No student code on record — this is not a student submission.`,
         passedAt: new Date().toISOString(),
         passedCount: testTotal,
         totalCount: testTotal

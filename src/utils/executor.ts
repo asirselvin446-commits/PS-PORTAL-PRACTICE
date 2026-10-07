@@ -50,7 +50,14 @@ const decodeBase64 = (str: string | null) => {
 const matchOutput = (actual: string, expected: string, matchType?: 'exact' | 'numeric' | 'regex' | 'normalized') => {
   if (!actual) actual = "";
   if (!expected) expected = "";
-  
+
+  // Integrity: empty/whitespace-only program output must never match a
+  // non-empty expected output, regardless of match mode. (In regex mode a
+  // pattern like ".*" would otherwise test true against empty output.)
+  if (actual.trim() === '' && expected.trim() !== '') {
+    return false;
+  }
+
   if (matchType === 'exact') {
     return actual === expected;
   }

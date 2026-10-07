@@ -1,6 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Problem } from '../data/problems';
+import { StudentSubmission } from '../types/admin';
 
 export interface ReportConfig {
   userId?: string;
@@ -11,7 +12,28 @@ export interface ReportConfig {
   userEmail?: string;
   rollNumber?: string;
   department?: string;
+  /**
+   * Optional authoritative submission records (e.g. from Firestore).
+   * Preferred over localStorage when present — the admin's browser has no
+   * access to the student's localStorage.
+   */
+  submissions?: Record<string, StudentSubmission>;
 }
+
+/**
+ * Detects placeholder code: missing, empty, or byte-identical (after trimming)
+ * to the problem's starter template. Such code must never be presented as the
+ * student's own submission.
+ */
+const isPlaceholderCode = (
+  code: string | undefined | null,
+  starterCode: string | undefined
+): boolean => {
+  const trimmed = (code || '').trim();
+  if (!trimmed) return true;
+  const starter = (starterCode || '').trim();
+  return starter.length > 0 && trimmed === starter;
+};
 
 /**
  * Generates an official, publication-quality PDF report for Francis Xavier Engineering College.
@@ -52,7 +74,8 @@ export const generateReport = async (
     userEmail,
     rollNumber,
     department,
-    userId
+    userId,
+    submissions
   } = config;
 
   const doc = new jsPDF({
@@ -140,8 +163,24 @@ export const generateReport = async (
   // Summary Metrics Banner Box
   const totalCount = problems.length;
   const solvedCount = solvedProblemIds.size;
-  const attemptedCount = attemptedProblemIds.size;
+  // A solve implies an attempt: fold any solved id that lacks an attempt
+  // record into the attempted set, so attempted can never be less than solved.
+  const effectiveAttemptedIds = new Set<string>([...attemptedProblemIds, ...solvedProblemIds]);
+  const attemptedCount = effectiveAttemptedIds.size;
   const successRate = totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
+
+  // Passed test-case count for a problem: prefer the authoritative submissions
+  // record, then fall back to the per-browser localStorage counters.
+  const getPassedCount = (p: Problem, isSolved: boolean): string => {
+    if (isSolved) return p.testCases.length.toString();
+    const stored = submissions?.[p.id]?.passedCount;
+    if (typeof stored === 'number' && stored >= 0) return stored.toString();
+    return (
+      (userId && localStorage.getItem(`passed_count_${userId}_${p.id}`)) ||
+      localStorage.getItem(`passed_count_${userName}_${p.id}`) ||
+      '0'
+    );
+  };
 
   doc.setFillColor(248, 250, 252); // slate-50
   doc.setDrawColor(226, 232, 240); // slate-200
@@ -197,16 +236,9 @@ export const generateReport = async (
     const summaryTableData = activeProblems.map((p, index) => {
       const isSolved = solvedProblemIds.has(p.id);
       const statusText = isSolved ? 'Solved' : 'Attempted';
-      
+
       // Determine passed count
-      let passedCount = p.testCases.length.toString();
-      if (!isSolved) {
-        passedCount = (
-          (userId && localStorage.getItem(`passed_count_${userId}_${p.id}`)) ||
-          localStorage.getItem(`passed_count_${userName}_${p.id}`) ||
-          '0'
-        );
-      }
+      const passedCount = getPassedCount(p, isSolved);
 
       return [
         (index + 1).toString(),
@@ -275,9 +307,12 @@ export const generateReport = async (
       const isSolved = solvedProblemIds.has(p.id);
       const statusText = isSolved ? 'Solved' : 'Attempted';
 
-      // Look up saved code from localStorage across possible key formats
-      let submittedCode = '';
-      if (userId) {
+      // Look up the stored submission code. Prefer the authoritative submissions
+      // record (e.g. Firestore) when provided, then the per-browser
+      // localStorage keys. Never print the starter template as a solution:
+      // missing/empty/placeholder code is labelled honestly below.
+      let submittedCode = submissions?.[p.id]?.code || '';
+      if (userId && !submittedCode) {
         submittedCode = (
           localStorage.getItem(`passed_code_${userId}_${p.id}`) ||
           localStorage.getItem(`code_${userId}_${p.id}`) ||
@@ -292,15 +327,10 @@ export const generateReport = async (
           ''
         );
       }
-      if (!submittedCode.trim()) {
-        submittedCode = p.starterCode || '// No code submitted yet';
-      }
+      const hasRealCode = !isPlaceholderCode(submittedCode, p.starterCode);
 
       // Passed count
-      let passedCount = isSolved 
-        ? p.testCases.length.toString()
-        : ((userId && localStorage.getItem(`passed_count_${userId}_${p.id}`)) || 
-           localStorage.getItem(`passed_count_${userName}_${p.id}`) || '0');
+      const passedCount = getPassedCount(p, isSolved);
 
       // Check remaining space on current page
       if (curY > pageHeight - 55) {
@@ -326,31 +356,40 @@ export const generateReport = async (
 
       curY += 11;
 
-      // Source Code Container
-      doc.setFont('courier', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(30, 41, 59);
+      // Source Code Container: rendered only when genuine code was captured.
+      // Otherwise we label it honestly instead of printing the starter template.
+      if (hasRealCode) {
+        doc.setFont('courier', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(30, 41, 59);
 
-      const splitCode = doc.splitTextToSize(submittedCode, contentWidth - 6);
+        const splitCode = doc.splitTextToSize(submittedCode, contentWidth - 6);
 
-      // Render lines with pagination guard
-      for (let i = 0; i < splitCode.length; i++) {
-        if (curY > pageHeight - 18) {
-          doc.addPage();
-          curY = 20;
+        // Render lines with pagination guard
+        for (let i = 0; i < splitCode.length; i++) {
+          if (curY > pageHeight - 18) {
+            doc.addPage();
+            curY = 20;
 
-          // Continuation banner on new page
-          doc.setFont('helvetica', 'italic');
-          doc.setFontSize(7.5);
-          doc.setTextColor(148, 163, 184);
-          doc.text(`(continued) ${p.title} - main.c`, margin, curY);
-          curY += 5;
-          doc.setFont('courier', 'normal');
-          doc.setFontSize(8);
-          doc.setTextColor(30, 41, 59);
+            // Continuation banner on new page
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(7.5);
+            doc.setTextColor(148, 163, 184);
+            doc.text(`(continued) ${p.title} - main.c`, margin, curY);
+            curY += 5;
+            doc.setFont('courier', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(30, 41, 59);
+          }
+
+          doc.text(splitCode[i], margin + 3, curY);
+          curY += 4;
         }
-
-        doc.text(splitCode[i], margin + 3, curY);
+      } else {
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(8.5);
+        doc.setTextColor(148, 163, 184);
+        doc.text('No code captured for this submission.', margin + 3, curY + 4);
         curY += 4;
       }
 
