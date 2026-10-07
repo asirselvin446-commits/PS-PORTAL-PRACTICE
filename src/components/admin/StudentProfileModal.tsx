@@ -55,6 +55,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
   const [activeLeftTab, setActiveLeftTab] = useState<'problems' | 'timeline'>('problems');
   const [copied, setCopied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [reportError, setReportError] = useState<string | null>(null);
 
   // Confirmation dialog states
   const [confirmResetOpen, setConfirmResetOpen] = useState(false);
@@ -106,17 +107,25 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownloadReport = () => {
-    generateReport({
-      userId: student.uid,
-      userName: student.displayName,
-      problems,
-      solvedProblemIds: solvedSet,
-      attemptedProblemIds: attemptedSet,
-      userEmail: student.email,
-      rollNumber: student.rollNumber,
-      department: student.department
-    });
+  const handleDownloadReport = async () => {
+    setReportError(null);
+    try {
+      await generateReport({
+        userId: student.uid,
+        userName: student.displayName,
+        problems,
+        solvedProblemIds: solvedSet,
+        attemptedProblemIds: attemptedSet,
+        userEmail: student.email,
+        rollNumber: student.rollNumber,
+        department: student.department,
+        // Authoritative code/passed counts — the admin's browser has no access
+        // to this student's localStorage, so the report must not rely on it.
+        submissions: student.submissions
+      });
+    } catch (e: any) {
+      setReportError(e?.message || 'Failed to generate PDF report');
+    }
   };
 
   const handleConfirmReset = async () => {
@@ -296,6 +305,18 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
             </div>
 
             {/* Per-Level Progress Breakdown Strip */}
+            {reportError && (
+              <div className="mt-3 p-2 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg text-xs flex items-center justify-between gap-2">
+                <span>PDF report failed: {reportError}</span>
+                <button
+                  onClick={() => setReportError(null)}
+                  className="p-0.5 text-rose-400 hover:text-rose-700 cursor-pointer"
+                  title="Dismiss"
+                >
+                  <X size={13} />
+                </button>
+              </div>
+            )}
             <div className="mt-3 pt-3 border-t border-neutral-200/80 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-white p-2.5 rounded-lg border border-neutral-200/80">
                 <div className="flex items-center justify-between text-[11px] mb-1">

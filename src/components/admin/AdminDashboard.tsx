@@ -181,6 +181,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const isDeveloper = currentUser.role === 'developer' || currentUser.email.toLowerCase() === DEVELOPER_EMAIL.toLowerCase();
   const isPrimaryAdmin = currentUser.role === 'primary_admin';
   const canManageRoles = isDeveloper || isPrimaryAdmin;
+  // Deployed firestore.rules allow settings/* writes only for developer,
+  // primary_admin, and admin (Sub-Admin). Staff can view the dashboard but
+  // their settings writes would be rejected — disable the controls instead of
+  // showing a fake "Settings saved".
+  const canChangeSettings = isDeveloper || isPrimaryAdmin || currentUser.role === 'admin';
 
   // Guard against non-authorized accounts accessing roles tab
   useEffect(() => {
@@ -1148,18 +1153,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                 </button>
 
                                 <button
-                                  onClick={() => {
-                                    generateReport({
-                                      userId: st.uid,
-                                      userName: st.displayName,
-                                      problems,
-                                      solvedProblemIds: new Set(st.solvedProblems || []),
-                                      attemptedProblemIds: new Set(st.attemptedProblems || []),
-                                      userEmail: st.email,
-                                      rollNumber: st.rollNumber,
-                                      department: st.department
-                                    });
-                                    showToast(`Generated PDF for ${st.displayName}`);
+                                  onClick={async () => {
+                                    try {
+                                      await generateReport({
+                                        userId: st.uid,
+                                        userName: st.displayName,
+                                        problems,
+                                        solvedProblemIds: new Set(st.solvedProblems || []),
+                                        attemptedProblemIds: new Set(st.attemptedProblems || []),
+                                        userEmail: st.email,
+                                        rollNumber: st.rollNumber,
+                                        department: st.department,
+                                        submissions: st.submissions
+                                      });
+                                      showToast(`Generated PDF for ${st.displayName}`);
+                                    } catch (err: any) {
+                                      showToast(err?.message || `Failed to generate PDF for ${st.displayName}`, 'error');
+                                    }
                                   }}
                                   className="p-1 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-md transition-colors cursor-pointer"
                                   title="Download Performance PDF"
@@ -1311,7 +1321,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
                 <button
                   onClick={handleToggleFreezeLeaderboard}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
+                  disabled={!canChangeSettings}
+                  title={canChangeSettings ? undefined : 'Only Sub-Admins and above can change evaluation policies'}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                     settings.leaderboardFrozen
                       ? 'bg-amber-50 text-amber-800 border-amber-300'
                       : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50'
@@ -1337,7 +1349,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <div className="flex items-center gap-1.5 bg-white p-1 rounded-md border border-neutral-200">
                     <button
                       onClick={() => handleUpdateSetting('hiddenTestCasesVisibility', 'strictly_hidden')}
-                      className={`flex-1 py-1 text-xs font-medium rounded transition-colors cursor-pointer ${
+                      disabled={!canChangeSettings}
+                      title={canChangeSettings ? undefined : 'Only Sub-Admins and above can change evaluation policies'}
+                      className={`flex-1 py-1 text-xs font-medium rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                         settings.hiddenTestCasesVisibility === 'strictly_hidden'
                           ? 'bg-neutral-900 text-white shadow-2xs'
                           : 'text-neutral-600 hover:text-neutral-900'
@@ -1347,7 +1361,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </button>
                     <button
                       onClick={() => handleUpdateSetting('hiddenTestCasesVisibility', 'allow_reveal')}
-                      className={`flex-1 py-1 text-xs font-medium rounded transition-colors cursor-pointer ${
+                      disabled={!canChangeSettings}
+                      title={canChangeSettings ? undefined : 'Only Sub-Admins and above can change evaluation policies'}
+                      className={`flex-1 py-1 text-xs font-medium rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                         settings.hiddenTestCasesVisibility === 'allow_reveal'
                           ? 'bg-neutral-900 text-white shadow-2xs'
                           : 'text-neutral-600 hover:text-neutral-900'
@@ -1375,7 +1391,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <button
                           key={lvl}
                           onClick={() => handleToggleLevelLock(lvl)}
-                          className={`py-1 px-2 text-xs font-medium rounded border transition-colors cursor-pointer flex items-center justify-center gap-1 ${
+                          disabled={!canChangeSettings}
+                          title={canChangeSettings ? undefined : 'Only Sub-Admins and above can change evaluation policies'}
+                          className={`py-1 px-2 text-xs font-medium rounded border transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1 ${
                             isLocked
                               ? 'bg-rose-50 text-rose-700 border-rose-200'
                               : 'bg-white text-emerald-700 border-neutral-200 hover:bg-neutral-50'

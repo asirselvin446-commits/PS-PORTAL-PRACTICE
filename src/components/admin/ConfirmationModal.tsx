@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
 
 interface ConfirmationModalProps {
@@ -25,6 +25,13 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onClose
 }) => {
   const [typedInput, setTypedInput] = useState('');
+
+  // The modal stays mounted across confirmation sessions, so clear the typed
+  // confirmation phrase every time it opens — otherwise a previously typed
+  // "DELETE" would pre-enable the confirm button on the next use.
+  useEffect(() => {
+    if (isOpen) setTypedInput('');
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

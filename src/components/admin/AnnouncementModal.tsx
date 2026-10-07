@@ -65,7 +65,14 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
     if (targetType === 'selected') {
       targets = initialTargetUids;
     } else if (targetType === 'batch') {
-      targets = students.filter(s => s.batch === selectedBatch).map(s => s.uid);
+      const batchTargets = students.filter(s => s.batch === selectedBatch).map(s => s.uid);
+      if (batchTargets.length === 0) {
+        // createAnnouncement treats an empty target list as "all students" —
+        // refuse rather than broadcasting an empty-batch notice to everyone.
+        setError(`No students are currently assigned to batch "${selectedBatch}". Choose a batch with members or change the audience.`);
+        return;
+      }
+      targets = batchTargets;
     }
 
     setIsSubmitting(true);
