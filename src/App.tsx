@@ -430,7 +430,7 @@ export default function App() {
     localStorage.setItem(`attempted_${uid}`, JSON.stringify(attemptedArr));
 
     const submissions: Record<string, any> = {};
-    if (submittedProblemId && submittedCode) {
+    if (submittedProblemId && submittedCode && submittedCode.trim()) {
       localStorage.setItem(`passed_code_${uid}_${submittedProblemId}`, submittedCode);
       submissions[submittedProblemId] = {
         code: submittedCode,
@@ -466,7 +466,7 @@ export default function App() {
         updatedAt: new Date().toISOString(),
       }, { merge: true });
 
-      if (submittedProblemId && submittedCode) {
+      if (submittedProblemId && submittedCode && submittedCode.trim()) {
         const userRef = doc(db, 'users', uid);
         batch.set(userRef, {
           [`submissions.${submittedProblemId}`]: {
@@ -609,36 +609,67 @@ export default function App() {
     if (activeProblem && currentUser) {
       const uid = currentUser.uid;
       const passedCode = localStorage.getItem(`passed_code_${uid}_${activeProblem.id}`);
-      if (passedCode !== null) {
-        if (newCode.trim() !== passedCode.trim()) {
-          if (solvedProblems.has(activeProblem.id)) {
-            const newSolved = new Set<string>(solvedProblems);
-            newSolved.delete(activeProblem.id);
-            setSolvedProblems(newSolved);
+      // Editing the code away from the last passed version un-marks the solve.
+      // Note: restoring the exact passed code does NOT re-mark it solved here.
+      // A solve is only ever granted by a fresh Judge0 submission
+      // (handleSubmitCode): the `passed_code_*` entry lives in client-writable
+      // localStorage, so trusting it to grant solves let a hand-edited value
+      // mint phantom solves in Firestore — which also counted toward the
+      // level-unlock thresholds. Pressing Submit re-verifies honestly instead.
+      if (passedCode !== null && newCode.trim() !== passedCode.trim()) {
+        if (solvedProblems.has(activeProblem.id)) {
+          const newSolved = new Set<string>(solvedProblems);
+          newSolved.delete(activeProblem.id);
+          setSolvedProblems(newSolved);
 
-            const newAttempted = new Set<string>(attemptedProblems);
-            newAttempted.add(activeProblem.id);
-            setAttemptedProblems(newAttempted);
-            persistProgress(newSolved, newAttempted);
-            setReportNotification({
-              message: 'Code edited — problem no longer counts as solved. Run and submit again.',
-              type: 'error'
-            });
-            setTimeout(() => setReportNotification(null), 5000);
-          }
-        } else {
-          if (!solvedProblems.has(activeProblem.id)) {
-            const newSolved = new Set<string>(solvedProblems);
-            newSolved.add(activeProblem.id);
-            setSolvedProblems(newSolved);
-            persistProgress(newSolved, attemptedProblems);
-          }
+          const newAttempted = new Set<string>(attemptedProblems);
+          newAttempted.add(activeProblem.id);
+          setAttemptedProblems(newAttempted);
+          persistProgress(newSolved, newAttempted);
+          setReportNotification({
+            message: 'Code edited — problem no longer counts as solved. Run and submit again.',
+            type: 'error'
+          });
+          setTimeout(() => setReportNotification(null), 5000);
         }
       }
     }
   };
 
+  // Central level-lock check — single source of truth for the admin lock,
+  // the progressive unlock rule, and per-student manual overrides.
+  // Used by the problem-list gate AND re-checked on problem open and on
+  // submit, so a locked level's problems can never be opened or submitted
+  // through any path (list click, level-tab switch, or direct call).
+  const getLevelLock = (level: number): { locked: boolean; reason: string } => {
+    if (Boolean(currentUser?.unlockedLevels?.includes(level))) {
+      return { locked: false, reason: '' };
+    }
+    if (adminSettings.lockedLevels?.includes(level)) {
+      return { locked: true, reason: 'This level is locked by the faculty administrator for this assessment session.' };
+    }
+    if (adminSettings.levelUnlockMode === 'progressive' && level > 1) {
+      const prevLevel = level - 1;
+      const defaultThreshold = level === 2 ? 5 : (15 + (level - 3) * 10);
+      const required = adminSettings.minProblemsToUnlockLevel?.[level] ?? defaultThreshold;
+      const prevSolved = allProblems.filter(p => p.level === prevLevel && solvedProblems.has(p.id)).length;
+      if (prevSolved < required) {
+        return { locked: true, reason: `Solve at least ${required} problems in Level ${prevLevel} to unlock (Current: ${prevSolved}/${required})` };
+      }
+    }
+    return { locked: false, reason: '' };
+  };
+
   const handleSelectProblem = (problem: Problem) => {
+    const lock = getLevelLock(problem.level);
+    if (lock.locked) {
+      setReportNotification({
+        message: `Level ${problem.level} is locked — ${lock.reason}`,
+        type: 'error'
+      });
+      setTimeout(() => setReportNotification(null), 4000);
+      return;
+    }
     setActiveProblem(problem);
     const uid = currentUser?.uid || 'guest';
     const savedCode = localStorage.getItem(`code_${uid}_${problem.id}`);
@@ -669,7 +700,10 @@ export default function App() {
   };
 
   const handleRunCustom = async () => {
-    if (!activeProblem) return;
+    // Re-entry guard: the Run button is disabled while isRunning, but the
+    // Ctrl+Enter keyboard shortcut calls this handler directly and would
+    // otherwise fire a second Judge0 execution on top of the first.
+    if (!activeProblem || isRunning) return;
     setIsRunning(true);
     setIsCustomRun(true);
     setError(null);
@@ -698,6 +732,26 @@ export default function App() {
     if (submitCooldown) {
       setReportNotification({ message: 'Please wait a few seconds before submitting again.', type: 'error' });
       setTimeout(() => setReportNotification(null), 3000);
+      return;
+    }
+    // Never record a solve for untouched starter code: submitting the unmodified
+    // template (or an empty editor) must not mark the problem solved, and the
+    // starter must never be captured as the student's "passed" submission in
+    // localStorage, the admin cache, or Firestore.
+    if (!code.trim() || code.trim() === (activeProblem.starterCode || '').trim()) {
+      setReportNotification({ message: 'Write your solution before submitting — the starter template cannot be submitted as your own code.', type: 'error' });
+      setTimeout(() => setReportNotification(null), 4000);
+      return;
+    }
+    // Re-check the level lock at submit time: the list view gates opening, but
+    // the workspace must not persist a solve for a level that became locked
+    // (admin lock, or progress dropping below the progressive threshold).
+    const submitLock = getLevelLock(activeProblem.level);
+    if (submitLock.locked) {
+      const msg = `Level ${activeProblem.level} is locked — submission blocked. ${submitLock.reason}`;
+      setError(msg);
+      setReportNotification({ message: msg, type: 'error' });
+      setTimeout(() => setReportNotification(null), 4000);
       return;
     }
     setIsRunning(true);
@@ -1005,23 +1059,15 @@ export default function App() {
   const levels: number[] = Array.from(new Set<number>(allProblems.map(p => Number(p.level)))).sort((a: number, b: number) => a - b);
 
   // Check if selected level is locked by Admin or progressive unlock rule
-  const isLevelLockedByAdmin = adminSettings.lockedLevels?.includes(selectedLevel);
-  let isLevelLockedByProgress = false;
-  let progressRequirementText = '';
-
-  if (adminSettings.levelUnlockMode === 'progressive' && selectedLevel > 1) {
-    const prevLevel = selectedLevel - 1;
-    const defaultThreshold = selectedLevel === 2 ? 5 : (15 + (selectedLevel - 3) * 10);
-    const required = adminSettings.minProblemsToUnlockLevel?.[selectedLevel] ?? defaultThreshold;
-    const prevSolved = allProblems.filter(p => p.level === prevLevel && solvedProblems.has(p.id)).length;
-    if (prevSolved < required) {
-      isLevelLockedByProgress = true;
-      progressRequirementText = `Solve at least ${required} problems in Level ${prevLevel} to unlock (Current: ${prevSolved}/${required})`;
-    }
-  }
-
-  const isManuallyUnlocked = Boolean(currentUser?.unlockedLevels?.includes(selectedLevel));
-  const isLevelLocked = !isManuallyUnlocked && (isLevelLockedByAdmin || isLevelLockedByProgress);
+  // (single source of truth: getLevelLock — the same check guards problem open
+  // and submit, so the gate below can never disagree with them)
+  const selectedLevelLock = getLevelLock(selectedLevel);
+  const isLevelLocked = selectedLevelLock.locked;
+  const isLevelLockedByAdmin = isLevelLocked && Boolean(adminSettings.lockedLevels?.includes(selectedLevel));
+  // When locked by the progressive rule, the helper's reason carries the
+  // "Solve at least N problems..." text; when admin-locked the JSX below
+  // shows the faculty message instead.
+  const progressRequirementText = isLevelLocked && !isLevelLockedByAdmin ? selectedLevelLock.reason : '';
   
   const displayedProblems = allProblems.filter(p => {
     const matchesLevel = p.level === selectedLevel;
