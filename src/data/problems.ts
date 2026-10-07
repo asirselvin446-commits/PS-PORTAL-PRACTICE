@@ -6913,7 +6913,1736 @@ export const problems: Problem[] = [
         "matchType": "numeric"
       }
     ]
-  }
+  },
+{
+    "id": "l1-ticket-cost-discount",
+    "title": "15. Ticket Cost with Discount",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the number of children, adult and senior tickets purchased. Children tickets cost $5, adult tickets cost $10 and senior tickets cost $7. If the total number of tickets is more than 5, apply a 10% discount on the total cost. Print the final cost with exactly 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n3\n1</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>42.30</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1\n1\n1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>22.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2\n3\n1", "expected": "42.30", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n1\n1", "expected": "22.00", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n3\n2", "expected": "44.00", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n1\n0", "expected": "31.50", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n0\n0", "expected": "0.00", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n10\n10", "expected": "198.00", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n5\n0", "expected": "50.00", "hidden": true, "matchType": "normalized" },
+      { "input": "3\n2\n1", "expected": "37.80", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-alphabet-check",
+    "title": "16. Alphabet Check",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a single character from input. Check whether it is an alphabet (a-z or A-Z). If it is, print \"&lt;ch&gt; is an Alphabet.\", otherwise print \"&lt;ch&gt; is not an Alphabet.\" with the character echoed in the message.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>a</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>a is an Alphabet.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>7 is not an Alphabet.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "a", "expected": "a is an Alphabet.", "hidden": false, "matchType": "normalized" },
+      { "input": "7", "expected": "7 is not an Alphabet.", "hidden": false, "matchType": "normalized" },
+      { "input": "Z", "expected": "Z is an Alphabet.", "hidden": false, "matchType": "normalized" },
+      { "input": "m", "expected": "m is an Alphabet.", "hidden": true, "matchType": "normalized" },
+      { "input": "@", "expected": "@ is not an Alphabet.", "hidden": true, "matchType": "normalized" },
+      { "input": "Q", "expected": "Q is an Alphabet.", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0 is not an Alphabet.", "hidden": true, "matchType": "normalized" },
+      { "input": "z", "expected": "z is an Alphabet.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-greater-or-equal",
+    "title": "17. Greater or Equal",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read two integers. If the first is greater, print \"&lt;num1&gt; is greater than &lt;num2&gt;.\" If the second is greater, print \"&lt;num2&gt; is greater than &lt;num1&gt;.\" If they are equal, print \"&lt;num1&gt; is equal to &lt;num2&gt;.\"</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>5 is greater than 3.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>4\n4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>4 is equal to 4.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5\n3", "expected": "5 is greater than 3.", "hidden": false, "matchType": "normalized" },
+      { "input": "4\n4", "expected": "4 is equal to 4.", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n9", "expected": "9 is greater than 2.", "hidden": false, "matchType": "normalized" },
+      { "input": "-3\n-7", "expected": "-3 is greater than -7.", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "0 is equal to 0.", "hidden": true, "matchType": "normalized" },
+      { "input": "-5\n10", "expected": "10 is greater than -5.", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n99", "expected": "100 is greater than 99.", "hidden": true, "matchType": "normalized" },
+      { "input": "7\n7", "expected": "7 is equal to 7.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-hex-octal",
+    "title": "18. Hexadecimal and Octal",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an integer. If it is not a positive integer (zero or negative), print \"Error: Please enter a positive integer\". Otherwise print its lowercase hexadecimal representation followed by \"(Hexadecimal)\" on the first line, and its octal representation followed by \"(Octal)\" on the second line.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>255</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>ff(Hexadecimal)\n377(Octal)</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>-5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Error: Please enter a positive integer</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "255", "expected": "ff(Hexadecimal)\n377(Octal)", "hidden": false, "matchType": "normalized" },
+      { "input": "-5", "expected": "Error: Please enter a positive integer", "hidden": false, "matchType": "normalized" },
+      { "input": "16", "expected": "10(Hexadecimal)\n20(Octal)", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "Error: Please enter a positive integer", "hidden": true, "matchType": "normalized" },
+      { "input": "10", "expected": "a(Hexadecimal)\n12(Octal)", "hidden": true, "matchType": "normalized" },
+      { "input": "1", "expected": "1(Hexadecimal)\n1(Octal)", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "64(Hexadecimal)\n144(Octal)", "hidden": true, "matchType": "normalized" },
+      { "input": "-100", "expected": "Error: Please enter a positive integer", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-battery-level",
+    "title": "19. Battery Level Classifier",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a battery charge level (0-100). Print \"Low\" for 0-20, \"Medium\" for 21-70, \"Almost Full\" for 71-95 and \"Full\" for 96-100. For any value below 0 or above 100, print \"INVALID CHARGE LEVEL\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Low</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>85</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Almost Full</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10", "expected": "Low", "hidden": false, "matchType": "normalized" },
+      { "input": "85", "expected": "Almost Full", "hidden": false, "matchType": "normalized" },
+      { "input": "50", "expected": "Medium", "hidden": false, "matchType": "normalized" },
+      { "input": "20", "expected": "Low", "hidden": true, "matchType": "normalized" },
+      { "input": "21", "expected": "Medium", "hidden": true, "matchType": "normalized" },
+      { "input": "95", "expected": "Almost Full", "hidden": true, "matchType": "normalized" },
+      { "input": "96", "expected": "Full", "hidden": true, "matchType": "normalized" },
+      { "input": "101", "expected": "INVALID CHARGE LEVEL", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-sum-parity-signs",
+    "title": "20. Sum Parity and Signs",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read two integers. On the first line print \"even\" if their sum is even, otherwise \"odd\". On the second line print \"Both integers are positive.\" if both are positive, \"Both integers are negative.\" if both are negative, otherwise print \"One integer is positive and the other is negative.\" (Zero counts as neither positive nor negative.)</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>odd\nBoth integers are positive.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>0\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>odd\nOne integer is positive and the other is negative.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n4", "expected": "odd\nBoth integers are positive.", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n5", "expected": "odd\nOne integer is positive and the other is negative.", "hidden": false, "matchType": "normalized" },
+      { "input": "-2\n-8", "expected": "even\nBoth integers are negative.", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n2", "expected": "even\nBoth integers are positive.", "hidden": true, "matchType": "normalized" },
+      { "input": "-3\n5", "expected": "even\nOne integer is positive and the other is negative.", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "even\nOne integer is positive and the other is negative.", "hidden": true, "matchType": "normalized" },
+      { "input": "-1\n-2", "expected": "odd\nBoth integers are negative.", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n-3", "expected": "odd\nOne integer is positive and the other is negative.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-speed-classifier",
+    "title": "21. Speed Classifier",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read distance and time as decimal numbers and compute speed as distance divided by time. Print the speed with exactly 2 decimal places. On the next line print \"Very slow\" if speed is below 50, \"Over speed\" if speed is above 120, otherwise print \"Average speed\" (speeds of exactly 50 and 120 count as average).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>50.00\nAverage speed</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>300\n2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>150.00\nOver speed</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "100\n2", "expected": "50.00\nAverage speed", "hidden": false, "matchType": "normalized" },
+      { "input": "300\n2", "expected": "150.00\nOver speed", "hidden": false, "matchType": "normalized" },
+      { "input": "30\n1", "expected": "30.00\nVery slow", "hidden": false, "matchType": "normalized" },
+      { "input": "240\n2", "expected": "120.00\nAverage speed", "hidden": true, "matchType": "normalized" },
+      { "input": "49\n1", "expected": "49.00\nVery slow", "hidden": true, "matchType": "normalized" },
+      { "input": "121\n1", "expected": "121.00\nOver speed", "hidden": true, "matchType": "normalized" },
+      { "input": "75\n2", "expected": "37.50\nVery slow", "hidden": true, "matchType": "normalized" },
+      { "input": "200\n1", "expected": "200.00\nOver speed", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-shipping-cost",
+    "title": "22. Shipping Cost",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the order total as a decimal number. If the total is negative, print \"INVALID AMOUNT.\". If the total is above 50, print the total with 2 decimal places followed by \" Shipping is free.\". Otherwise (including exactly 50), print the total with 2 decimal places followed by \" Shipping fee is $5.\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>60</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>60.00 Shipping is free.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>30</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>30.00 Shipping fee is $5.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "60", "expected": "60.00 Shipping is free.", "hidden": false, "matchType": "normalized" },
+      { "input": "30", "expected": "30.00 Shipping fee is $5.", "hidden": false, "matchType": "normalized" },
+      { "input": "-10", "expected": "INVALID AMOUNT.", "hidden": false, "matchType": "normalized" },
+      { "input": "50", "expected": "50.00 Shipping fee is $5.", "hidden": true, "matchType": "normalized" },
+      { "input": "50.5", "expected": "50.50 Shipping is free.", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0.00 Shipping fee is $5.", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "100.00 Shipping is free.", "hidden": true, "matchType": "normalized" },
+      { "input": "-0.5", "expected": "INVALID AMOUNT.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-equal-product-difference",
+    "title": "23. Equal Product or Difference",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read two integers. If they are equal, print their product. Otherwise print the absolute difference between them.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>16</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>7</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "4\n4", "expected": "16", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n3", "expected": "7", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n10", "expected": "7", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "0", "hidden": true, "matchType": "normalized" },
+      { "input": "-5\n-5", "expected": "25", "hidden": true, "matchType": "normalized" },
+      { "input": "-5\n5", "expected": "10", "hidden": true, "matchType": "normalized" },
+      { "input": "7\n2", "expected": "5", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n1", "expected": "1", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-theater-seat",
+    "title": "24. Theater Seat Locator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a theater seat number. First print \"even\" or \"odd\". For an even seat, print \"back of the theater\" if it is divisible by 4, otherwise \"middle of the theater\". For an odd seat, print \"back of the theater\" if it is divisible by 3, otherwise \"front of the theater\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>even\nback of the theater</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>odd\nfront of the theater</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "8", "expected": "even\nback of the theater", "hidden": false, "matchType": "normalized" },
+      { "input": "7", "expected": "odd\nfront of the theater", "hidden": false, "matchType": "normalized" },
+      { "input": "6", "expected": "even\nmiddle of the theater", "hidden": false, "matchType": "normalized" },
+      { "input": "9", "expected": "odd\nback of the theater", "hidden": true, "matchType": "normalized" },
+      { "input": "12", "expected": "even\nback of the theater", "hidden": true, "matchType": "normalized" },
+      { "input": "10", "expected": "even\nmiddle of the theater", "hidden": true, "matchType": "normalized" },
+      { "input": "15", "expected": "odd\nback of the theater", "hidden": true, "matchType": "normalized" },
+      { "input": "1", "expected": "odd\nfront of the theater", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-product-half-third",
+    "title": "25. Product Half or Third",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read two integers and compute their product. If the product is even, print the product divided by 2. Otherwise print the product divided by 3. Division is integer division (the fractional part is dropped).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4\n6</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>12</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>11</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "4\n6", "expected": "12", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n7", "expected": "11", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n3", "expected": "3", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n5", "expected": "5", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n1", "expected": "0", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n9", "expected": "0", "hidden": true, "matchType": "normalized" },
+      { "input": "-4\n3", "expected": "-6", "hidden": true, "matchType": "normalized" },
+      { "input": "-3\n-5", "expected": "5", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-five-digit-check",
+    "title": "26. Five-Digit Check",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an integer. If it is a 5-digit number (from 10000 to 99999), print \"&lt;num&gt; is a 5-digit number\". Otherwise print \"&lt;num&gt; is not a 5-digit number\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>12345</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>12345 is a 5-digit number</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>999</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>999 is not a 5-digit number</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "12345", "expected": "12345 is a 5-digit number", "hidden": false, "matchType": "normalized" },
+      { "input": "999", "expected": "999 is not a 5-digit number", "hidden": false, "matchType": "normalized" },
+      { "input": "-12345", "expected": "-12345 is not a 5-digit number", "hidden": false, "matchType": "normalized" },
+      { "input": "10000", "expected": "10000 is a 5-digit number", "hidden": true, "matchType": "normalized" },
+      { "input": "99999", "expected": "99999 is a 5-digit number", "hidden": true, "matchType": "normalized" },
+      { "input": "100000", "expected": "100000 is not a 5-digit number", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0 is not a 5-digit number", "hidden": true, "matchType": "normalized" },
+      { "input": "54321", "expected": "54321 is a 5-digit number", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-income-tax-slabs",
+    "title": "27. Income Tax Slabs",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an income amount. Compute tax using slabs: 5% for income up to 10000, 10% for income up to 50000, and 20% for income above 50000. Print the tax as \"$&lt;amount&gt;\" with exactly 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>$500.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>60000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>$12000.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10000", "expected": "$500.00", "hidden": false, "matchType": "normalized" },
+      { "input": "60000", "expected": "$12000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "50000", "expected": "$5000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "$0.00", "hidden": true, "matchType": "normalized" },
+      { "input": "10001", "expected": "$1000.10", "hidden": true, "matchType": "normalized" },
+      { "input": "50001", "expected": "$10000.20", "hidden": true, "matchType": "normalized" },
+      { "input": "25000", "expected": "$2500.00", "hidden": true, "matchType": "normalized" },
+      { "input": "100000", "expected": "$20000.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-vehicle-validator",
+    "title": "28. Vehicle Validator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a vehicle size code (S/M/L), a fuel type code (G/D/E) and a purpose code (1/2/3). Print \"Vehicle Size: \" followed by Small, Medium, Large or \"Invalid vehicle size\" (stop here if invalid). Then print \"Fuel Type: \" followed by Gasoline, Diesel, Electric or \"Invalid fuel type\" (stop here if invalid). Then print \"Purpose: \" followed by \"Personal use\", \"Commercial use\", \"Public Transport\" or \"Invalid purpose\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>M\nD\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Commercial use</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>X\nG\n1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Vehicle Size: Invalid vehicle size</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "M\nD\n2", "expected": "Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Commercial use", "hidden": false, "matchType": "normalized" },
+      { "input": "X\nG\n1", "expected": "Vehicle Size: Invalid vehicle size", "hidden": false, "matchType": "normalized" },
+      { "input": "S\nG\n1", "expected": "Vehicle Size: Small\nFuel Type: Gasoline\nPurpose: Personal use", "hidden": false, "matchType": "normalized" },
+      { "input": "L\nE\n3", "expected": "Vehicle Size: Large\nFuel Type: Electric\nPurpose: Public Transport", "hidden": true, "matchType": "normalized" },
+      { "input": "M\nX\n1", "expected": "Vehicle Size: Medium\nFuel Type: Invalid fuel type", "hidden": true, "matchType": "normalized" },
+      { "input": "M\nD\n5", "expected": "Vehicle Size: Medium\nFuel Type: Diesel\nPurpose: Invalid purpose", "hidden": true, "matchType": "normalized" },
+      { "input": "S\nE\n2", "expected": "Vehicle Size: Small\nFuel Type: Electric\nPurpose: Commercial use", "hidden": true, "matchType": "normalized" },
+      { "input": "L\nG\n3", "expected": "Vehicle Size: Large\nFuel Type: Gasoline\nPurpose: Public Transport", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-salary-increment",
+    "title": "29. Salary Increment",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the current salary and a percentage increment (both integers). Compute the new salary as current salary plus (current salary times percentage divided by 100) using integer arithmetic. Print the new salary as an integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10000\n15</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>11500</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>50000\n10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>55000</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10000\n15", "expected": "11500", "hidden": false, "matchType": "normalized" },
+      { "input": "50000\n10", "expected": "55000", "hidden": false, "matchType": "normalized" },
+      { "input": "8000\n0", "expected": "8000", "hidden": false, "matchType": "normalized" },
+      { "input": "9999\n10", "expected": "10998", "hidden": true, "matchType": "normalized" },
+      { "input": "100000\n25", "expected": "125000", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n50", "expected": "1", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n10", "expected": "0", "hidden": true, "matchType": "normalized" },
+      { "input": "20000\n7", "expected": "21400", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-power-calculator",
+    "title": "30. Power Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a base and an exponent (both integers). Compute base raised to the exponent using pow() and print the result as an integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1024</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>125</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2\n10", "expected": "1024", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n3", "expected": "125", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n0", "expected": "1", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n4", "expected": "81", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n0", "expected": "1", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n5", "expected": "0", "hidden": true, "matchType": "normalized" },
+      { "input": "7\n2", "expected": "49", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n20", "expected": "1048576", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-activity-level",
+    "title": "31. Activity Level Tracker",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the number of steps and the time taken. Print the activity level: \"Level:0\" for fewer than 5000 steps, \"Level:25\" for 5000-9999 steps, \"Level:50\" for 10000-14999 steps and \"Level:100\" for 15000 or more steps. On the next line print the activity range (steps divided by time) with exactly 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4000\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Level:0 \n2000.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>12000\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Level:50 \n4000.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "4000\n2", "expected": "Level:0 \n2000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "12000\n3", "expected": "Level:50 \n4000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "8000\n4", "expected": "Level:25 \n2000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "20000\n5", "expected": "Level:100 \n4000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "5000\n2", "expected": "Level:25 \n2500.00", "hidden": true, "matchType": "normalized" },
+      { "input": "9999\n3", "expected": "Level:25 \n3333.00", "hidden": true, "matchType": "normalized" },
+      { "input": "14999\n2", "expected": "Level:50 \n7499.50", "hidden": true, "matchType": "normalized" },
+      { "input": "15000\n4", "expected": "Level:100 \n3750.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-gross-salary",
+    "title": "32. Gross Salary Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the basic salary. Compute HRA and DA based on slabs: for basic up to 10000, HRA is 20% and DA is 80%; for basic up to 20000, HRA is 25% and DA is 90%; above 20000, HRA is 30% and DA is 95%. Gross salary is basic plus HRA plus DA. Print it with exactly 2 decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>20000.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>30000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>67500.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10000", "expected": "20000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "30000", "expected": "67500.00", "hidden": false, "matchType": "normalized" },
+      { "input": "20000", "expected": "43000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "5000", "expected": "10000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "10001", "expected": "21502.15", "hidden": true, "matchType": "normalized" },
+      { "input": "20001", "expected": "45002.25", "hidden": true, "matchType": "normalized" },
+      { "input": "15000", "expected": "32250.00", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+{
+    "id": "l1-ticket-price-by-age",
+    "title": "33. Ticket Price by Age",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the age of a visitor and print the ticket price: 10 for children (age 0 to 12), 15 for teenagers (age 13 to 17), 20 for adults (age 18 to 60), and 12 for seniors (age 61 and above).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>15</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>15</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>20</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10", "expected": "10", "hidden": false, "matchType": "normalized" },
+      { "input": "15", "expected": "15", "hidden": false, "matchType": "normalized" },
+      { "input": "25", "expected": "20", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "10", "hidden": true, "matchType": "normalized" },
+      { "input": "12", "expected": "10", "hidden": true, "matchType": "normalized" },
+      { "input": "17", "expected": "15", "hidden": true, "matchType": "normalized" },
+      { "input": "60", "expected": "20", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "12", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-exam-attendance-eligibility",
+    "title": "34. Exam Attendance Eligibility",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the total hours held and the hours attended, then compute the attendance percentage. If the percentage is 75 or more, print You are allowed to sit in the exam. Otherwise print You are not allowed to sit in the exam, followed by Apply for Condonation when the percentage is between 66 and 74, or Not eligible for Condonation when it is below 66.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n80</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>You are allowed to sit in the exam</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>100\n70</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>You are not allowed to sit in the exam\nApply for Condonation</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>100\n50</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>You are not allowed to sit in the exam\nNot eligible for Condonation</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "100\n80", "expected": "You are allowed to sit in the exam", "hidden": false, "matchType": "normalized" },
+      { "input": "100\n70", "expected": "You are not allowed to sit in the exam\nApply for Condonation", "hidden": false, "matchType": "normalized" },
+      { "input": "100\n50", "expected": "You are not allowed to sit in the exam\nNot eligible for Condonation", "hidden": false, "matchType": "normalized" },
+      { "input": "200\n150", "expected": "You are allowed to sit in the exam", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n74", "expected": "You are not allowed to sit in the exam\nApply for Condonation", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n66", "expected": "You are not allowed to sit in the exam\nApply for Condonation", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n65", "expected": "You are not allowed to sit in the exam\nNot eligible for Condonation", "hidden": true, "matchType": "normalized" },
+      { "input": "40\n40", "expected": "You are allowed to sit in the exam", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-weird-or-not-weird",
+    "title": "35. Weird or Not Weird",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an integer n and classify it. If n is greater than 100, print Invalid Range. Otherwise: odd numbers print Weird; even numbers from 2 to 5 print Not Weird; even numbers from 6 to 20 print Weird; even numbers greater than 20 print Not Weird.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Weird</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Not Weird</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>18</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Weird</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3", "expected": "Weird", "hidden": false, "matchType": "normalized" },
+      { "input": "4", "expected": "Not Weird", "hidden": false, "matchType": "normalized" },
+      { "input": "18", "expected": "Weird", "hidden": false, "matchType": "normalized" },
+      { "input": "24", "expected": "Not Weird", "hidden": true, "matchType": "normalized" },
+      { "input": "101", "expected": "Invalid Range", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "Not Weird", "hidden": true, "matchType": "normalized" },
+      { "input": "20", "expected": "Weird", "hidden": true, "matchType": "normalized" },
+      { "input": "2", "expected": "Not Weird", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-largest-smallest-of-three",
+    "title": "36. Largest and Smallest of Three",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read three integers and print the largest on the first line and the smallest on the second line.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5\n2\n8</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>8\n2</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1\n1\n1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1\n1</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>-3\n-7\n-1</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>-1\n-7</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5\n2\n8", "expected": "8\n2", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n1\n1", "expected": "1\n1", "hidden": false, "matchType": "normalized" },
+      { "input": "-3\n-7\n-1", "expected": "-1\n-7", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n20\n30", "expected": "30\n10", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n-5\n5", "expected": "5\n-5", "hidden": true, "matchType": "normalized" },
+      { "input": "9\n9\n3", "expected": "9\n3", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n50\n75", "expected": "100\n50", "hidden": true, "matchType": "normalized" },
+      { "input": "-2\n-2\n-9", "expected": "-2\n-9", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-withdrawal-limit-account-type",
+    "title": "37. Withdrawal Limit by Account Type",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a withdrawal amount on the first line and an account type character on the second line (R for regular, P for premium). Print Invalid for any other account type. A regular account allows up to 500 and a premium account allows up to 1000; print Withdrawal successful. Please take your money when within the limit, otherwise print Withdrawal amount exceeds the limit for your account type!</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>300\nR</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Withdrawal successful. Please take your money</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>900\nP</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Withdrawal successful. Please take your money</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>600\nR</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Withdrawal amount exceeds the limit for your account type!</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "300\nR", "expected": "Withdrawal successful. Please take your money", "hidden": false, "matchType": "normalized" },
+      { "input": "900\nP", "expected": "Withdrawal successful. Please take your money", "hidden": false, "matchType": "normalized" },
+      { "input": "600\nR", "expected": "Withdrawal amount exceeds the limit for your account type!", "hidden": false, "matchType": "normalized" },
+      { "input": "500\nR", "expected": "Withdrawal successful. Please take your money", "hidden": true, "matchType": "normalized" },
+      { "input": "1000\nP", "expected": "Withdrawal successful. Please take your money", "hidden": true, "matchType": "normalized" },
+      { "input": "1500\nP", "expected": "Withdrawal amount exceeds the limit for your account type!", "hidden": true, "matchType": "normalized" },
+      { "input": "200\nX", "expected": "Invalid", "hidden": true, "matchType": "normalized" },
+      { "input": "501\nR", "expected": "Withdrawal amount exceeds the limit for your account type!", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-temperature-converter",
+    "title": "38. Temperature Converter",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an integer temperature on the first line and a scale character on the second line (C or F). Convert Celsius to Fahrenheit or Fahrenheit to Celsius and print the result with two decimal places. Print Invalid scale entered for any other scale character.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>0\nC</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>32.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>32\nF</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>0.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>100\nX</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid scale entered</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "0\nC", "expected": "32.00", "hidden": false, "matchType": "normalized" },
+      { "input": "32\nF", "expected": "0.00", "hidden": false, "matchType": "normalized" },
+      { "input": "100\nX", "expected": "Invalid scale entered", "hidden": false, "matchType": "normalized" },
+      { "input": "100\nC", "expected": "212.00", "hidden": true, "matchType": "normalized" },
+      { "input": "212\nF", "expected": "100.00", "hidden": true, "matchType": "normalized" },
+      { "input": "-40\nC", "expected": "-40.00", "hidden": true, "matchType": "normalized" },
+      { "input": "98\nF", "expected": "36.67", "hidden": true, "matchType": "normalized" },
+      { "input": "37\nc", "expected": "Invalid scale entered", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-weather-classifier",
+    "title": "39. Weather Classifier",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a temperature and classify the weather: Sunny weather for 0 to 30, Cloudy weather for 31 to 60, Rainy weather for 61 to 80, and Snowy weather for 81 to 100. Print Invalid temperature for values below 0 or above 100.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Sunny weather</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>45</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Cloudy weather</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>75</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Rainy weather</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "25", "expected": "Sunny weather", "hidden": false, "matchType": "normalized" },
+      { "input": "45", "expected": "Cloudy weather", "hidden": false, "matchType": "normalized" },
+      { "input": "75", "expected": "Rainy weather", "hidden": false, "matchType": "normalized" },
+      { "input": "90", "expected": "Snowy weather", "hidden": true, "matchType": "normalized" },
+      { "input": "-5", "expected": "Invalid temperature", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "Sunny weather", "hidden": true, "matchType": "normalized" },
+      { "input": "30", "expected": "Sunny weather", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "Snowy weather", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-cgpa-to-percentage",
+    "title": "40. CGPA to Percentage",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a CGPA value between 0 and 10 and print Invalid CGPA. CGPA must be between 0 and 10. for anything outside that range. Otherwise print the percentage (CGPA multiplied by 9.5) with two decimal places, followed by a remark: Excellent for 90 and above, Good for 80 and above, Average for 70 and above, Needs Improvement for above 50, and Poor otherwise.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>8.5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>80.75\nRemark: Good</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>9.6</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>91.20\nRemark: Excellent</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>11</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid CGPA. CGPA must be between 0 and 10.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "8.5", "expected": "80.75\nRemark: Good", "hidden": false, "matchType": "normalized" },
+      { "input": "9.6", "expected": "91.20\nRemark: Excellent", "hidden": false, "matchType": "normalized" },
+      { "input": "11", "expected": "Invalid CGPA. CGPA must be between 0 and 10.", "hidden": false, "matchType": "normalized" },
+      { "input": "7.0", "expected": "66.50\nRemark: Needs Improvement", "hidden": true, "matchType": "normalized" },
+      { "input": "5.0", "expected": "47.50\nRemark: Poor", "hidden": true, "matchType": "normalized" },
+      { "input": "10", "expected": "95.00\nRemark: Excellent", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0.00\nRemark: Poor", "hidden": true, "matchType": "normalized" },
+      { "input": "-1", "expected": "Invalid CGPA. CGPA must be between 0 and 10.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-miles-per-gallon",
+    "title": "41. Miles Per Gallon",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the miles driven and the gallons used, then print the miles per gallon with two decimal places. Classify the result as Poor for below 15, Average for 15 to 25, Good for 26 to 35, and Excellent otherwise.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>300\n20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>15.00\nAverage</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>100\n10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>10.00\nPoor</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>400\n10</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>40.00\nExcellent</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "300\n20", "expected": "15.00\nAverage", "hidden": false, "matchType": "normalized" },
+      { "input": "100\n10", "expected": "10.00\nPoor", "hidden": false, "matchType": "normalized" },
+      { "input": "400\n10", "expected": "40.00\nExcellent", "hidden": false, "matchType": "normalized" },
+      { "input": "260\n10", "expected": "26.00\nGood", "hidden": true, "matchType": "normalized" },
+      { "input": "500\n25", "expected": "20.00\nAverage", "hidden": true, "matchType": "normalized" },
+      { "input": "120\n10", "expected": "12.00\nPoor", "hidden": true, "matchType": "normalized" },
+      { "input": "700\n20", "expected": "35.00\nGood", "hidden": true, "matchType": "normalized" },
+      { "input": "900\n20", "expected": "45.00\nExcellent", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-savings-calculator",
+    "title": "42. Savings Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the total income and the allowances, then compute the saving amount (income minus allowances) and the saving percentage. Print both on separate lines with two decimal places, each prefixed as shown in the samples.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5000\n2000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Saving Amount: 3000.00\nSaving Percentage: 60.00%</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10000\n2500</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Saving Amount: 7500.00\nSaving Percentage: 75.00%</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>8000\n8000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Saving Amount: 0.00\nSaving Percentage: 0.00%</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5000\n2000", "expected": "Saving Amount: 3000.00\nSaving Percentage: 60.00%", "hidden": false, "matchType": "normalized" },
+      { "input": "10000\n2500", "expected": "Saving Amount: 7500.00\nSaving Percentage: 75.00%", "hidden": false, "matchType": "normalized" },
+      { "input": "8000\n8000", "expected": "Saving Amount: 0.00\nSaving Percentage: 0.00%", "hidden": false, "matchType": "normalized" },
+      { "input": "12000\n3000", "expected": "Saving Amount: 9000.00\nSaving Percentage: 75.00%", "hidden": true, "matchType": "normalized" },
+      { "input": "6000\n1500", "expected": "Saving Amount: 4500.00\nSaving Percentage: 75.00%", "hidden": true, "matchType": "normalized" },
+      { "input": "9000\n4500", "expected": "Saving Amount: 4500.00\nSaving Percentage: 50.00%", "hidden": true, "matchType": "normalized" },
+      { "input": "1000\n333", "expected": "Saving Amount: 667.00\nSaving Percentage: 66.70%", "hidden": true, "matchType": "normalized" },
+      { "input": "7500\n1000", "expected": "Saving Amount: 6500.00\nSaving Percentage: 86.67%", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-attendance-medical-cause",
+    "title": "43. Attendance with Medical Cause",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the total days and the days absent, then compute the attendance percentage. If it is 75 percent or more, print the percentage with two decimals. Otherwise read a third input, a medical cause character: print the percentage if it is Y, or print Not Eligible for any other character.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>90.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>100\n30\nY</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>70.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>100\n30\nN</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Not Eligible</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "100\n10", "expected": "90.00", "hidden": false, "matchType": "normalized" },
+      { "input": "100\n30\nY", "expected": "70.00", "hidden": false, "matchType": "normalized" },
+      { "input": "100\n30\nN", "expected": "Not Eligible", "hidden": false, "matchType": "normalized" },
+      { "input": "200\n40", "expected": "80.00", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n25", "expected": "75.00", "hidden": true, "matchType": "normalized" },
+      { "input": "50\n20\nY", "expected": "60.00", "hidden": true, "matchType": "normalized" },
+      { "input": "50\n20\nN", "expected": "Not Eligible", "hidden": true, "matchType": "normalized" },
+      { "input": "80\n30\nn", "expected": "Not Eligible", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-odd-product-formatter",
+    "title": "44. Odd Product Formatter",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read two integers and compute their product. If both numbers are odd, print the product as a floating-point value with three decimal places; otherwise print the product as an integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>15.000</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>4\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>20</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>2\n8</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>16</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n5", "expected": "15.000", "hidden": false, "matchType": "normalized" },
+      { "input": "4\n5", "expected": "20", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n8", "expected": "16", "hidden": false, "matchType": "normalized" },
+      { "input": "7\n9", "expected": "63.000", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n1", "expected": "1.000", "hidden": true, "matchType": "normalized" },
+      { "input": "6\n7", "expected": "42", "hidden": true, "matchType": "normalized" },
+      { "input": "-3\n5", "expected": "-15.000", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n9", "expected": "0", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-temperature-words",
+    "title": "45. Temperature Words",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a temperature and describe it in words: Freezing weather below 0, Very Cold weather from 1 to 8, Cold weather from 9 to 19, Normal temperature from 20 to 29, Hot from 30 to 39, and Very Hot otherwise.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>-5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Freezing weather</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Very Cold weather</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Normal temperature</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "-5", "expected": "Freezing weather", "hidden": false, "matchType": "normalized" },
+      { "input": "5", "expected": "Very Cold weather", "hidden": false, "matchType": "normalized" },
+      { "input": "25", "expected": "Normal temperature", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "Very Hot", "hidden": true, "matchType": "normalized" },
+      { "input": "15", "expected": "Cold weather", "hidden": true, "matchType": "normalized" },
+      { "input": "35", "expected": "Hot", "hidden": true, "matchType": "normalized" },
+      { "input": "50", "expected": "Very Hot", "hidden": true, "matchType": "normalized" },
+      { "input": "29", "expected": "Normal temperature", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-vote-eligibility",
+    "title": "46. Vote Eligibility",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a person's age and check voting eligibility. Print the age followed by years eligible to vote when the age is 18 or more, otherwise print the age followed by years not eligible to vote.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>20 years eligible to vote</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>16</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>16 years not eligible to vote</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>18</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>18 years eligible to vote</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "20", "expected": "20 years eligible to vote", "hidden": false, "matchType": "normalized" },
+      { "input": "16", "expected": "16 years not eligible to vote", "hidden": false, "matchType": "normalized" },
+      { "input": "18", "expected": "18 years eligible to vote", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "0 years not eligible to vote", "hidden": true, "matchType": "normalized" },
+      { "input": "65", "expected": "65 years eligible to vote", "hidden": true, "matchType": "normalized" },
+      { "input": "17", "expected": "17 years not eligible to vote", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "100 years eligible to vote", "hidden": true, "matchType": "normalized" },
+      { "input": "5", "expected": "5 years not eligible to vote", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-speed-limit-check",
+    "title": "47. Speed Limit Check",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the speed limit and the vehicle speed, each on its own line. If the vehicle speed exceeds the limit, print the vehicle speed followed immediately by km Speed limit violation (no space before km). Otherwise print the vehicle speed followed immediately by km within the speed limit.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>60\n80</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>80km Speed limit violation</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>60\n50</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>50km within the speed limit</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>60\n60</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>60km within the speed limit</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "60\n80", "expected": "80km Speed limit violation", "hidden": false, "matchType": "normalized" },
+      { "input": "60\n50", "expected": "50km within the speed limit", "hidden": false, "matchType": "normalized" },
+      { "input": "60\n60", "expected": "60km within the speed limit", "hidden": false, "matchType": "normalized" },
+      { "input": "100\n120", "expected": "120km Speed limit violation", "hidden": true, "matchType": "normalized" },
+      { "input": "80\n80", "expected": "80km within the speed limit", "hidden": true, "matchType": "normalized" },
+      { "input": "50\n49", "expected": "49km within the speed limit", "hidden": true, "matchType": "normalized" },
+      { "input": "40\n100", "expected": "100km Speed limit violation", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n10", "expected": "10km Speed limit violation", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-vowel-or-consonant",
+    "title": "48. Vowel or Consonant",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a single character and report what it is: print X is a Vowel. for vowels (a, e, i, o, u in either case), X is a Consonant. for other letters, and X is not a Letter. for anything else, where X is the input character.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>a</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>a is a Vowel.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>b</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>b is a Consonant.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>5 is not a Letter.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "a", "expected": "a is a Vowel.", "hidden": false, "matchType": "normalized" },
+      { "input": "b", "expected": "b is a Consonant.", "hidden": false, "matchType": "normalized" },
+      { "input": "5", "expected": "5 is not a Letter.", "hidden": false, "matchType": "normalized" },
+      { "input": "E", "expected": "E is a Vowel.", "hidden": true, "matchType": "normalized" },
+      { "input": "Z", "expected": "Z is a Consonant.", "hidden": true, "matchType": "normalized" },
+      { "input": "u", "expected": "u is a Vowel.", "hidden": true, "matchType": "normalized" },
+      { "input": "m", "expected": "m is a Consonant.", "hidden": true, "matchType": "normalized" },
+      { "input": "@", "expected": "@ is not a Letter.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-helloworld-divisibility",
+    "title": "49. HelloWorld Divisibility",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an integer N and apply the divisibility rule: print HelloWorld if N is a multiple of both 3 and 5, Hello if it is a multiple of only 3, World if it is a multiple of only 5, and the number itself otherwise.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>15</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>HelloWorld</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>9</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Hello</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>World</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "15", "expected": "HelloWorld", "hidden": false, "matchType": "normalized" },
+      { "input": "9", "expected": "Hello", "hidden": false, "matchType": "normalized" },
+      { "input": "10", "expected": "World", "hidden": false, "matchType": "normalized" },
+      { "input": "7", "expected": "7", "hidden": true, "matchType": "normalized" },
+      { "input": "30", "expected": "HelloWorld", "hidden": true, "matchType": "normalized" },
+      { "input": "6", "expected": "Hello", "hidden": true, "matchType": "normalized" },
+      { "input": "25", "expected": "World", "hidden": true, "matchType": "normalized" },
+      { "input": "13", "expected": "13", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-last-digit-symbols",
+    "title": "50. Last Digit Symbols",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Read a non-negative integer and inspect its last digit. If the last digit is divisible by both 2 and 4, print ** on the first line and *** on the second line. If it is even but not divisible by 4, print only **. Otherwise print Invalid.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>24</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>**\n***</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>12</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>**</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>13</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "24", "expected": "**\n***", "hidden": false, "matchType": "normalized" },
+      { "input": "12", "expected": "**", "hidden": false, "matchType": "normalized" },
+      { "input": "13", "expected": "Invalid", "hidden": false, "matchType": "normalized" },
+      { "input": "10", "expected": "**\n***", "hidden": true, "matchType": "normalized" },
+      { "input": "26", "expected": "**", "hidden": true, "matchType": "normalized" },
+      { "input": "19", "expected": "Invalid", "hidden": true, "matchType": "normalized" },
+      { "input": "48", "expected": "**\n***", "hidden": true, "matchType": "normalized" },
+      { "input": "5", "expected": "Invalid", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+{
+    "id": "l1-area-menu",
+    "title": "51. Area Calculator Menu",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a menu choice and calculates an area: choice 1 computes the area of a circle (PI = 22/7) from a radius, choice 2 computes the area of a rectangle from length and width, and choice 3 computes the area of a triangle from base and height. Print any other choice as invalid.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1\n7</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Area of the circle: 154.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>2\n5\n4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Area of the rectangle: 20.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>3\n6\n4</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Area of the triangle: 12.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1\n7", "expected": "Area of the circle: 154.00", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n5\n4", "expected": "Area of the rectangle: 20.00", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n6\n4", "expected": "Area of the triangle: 12.00", "hidden": false, "matchType": "normalized" },
+      { "input": "5", "expected": "Invalid Choice", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n10", "expected": "Area of the circle: 314.29", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n2.5\n4", "expected": "Area of the rectangle: 10.00", "hidden": true, "matchType": "normalized" },
+      { "input": "3\n5\n5", "expected": "Area of the triangle: 12.50", "hidden": true, "matchType": "normalized" },
+      { "input": "4", "expected": "Invalid Choice", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-xor-equal",
+    "title": "52. XOR Equality Check",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads two integers and compares them using bitwise XOR without using the equality operator. If the XOR result is zero the integers are equal, otherwise they are not equal.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>The two integers are equal.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>The two integers are not equal.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>The two integers are equal.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5\n5", "expected": "The two integers are equal.", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n7", "expected": "The two integers are not equal.", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "The two integers are equal.", "hidden": false, "matchType": "normalized" },
+      { "input": "-3\n-3", "expected": "The two integers are equal.", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n20", "expected": "The two integers are not equal.", "hidden": true, "matchType": "normalized" },
+      { "input": "-1\n1", "expected": "The two integers are not equal.", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n100", "expected": "The two integers are equal.", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n1", "expected": "The two integers are not equal.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-child-discount-ticket",
+    "title": "53. Child Discount Ticket",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads an age and validates it: ages below 0 or above 100 are invalid. Ages 12 and under qualify for a child discount ticket, while older ages must purchase a regular ticket.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>You are 10 years old. Qualified for a child discount ticket.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>You are 25 years old. Purchase a regular ticket.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>-5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid Age.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10", "expected": "You are 10 years old. Qualified for a child discount ticket.", "hidden": false, "matchType": "normalized" },
+      { "input": "25", "expected": "You are 25 years old. Purchase a regular ticket.", "hidden": false, "matchType": "normalized" },
+      { "input": "-5", "expected": "Invalid Age.", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "You are 0 years old. Qualified for a child discount ticket.", "hidden": true, "matchType": "normalized" },
+      { "input": "12", "expected": "You are 12 years old. Qualified for a child discount ticket.", "hidden": true, "matchType": "normalized" },
+      { "input": "13", "expected": "You are 13 years old. Purchase a regular ticket.", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "You are 100 years old. Purchase a regular ticket.", "hidden": true, "matchType": "normalized" },
+      { "input": "101", "expected": "Invalid Age.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-even-or-odd",
+    "title": "54. Even or Odd",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads an integer and prints whether it is an even number or an odd number.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>4 is an Even Number.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>7 is an Odd Number.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>0 is an Even Number.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "4", "expected": "4 is an Even Number.", "hidden": false, "matchType": "normalized" },
+      { "input": "7", "expected": "7 is an Odd Number.", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "0 is an Even Number.", "hidden": false, "matchType": "normalized" },
+      { "input": "-3", "expected": "-3 is an Odd Number.", "hidden": true, "matchType": "normalized" },
+      { "input": "-8", "expected": "-8 is an Even Number.", "hidden": true, "matchType": "normalized" },
+      { "input": "1", "expected": "1 is an Odd Number.", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "100 is an Even Number.", "hidden": true, "matchType": "normalized" },
+      { "input": "-1", "expected": "-1 is an Odd Number.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-height-category",
+    "title": "55. Height Category",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a height and classifies it: below 150 is short, 151 to 170 is average height, 171 to 190 is tall, and anything else is very tall.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>140</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>short</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>160</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>average height</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>180</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>tall</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "140", "expected": "short", "hidden": false, "matchType": "normalized" },
+      { "input": "160", "expected": "average height", "hidden": false, "matchType": "normalized" },
+      { "input": "180", "expected": "tall", "hidden": false, "matchType": "normalized" },
+      { "input": "150", "expected": "very tall", "hidden": true, "matchType": "normalized" },
+      { "input": "200", "expected": "very tall", "hidden": true, "matchType": "normalized" },
+      { "input": "151", "expected": "average height", "hidden": true, "matchType": "normalized" },
+      { "input": "170", "expected": "average height", "hidden": true, "matchType": "normalized" },
+      { "input": "171", "expected": "tall", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-divisible-4-6",
+    "title": "56. Divisible by 4 and 6",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a number and first rejects negative values. For a non-negative number, print whether it is divisible by both 4 and 6.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>24</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>24 is divisible by both 4 and 6.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>8 is not divisible by both 4 and 6.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>-5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Negative Values are not allowed.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "24", "expected": "24 is divisible by both 4 and 6.", "hidden": false, "matchType": "normalized" },
+      { "input": "8", "expected": "8 is not divisible by both 4 and 6.", "hidden": false, "matchType": "normalized" },
+      { "input": "-5", "expected": "Negative Values are not allowed.", "hidden": false, "matchType": "normalized" },
+      { "input": "12", "expected": "12 is divisible by both 4 and 6.", "hidden": true, "matchType": "normalized" },
+      { "input": "6", "expected": "6 is not divisible by both 4 and 6.", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0 is divisible by both 4 and 6.", "hidden": true, "matchType": "normalized" },
+      { "input": "18", "expected": "18 is not divisible by both 4 and 6.", "hidden": true, "matchType": "normalized" },
+      { "input": "36", "expected": "36 is divisible by both 4 and 6.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-quarter-days",
+    "title": "57. Quarter and Days",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a month number and prints its quarter of the year (First, Second, Third or Fourth) on the first line and the number of days in that month (28, 30 or 31, assuming a non-leap year) on the second line. Print an error for invalid months.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>First\n31</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Second\n31</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>2</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>First\n28</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1", "expected": "First\n31", "hidden": false, "matchType": "normalized" },
+      { "input": "5", "expected": "Second\n31", "hidden": false, "matchType": "normalized" },
+      { "input": "2", "expected": "First\n28", "hidden": false, "matchType": "normalized" },
+      { "input": "13", "expected": "Invalid Input", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "Invalid Input", "hidden": true, "matchType": "normalized" },
+      { "input": "4", "expected": "Second\n30", "hidden": true, "matchType": "normalized" },
+      { "input": "12", "expected": "Fourth\n31", "hidden": true, "matchType": "normalized" },
+      { "input": "9", "expected": "Third\n30", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-engine-health",
+    "title": "58. Engine Health Check",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads engine temperature, oil pressure and RPM, then evaluates engine health. Print Poor if temperature exceeds 80, oil pressure is below 10 or RPM exceeds 7000; otherwise print Fair if temperature exceeds 70, oil pressure is below 20 or RPM exceeds 5000; otherwise print Good.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>90\n30\n4000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Poor</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>75\n25\n4000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Fair</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>60\n30\n4000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Good</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "90\n30\n4000", "expected": "Poor", "hidden": false, "matchType": "normalized" },
+      { "input": "75\n25\n4000", "expected": "Fair", "hidden": false, "matchType": "normalized" },
+      { "input": "60\n30\n4000", "expected": "Good", "hidden": false, "matchType": "normalized" },
+      { "input": "70\n5\n4000", "expected": "Poor", "hidden": true, "matchType": "normalized" },
+      { "input": "70\n15\n4000", "expected": "Fair", "hidden": true, "matchType": "normalized" },
+      { "input": "70\n25\n8000", "expected": "Poor", "hidden": true, "matchType": "normalized" },
+      { "input": "70\n25\n6000", "expected": "Fair", "hidden": true, "matchType": "normalized" },
+      { "input": "70\n20\n5000", "expected": "Good", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-ascii-sum",
+    "title": "59. ASCII Sum",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads two characters and prints the sum of their ASCII values as an integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>a\nb</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>195</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>A\nA</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>130</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>96</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "a\nb", "expected": "195", "hidden": false, "matchType": "normalized" },
+      { "input": "A\nA", "expected": "130", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "96", "hidden": false, "matchType": "normalized" },
+      { "input": "Z\nz", "expected": "212", "hidden": true, "matchType": "normalized" },
+      { "input": "!\n?", "expected": "96", "hidden": true, "matchType": "normalized" },
+      { "input": "9\nA", "expected": "122", "hidden": true, "matchType": "normalized" },
+      { "input": "x\nx", "expected": "240", "hidden": true, "matchType": "normalized" },
+      { "input": " \na", "expected": "129", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-month-days",
+    "title": "60. Month Days",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Write a C program using switch-case that reads a month number and prints the month name. For February, also read a year and report whether it is a leap year with 29 days or not with 28 days; other months print their day count. Print an error for invalid months.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n2024</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>February\nLeap Year - 29 Days</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>January\n31 Days</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>13</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid Month</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2\n2024", "expected": "February\nLeap Year - 29 Days", "hidden": false, "matchType": "normalized" },
+      { "input": "1", "expected": "January\n31 Days", "hidden": false, "matchType": "normalized" },
+      { "input": "13", "expected": "Invalid Month", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n2023", "expected": "February\nNot a Leap Year - 28 Days", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n2000", "expected": "February\nLeap Year - 29 Days", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n1900", "expected": "February\nNot a Leap Year - 28 Days", "hidden": true, "matchType": "normalized" },
+      { "input": "4", "expected": "April\n30 Days", "hidden": true, "matchType": "normalized" },
+      { "input": "12", "expected": "December\n31 Days", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-distance-converter",
+    "title": "61. Distance Converter",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a distance value. If the value is greater than 1000, treat the input as meters and convert it to kilometers; otherwise treat the input as centimeters and convert it to meters. Print the result with two decimal places and the unit.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1500</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1.50 kilometers</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>500</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>5.00 meters</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>1000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>10.00 meters</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1500", "expected": "1.50 kilometers", "hidden": false, "matchType": "normalized" },
+      { "input": "500", "expected": "5.00 meters", "hidden": false, "matchType": "normalized" },
+      { "input": "1000", "expected": "10.00 meters", "hidden": false, "matchType": "normalized" },
+      { "input": "2500", "expected": "2.50 kilometers", "hidden": true, "matchType": "normalized" },
+      { "input": "1001", "expected": "1.00 kilometers", "hidden": true, "matchType": "normalized" },
+      { "input": "50", "expected": "0.50 meters", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0.00 meters", "hidden": true, "matchType": "normalized" },
+      { "input": "999", "expected": "9.99 meters", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-triangle-validity",
+    "title": "62. Triangle Validity",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads three side lengths and checks whether they can form a triangle. Reject any non-positive side, then verify the triangle inequality on all three pairs of sides.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n4\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Triangle is valid</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1\n2\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Triangle is not valid</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n4\n5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Triangle is not valid</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n4\n5", "expected": "Triangle is valid", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n2\n5", "expected": "Triangle is not valid", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n4\n5", "expected": "Triangle is not valid", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n5\n5", "expected": "Triangle is valid", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n1\n2", "expected": "Triangle is not valid", "hidden": true, "matchType": "normalized" },
+      { "input": "-3\n4\n5", "expected": "Triangle is not valid", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n10\n10", "expected": "Triangle is valid", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n3\n4", "expected": "Triangle is valid", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-unit-converter",
+    "title": "63. Unit Converter",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a value and a unit character. Convert kilometers to meters when the unit is 'k', and meters to kilometers when the unit is 'm', printing the result with two decimal places and the target unit. Reject any other unit.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5\nk</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>5000.00 m</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5000\nm</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>5.00 k</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>5\nx</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid unit(s). Please enter valid units (m or k).</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5\nk", "expected": "5000.00 m", "hidden": false, "matchType": "normalized" },
+      { "input": "5000\nm", "expected": "5.00 k", "hidden": false, "matchType": "normalized" },
+      { "input": "5\nx", "expected": "Invalid unit(s). Please enter valid units (m or k).", "hidden": false, "matchType": "normalized" },
+      { "input": "2.5\nk", "expected": "2500.00 m", "hidden": true, "matchType": "normalized" },
+      { "input": "1.5\nm", "expected": "0.00 k", "hidden": true, "matchType": "normalized" },
+      { "input": "10\nK", "expected": "Invalid unit(s). Please enter valid units (m or k).", "hidden": true, "matchType": "normalized" },
+      { "input": "0\nk", "expected": "0.00 m", "hidden": true, "matchType": "normalized" },
+      { "input": "100\nm", "expected": "0.10 k", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-tom-jerry",
+    "title": "64. Tom and Jerry",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Write a C program that reads Tom's speed, Jerry's speed and the initial distance between them. If Tom is not faster than Jerry he can never catch him; otherwise compute the catch time as distance divided by the relative speed and print it with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10\n20\n100</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Tom will catch Jerry in 10.00 seconds.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>20\n10\n100</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Tom will not be able to catch Jerry.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>10\n10\n100</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Tom will not be able to catch Jerry.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10\n20\n100", "expected": "Tom will catch Jerry in 10.00 seconds.", "hidden": false, "matchType": "normalized" },
+      { "input": "20\n10\n100", "expected": "Tom will not be able to catch Jerry.", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n10\n100", "expected": "Tom will not be able to catch Jerry.", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n15\n75", "expected": "Tom will catch Jerry in 7.50 seconds.", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n3\n10", "expected": "Tom will catch Jerry in 3.33 seconds.", "hidden": true, "matchType": "normalized" },
+      { "input": "8\n2\n50", "expected": "Tom will not be able to catch Jerry.", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n2\n7", "expected": "Tom will catch Jerry in 7.00 seconds.", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n12\n100", "expected": "Tom will catch Jerry in 50.00 seconds.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-total-salary",
+    "title": "65. Total Salary",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads an employee grade and basic salary, then computes the total salary as basic plus 20% HRA plus 50% DA plus a grade-based allowance (A:1700, B:1500, C:1300, D:1100, anything else:900) minus 11% PF. Print the result rounded to the nearest integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>A\n10000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>17600</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>B\n10000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>17400</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>E\n10000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>17300</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "A\n10000", "expected": "17600", "hidden": false, "matchType": "normalized" },
+      { "input": "B\n10000", "expected": "17400", "hidden": false, "matchType": "normalized" },
+      { "input": "E\n10000", "expected": "17300", "hidden": false, "matchType": "normalized" },
+      { "input": "C\n10000", "expected": "17200", "hidden": true, "matchType": "normalized" },
+      { "input": "D\n5000", "expected": "9050", "hidden": true, "matchType": "normalized" },
+      { "input": "A\n0", "expected": "1700", "hidden": true, "matchType": "normalized" },
+      { "input": "B\n12345", "expected": "21129", "hidden": true, "matchType": "normalized" },
+      { "input": "Z\n10000", "expected": "17300", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-letter-grade",
+    "title": "66. Letter Grade",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a score and prints the letter grade: A for 90 and above, B for 80 and above, C for 70 and above, D for 60 and above, and F otherwise.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>95</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>A</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>85</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>B</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>55</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>F</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "95", "expected": "A", "hidden": false, "matchType": "normalized" },
+      { "input": "85", "expected": "B", "hidden": false, "matchType": "normalized" },
+      { "input": "55", "expected": "F", "hidden": false, "matchType": "normalized" },
+      { "input": "90", "expected": "A", "hidden": true, "matchType": "normalized" },
+      { "input": "80", "expected": "B", "hidden": true, "matchType": "normalized" },
+      { "input": "70", "expected": "C", "hidden": true, "matchType": "normalized" },
+      { "input": "60", "expected": "D", "hidden": true, "matchType": "normalized" },
+      { "input": "59", "expected": "F", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-point-quadrant",
+    "title": "67. Point Quadrant",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the x and y coordinates of a point and reports its position: Origin when both are zero, Y-axis or X-axis when exactly one is zero, otherwise the quadrant (First, Second, Third or Fourth) it lies in.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>First Quadrant</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>-3\n4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Second Quadrant</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Origin</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n4", "expected": "First Quadrant", "hidden": false, "matchType": "normalized" },
+      { "input": "-3\n4", "expected": "Second Quadrant", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "Origin", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n5", "expected": "Y-axis", "hidden": true, "matchType": "normalized" },
+      { "input": "5\n0", "expected": "X-axis", "hidden": true, "matchType": "normalized" },
+      { "input": "-3\n-4", "expected": "Third Quadrant", "hidden": true, "matchType": "normalized" },
+      { "input": "3\n-4", "expected": "Fourth Quadrant", "hidden": true, "matchType": "normalized" },
+      { "input": "-1\n1", "expected": "Second Quadrant", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-bmi-calculator",
+    "title": "68. BMI Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads weight and height, validates that both are positive, and computes BMI as weight divided by height squared. Reject BMI values outside 0 to 50, then print the BMI with one decimal place followed by the category: Underweight (below 18.5), Normal weight (up to 25), Overweight (up to 30), or Obese.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>70\n1.75</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>22.9\nNormal weight</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>50\n1.8</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>15.4\nUnderweight</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n1.75</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Error: Height | weight cannot be zero or negative</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "70\n1.75", "expected": "22.9\nNormal weight", "hidden": false, "matchType": "normalized" },
+      { "input": "50\n1.8", "expected": "15.4\nUnderweight", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n1.75", "expected": "Error: Height | weight cannot be zero or negative", "hidden": false, "matchType": "normalized" },
+      { "input": "90\n1.7", "expected": "31.1\nObese", "hidden": true, "matchType": "normalized" },
+      { "input": "65\n1.6", "expected": "25.4\nOverweight", "hidden": true, "matchType": "normalized" },
+      { "input": "200\n1.4", "expected": "Error", "hidden": true, "matchType": "normalized" },
+      { "input": "45\n1.9", "expected": "12.5\nUnderweight", "hidden": true, "matchType": "normalized" },
+      { "input": "70\n0", "expected": "Error: Height | weight cannot be zero or negative", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+{
+    "id": "l1-compound-interest",
+    "title": "69. Compound Interest",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the principal amount P, the annual interest rate R and the time T in years, then calculates the compound interest using the formula CI = P * (1 + R/100)^T - P. Print the compound interest rounded to two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1000\n10\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>210.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>2000\n5\n2</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>205.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>5000\n10\n1</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>500.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1000\n10\n2", "expected": "210.00", "hidden": false, "matchType": "normalized" },
+      { "input": "2000\n5\n2", "expected": "205.00", "hidden": false, "matchType": "normalized" },
+      { "input": "5000\n10\n1", "expected": "500.00", "hidden": false, "matchType": "normalized" },
+      { "input": "1500\n12\n2", "expected": "381.60", "hidden": true, "matchType": "normalized" },
+      { "input": "500\n20\n3", "expected": "364.00", "hidden": true, "matchType": "normalized" },
+      { "input": "10000\n8\n3", "expected": "2597.12", "hidden": true, "matchType": "normalized" },
+      { "input": "2500\n4\n4", "expected": "424.65", "hidden": true, "matchType": "normalized" },
+      { "input": "800\n15\n2", "expected": "258.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-taxi-fare",
+    "title": "70. Taxi Fare",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the distance travelled in km and calculates the taxi fare: $11 per km for the first 10 km, then $110 for the first 10 km plus $10 per km for every km beyond 10. Print the fare as an integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>55</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>110</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>15</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>160</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5", "expected": "55", "hidden": false, "matchType": "normalized" },
+      { "input": "10", "expected": "110", "hidden": false, "matchType": "normalized" },
+      { "input": "15", "expected": "160", "hidden": false, "matchType": "normalized" },
+      { "input": "1", "expected": "11", "hidden": true, "matchType": "normalized" },
+      { "input": "11", "expected": "120", "hidden": true, "matchType": "normalized" },
+      { "input": "20", "expected": "210", "hidden": true, "matchType": "normalized" },
+      { "input": "25", "expected": "260", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "1010", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-grade-calculator",
+    "title": "71. Grade Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the marks of five subjects, validates that each mark is between 0 and 100, and prints the percentage with two decimal places. If any subject mark is 35 or below, print the failure message; otherwise print the grade (A for above 90, B for 81-90, C for 71-80, D for 61-70, E for 41-60, F otherwise).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>90\n85\n88\n92\n80</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>87.00%\nGrade B</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>70\n72\n68\n75\n71</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>71.20%\nGrade C</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>50\n30\n60\n55\n58</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>50.60%\nFailed! You need to score above 35 in all subjects</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "90\n85\n88\n92\n80", "expected": "87.00%\nGrade B", "hidden": false, "matchType": "normalized" },
+      { "input": "70\n72\n68\n75\n71", "expected": "71.20%\nGrade C", "hidden": false, "matchType": "normalized" },
+      { "input": "50\n30\n60\n55\n58", "expected": "50.60%\nFailed! You need to score above 35 in all subjects", "hidden": false, "matchType": "normalized" },
+      { "input": "101\n80\n80\n80\n80", "expected": "Invalid input! Marks must be between 0 and 100.", "hidden": true, "matchType": "normalized" },
+      { "input": "-5\n80\n80\n80\n80", "expected": "Invalid input! Marks must be between 0 and 100.", "hidden": true, "matchType": "normalized" },
+      { "input": "90\n90\n90\n90\n90", "expected": "90.00%\nGrade B", "hidden": true, "matchType": "normalized" },
+      { "input": "95\n96\n94\n98\n97", "expected": "96.00%\nGrade A", "hidden": true, "matchType": "normalized" },
+      { "input": "36\n37\n38\n36\n39", "expected": "37.20%\nGrade F", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-stationery-cost",
+    "title": "72. Stationery Cost",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the number of pens, notebooks and pencils and calculates the total cost using unit prices of $8, $25 and $4 respectively. Print the total cost as an integer.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n3\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>111</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1\n1\n1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>37</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n0\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>0</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2\n3\n5", "expected": "111", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n1\n1", "expected": "37", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0\n0", "expected": "0", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n2\n4", "expected": "146", "hidden": true, "matchType": "normalized" },
+      { "input": "5\n5\n5", "expected": "185", "hidden": true, "matchType": "normalized" },
+      { "input": "3\n0\n10", "expected": "64", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n4\n0", "expected": "100", "hidden": true, "matchType": "normalized" },
+      { "input": "7\n3\n8", "expected": "163", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-chocolate-days",
+    "title": "73. Chocolate Days",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the total chocolates available, the chocolates eaten per day and the planned number of days. If the chocolates are sufficient for the planned days, print 1; otherwise print 0 followed by the minimum number of whole days possible using integer division.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n10\n8</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>50\n10\n8</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>0\n5</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>30\n7\n5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>0\n4</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "100\n10\n8", "expected": "1", "hidden": false, "matchType": "normalized" },
+      { "input": "50\n10\n8", "expected": "0\n5", "hidden": false, "matchType": "normalized" },
+      { "input": "30\n7\n5", "expected": "0\n4", "hidden": false, "matchType": "normalized" },
+      { "input": "20\n5\n4", "expected": "1", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n5\n3", "expected": "0\n0", "hidden": true, "matchType": "normalized" },
+      { "input": "99\n10\n10", "expected": "0\n9", "hidden": true, "matchType": "normalized" },
+      { "input": "25\n6\n4", "expected": "1", "hidden": true, "matchType": "normalized" },
+      { "input": "17\n5\n4", "expected": "0\n3", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-season-finder",
+    "title": "74. Season Finder",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Write a C program that reads a month and day, validates them (month 1-12, correct days per month with February capped at 28), and prints the season. Spring runs March 20 to June 20, Summer June 21 to September 22, Autumn September 23 to December 20, and Winter covers the rest. Print Invalid for any invalid date.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n21</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Spring</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7\n15</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Summer</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>10\n5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Autumn</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n21", "expected": "Spring", "hidden": false, "matchType": "normalized" },
+      { "input": "7\n15", "expected": "Summer", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n5", "expected": "Autumn", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n10", "expected": "Winter", "hidden": true, "matchType": "normalized" },
+      { "input": "13\n5", "expected": "Invalid", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n30", "expected": "Invalid", "hidden": true, "matchType": "normalized" },
+      { "input": "6\n20", "expected": "Spring", "hidden": true, "matchType": "normalized" },
+      { "input": "12\n21", "expected": "Winter", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-sound-frequency",
+    "title": "75. Sound Frequency",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a frequency in Hertz and classifies it: below 20 Hz is Infrasound, 20 to 20000 Hz is Audible sound, and above 20000 Hz is Ultrasound. Print the result in the exact sentence format shown below.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>10.00 Hz is categorized as Infrasound.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>440</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>440.00 Hz is categorized as Audible sound.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>25000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>25000.00 Hz is categorized as Ultrasound.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10", "expected": "10.00 Hz is categorized as Infrasound.", "hidden": false, "matchType": "normalized" },
+      { "input": "440", "expected": "440.00 Hz is categorized as Audible sound.", "hidden": false, "matchType": "normalized" },
+      { "input": "25000", "expected": "25000.00 Hz is categorized as Ultrasound.", "hidden": false, "matchType": "normalized" },
+      { "input": "20", "expected": "20.00 Hz is categorized as Audible sound.", "hidden": true, "matchType": "normalized" },
+      { "input": "20000", "expected": "20000.00 Hz is categorized as Audible sound.", "hidden": true, "matchType": "normalized" },
+      { "input": "20001", "expected": "20001.00 Hz is categorized as Ultrasound.", "hidden": true, "matchType": "normalized" },
+      { "input": "19", "expected": "19.00 Hz is categorized as Infrasound.", "hidden": true, "matchType": "normalized" },
+      { "input": "1500", "expected": "1500.00 Hz is categorized as Audible sound.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-salary-increment-rating",
+    "title": "76. Salary Increment",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads an employee rating and current salary, then applies a 10% increment for rating 4 or above, 5% for rating 3, and no increment otherwise. Print the new salary with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5\n50000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>55000.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3\n40000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>42000.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>2\n30000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>30000.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5\n50000", "expected": "55000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n40000", "expected": "42000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n30000", "expected": "30000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "4\n60000", "expected": "66000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n25000", "expected": "25000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "3\n100000", "expected": "105000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "5\n0", "expected": "0.00", "hidden": true, "matchType": "normalized" },
+      { "input": "0\n50000", "expected": "50000.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-new-salary",
+    "title": "77. New Salary",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads the current salary and a percentage increment, then calculates the new salary as current + current * (percentage / 100). Print the new salary with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>50000\n10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>55000.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>40000\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>42000.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>30000\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>30000.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "50000\n10", "expected": "55000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "40000\n5", "expected": "42000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "30000\n0", "expected": "30000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "60000\n12", "expected": "67200.00", "hidden": true, "matchType": "normalized" },
+      { "input": "100000\n25", "expected": "125000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "75000\n7", "expected": "80250.00", "hidden": true, "matchType": "normalized" },
+      { "input": "20000\n15", "expected": "23000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "45000\n3", "expected": "46350.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-triangle-classifier",
+    "title": "78. Triangle Classifier",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads three side lengths and first checks the triangle inequality. If valid, classify the triangle as Equilateral, Isosceles or Scalene; otherwise report that it is not a valid triangle, using the exact sentences shown below.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n3\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>It is an Equilateral Triangle.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n5\n8</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>It is an Isosceles Triangle.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>3\n4\n5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>It is a Scalene Triangle.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n3\n3", "expected": "It is an Equilateral Triangle.", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n5\n8", "expected": "It is an Isosceles Triangle.", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n4\n5", "expected": "It is a Scalene Triangle.", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n2\n5", "expected": "It is not a Valid Triangle.", "hidden": true, "matchType": "normalized" },
+      { "input": "5\n5\n5", "expected": "It is an Equilateral Triangle.", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n3\n4", "expected": "It is a Scalene Triangle.", "hidden": true, "matchType": "normalized" },
+      { "input": "4\n4\n7", "expected": "It is an Isosceles Triangle.", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n1\n3", "expected": "It is not a Valid Triangle.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-age-classifier",
+    "title": "79. Age Classifier",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads an age, validates it is between 0 and 120, then prints voting eligibility (18 and above) on one line and the age group on the next line: Child (0-12), Teenager (13-19), Adult (20-59) or Senior (60-120).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>You are not eligible to vote\nChild</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>You are eligible to vote\nAdult</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>70</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>You are eligible to vote\nSenior</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "10", "expected": "You are not eligible to vote\nChild", "hidden": false, "matchType": "normalized" },
+      { "input": "25", "expected": "You are eligible to vote\nAdult", "hidden": false, "matchType": "normalized" },
+      { "input": "70", "expected": "You are eligible to vote\nSenior", "hidden": false, "matchType": "normalized" },
+      { "input": "16", "expected": "You are not eligible to vote\nTeenager", "hidden": true, "matchType": "normalized" },
+      { "input": "18", "expected": "You are eligible to vote\nTeenager", "hidden": true, "matchType": "normalized" },
+      { "input": "-5", "expected": "Invalid age", "hidden": true, "matchType": "normalized" },
+      { "input": "130", "expected": "Invalid age", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "You are not eligible to vote\nChild", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-twelve-hour-clock",
+    "title": "80. Twelve Hour Clock",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads hours and minutes in 24-hour format and converts them to 12-hour AM/PM format with minutes zero-padded to two digits. Reject invalid inputs (hours above 24, minutes above 60, or any negative value), and treat 24:00 as midnight (12:00 AM).</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>14\n30</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>2:30 PM</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>9\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>9:05 AM</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>12:00 AM</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "14\n30", "expected": "2:30 PM", "hidden": false, "matchType": "normalized" },
+      { "input": "9\n5", "expected": "9:05 AM", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "12:00 AM", "hidden": false, "matchType": "normalized" },
+      { "input": "12\n0", "expected": "12:00 PM", "hidden": true, "matchType": "normalized" },
+      { "input": "24\n0", "expected": "12:00 AM", "hidden": true, "matchType": "normalized" },
+      { "input": "23\n59", "expected": "11:59 PM", "hidden": true, "matchType": "normalized" },
+      { "input": "25\n0", "expected": "Invalid input!", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n61", "expected": "Invalid input!", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-library-fine",
+    "title": "81. Library Fine",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a book type (R for regular, F for fiction) and the days overdue, then computes the fine: $0.50 per day for R, $1.00 per day for F, plus an extra $100 when overdue more than 90 days. Print the fine with two decimal places, or Invalid book type! for any other book type.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>R\n10</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>5.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>F\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>5.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>X\n10</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid book type!</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "R\n10", "expected": "5.00", "hidden": false, "matchType": "normalized" },
+      { "input": "F\n5", "expected": "5.00", "hidden": false, "matchType": "normalized" },
+      { "input": "X\n10", "expected": "Invalid book type!", "hidden": false, "matchType": "normalized" },
+      { "input": "R\n100", "expected": "150.00", "hidden": true, "matchType": "normalized" },
+      { "input": "F\n95", "expected": "195.00", "hidden": true, "matchType": "normalized" },
+      { "input": "R\n0", "expected": "0.00", "hidden": true, "matchType": "normalized" },
+      { "input": "F\n-5", "expected": "0.00", "hidden": true, "matchType": "normalized" },
+      { "input": "R\n90", "expected": "45.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-power-of-two",
+    "title": "82. Power of Two",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a positive integer and uses the bitwise trick (n and (n-1)) to decide whether it is a power of 2. Print the result in the exact sentence format shown below.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>8</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>8 is a power of 2.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>10 is not a power of 2.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>1 is a power of 2.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "8", "expected": "8 is a power of 2.", "hidden": false, "matchType": "normalized" },
+      { "input": "10", "expected": "10 is not a power of 2.", "hidden": false, "matchType": "normalized" },
+      { "input": "1", "expected": "1 is a power of 2.", "hidden": false, "matchType": "normalized" },
+      { "input": "16", "expected": "16 is a power of 2.", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0 is not a power of 2.", "hidden": true, "matchType": "normalized" },
+      { "input": "-4", "expected": "-4 is not a power of 2.", "hidden": true, "matchType": "normalized" },
+      { "input": "7", "expected": "7 is not a power of 2.", "hidden": true, "matchType": "normalized" },
+      { "input": "1024", "expected": "1024 is a power of 2.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-shopping-discount",
+    "title": "83. Shopping Discount",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Write a C program that reads a purchase amount and membership status (1 for member, anything else for non-member), then applies a discount: members get 20% on purchases of 1000 or more and 10% otherwise; non-members get 15% on 5000 or more, 5% on 1000 or more, and 0% otherwise. Print the discount line and the final bill, each with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2000\n1</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>You are eligible for a 20.00% discount\nYour final bill is 1600.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>500\n1</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>You are eligible for a 10.00% discount\nYour final bill is 450.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>6000\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>You are eligible for a 15.00% discount\nYour final bill is 5100.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2000\n1", "expected": "You are eligible for a 20.00% discount\nYour final bill is 1600.00", "hidden": false, "matchType": "normalized" },
+      { "input": "500\n1", "expected": "You are eligible for a 10.00% discount\nYour final bill is 450.00", "hidden": false, "matchType": "normalized" },
+      { "input": "6000\n0", "expected": "You are eligible for a 15.00% discount\nYour final bill is 5100.00", "hidden": false, "matchType": "normalized" },
+      { "input": "2000\n0", "expected": "You are eligible for a 5.00% discount\nYour final bill is 1900.00", "hidden": true, "matchType": "normalized" },
+      { "input": "500\n0", "expected": "You are eligible for a 0.00% discount\nYour final bill is 500.00", "hidden": true, "matchType": "normalized" },
+      { "input": "1000\n1", "expected": "You are eligible for a 20.00% discount\nYour final bill is 800.00", "hidden": true, "matchType": "normalized" },
+      { "input": "1000\n0", "expected": "You are eligible for a 5.00% discount\nYour final bill is 950.00", "hidden": true, "matchType": "normalized" },
+      { "input": "5000\n0", "expected": "You are eligible for a 15.00% discount\nYour final bill is 4250.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-salary-bonus",
+    "title": "84. Salary Bonus",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a gender character and salary, then computes a bonus of 5% for M and 10% for F, with an extra 2% when the salary is below 10000. Print the bonus and then the final salary, each with two decimal places, or Invalid gender input! for any other gender.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>M\n20000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1000.00\n21000.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>F\n20000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>2000.00\n22000.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>F\n8000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>960.00\n8960.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "M\n20000", "expected": "1000.00\n21000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "F\n20000", "expected": "2000.00\n22000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "F\n8000", "expected": "960.00\n8960.00", "hidden": false, "matchType": "normalized" },
+      { "input": "X\n20000", "expected": "Invalid gender input!", "hidden": true, "matchType": "normalized" },
+      { "input": "M\n8000", "expected": "560.00\n8560.00", "hidden": true, "matchType": "normalized" },
+      { "input": "M\n10000", "expected": "500.00\n10500.00", "hidden": true, "matchType": "normalized" },
+      { "input": "F\n9999", "expected": "1199.88\n11198.88", "hidden": true, "matchType": "normalized" },
+      { "input": "M\n5000", "expected": "350.00\n5350.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-slab-cost",
+    "title": "85. Slab Cost",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a number of days and computes the total amount using cost-per-day slabs: $2/day up to 5 days, $3/day up to 10 days, $4/day up to 15 days, and $5/day beyond that. Print the result in the exact sentence format shown below.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Total amount to pay is 6</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Total amount to pay is 21</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>12</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Total amount to pay is 48</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3", "expected": "Total amount to pay is 6", "hidden": false, "matchType": "normalized" },
+      { "input": "7", "expected": "Total amount to pay is 21", "hidden": false, "matchType": "normalized" },
+      { "input": "12", "expected": "Total amount to pay is 48", "hidden": false, "matchType": "normalized" },
+      { "input": "20", "expected": "Total amount to pay is 100", "hidden": true, "matchType": "normalized" },
+      { "input": "5", "expected": "Total amount to pay is 10", "hidden": true, "matchType": "normalized" },
+      { "input": "10", "expected": "Total amount to pay is 30", "hidden": true, "matchType": "normalized" },
+      { "input": "15", "expected": "Total amount to pay is 60", "hidden": true, "matchType": "normalized" },
+      { "input": "16", "expected": "Total amount to pay is 80", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-scholarship-eligibility",
+    "title": "86. Scholarship Eligibility",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads a GPA (0-5), the extracurricular activity count and the technical activity count, rejecting any negative or out-of-range values. A student is eligible for the scholarship with a GPA of at least 3.5, at least 3 extracurriculars and at least 2 technical activities. Print the exact congratulatory or rejection sentence shown below.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>4.0\n4\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Congratulations! You are eligible for the scholarship.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3.0\n4\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Sorry, you are not eligible for the scholarship.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>6.0\n4\n3</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid!</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "4.0\n4\n3", "expected": "Congratulations! You are eligible for the scholarship.", "hidden": false, "matchType": "normalized" },
+      { "input": "3.0\n4\n3", "expected": "Sorry, you are not eligible for the scholarship.", "hidden": false, "matchType": "normalized" },
+      { "input": "6.0\n4\n3", "expected": "Invalid!", "hidden": false, "matchType": "normalized" },
+      { "input": "3.8\n2\n3", "expected": "Sorry, you are not eligible for the scholarship.", "hidden": true, "matchType": "normalized" },
+      { "input": "3.5\n3\n2", "expected": "Congratulations! You are eligible for the scholarship.", "hidden": true, "matchType": "normalized" },
+      { "input": "4.5\n-1\n2", "expected": "Invalid!", "hidden": true, "matchType": "normalized" },
+      { "input": "2.0\n5\n5", "expected": "Sorry, you are not eligible for the scholarship.", "hidden": true, "matchType": "normalized" },
+      { "input": "5.0\n3\n2", "expected": "Congratulations! You are eligible for the scholarship.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-number-words",
+    "title": "87. Number Words",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Write a C program that reads an integer and classifies it: negative numbers are reported directly, digits 0-9 are printed as English words using switch-case, numbers from 10 to 100 get a range message, and anything else is invalid input. Use the exact messages shown below.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>five</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>-3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>number is negative</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>42</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>number is between 10 and 100</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5", "expected": "five", "hidden": false, "matchType": "normalized" },
+      { "input": "-3", "expected": "number is negative", "hidden": false, "matchType": "normalized" },
+      { "input": "42", "expected": "number is between 10 and 100", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "zero", "hidden": true, "matchType": "normalized" },
+      { "input": "9", "expected": "nine", "hidden": true, "matchType": "normalized" },
+      { "input": "10", "expected": "number is between 10 and 100", "hidden": true, "matchType": "normalized" },
+      { "input": "100", "expected": "number is between 10 and 100", "hidden": true, "matchType": "normalized" },
+      { "input": "101", "expected": "invalid input!", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+{
+    "id": "l1-square-rectangle-area",
+    "title": "88. Square or Rectangle",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read two side lengths. If both sides are equal, the shape is a square; otherwise it is a rectangle. Print the shape name on the first line and the area with two decimal places on the second line.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5\n5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Square\n25.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5\n3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Rectangle\n15.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>4.5\n4.5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Square\n20.25</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5\n5", "expected": "Square\n25.00", "hidden": false, "matchType": "normalized" },
+      { "input": "5\n3", "expected": "Rectangle\n15.00", "hidden": false, "matchType": "normalized" },
+      { "input": "4.5\n4.5", "expected": "Square\n20.25", "hidden": false, "matchType": "normalized" },
+      { "input": "2.5\n7", "expected": "Rectangle\n17.50", "hidden": true, "matchType": "normalized" },
+      { "input": "10\n10", "expected": "Square\n100.00", "hidden": true, "matchType": "normalized" },
+      { "input": "3.25\n3.25", "expected": "Square\n10.56", "hidden": true, "matchType": "normalized" },
+      { "input": "0.5\n0.5", "expected": "Square\n0.25", "hidden": true, "matchType": "normalized" },
+      { "input": "9\n2.75", "expected": "Rectangle\n24.75", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-cm-to-feet",
+    "title": "89. CM to Feet",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a length in centimetres. If the value is negative, print \"Length cannot be negative.\" Otherwise convert it to feet using the factor 0.0328084. Print the result in the format \"X.XX centimetres is Y.YY feet.\"</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>100.00 centimetres is 3.28 feet.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>-5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Length cannot be negative.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>0.00 centimetres is 0.00 feet.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "100", "expected": "100.00 centimetres is 3.28 feet.", "hidden": false, "matchType": "normalized" },
+      { "input": "-5", "expected": "Length cannot be negative.", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "0.00 centimetres is 0.00 feet.", "hidden": false, "matchType": "normalized" },
+      { "input": "30.48", "expected": "30.48 centimetres is 1.00 feet.", "hidden": true, "matchType": "normalized" },
+      { "input": "250", "expected": "250.00 centimetres is 8.20 feet.", "hidden": true, "matchType": "normalized" },
+      { "input": "-0.5", "expected": "Length cannot be negative.", "hidden": true, "matchType": "normalized" },
+      { "input": "1", "expected": "1.00 centimetres is 0.03 feet.", "hidden": true, "matchType": "normalized" },
+      { "input": "1000", "expected": "1000.00 centimetres is 32.81 feet.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-age-classification",
+    "title": "90. Age Classification",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an age. Classify it as Cub (0-2), Juvenile (3-4), Subadult (5-6), Young adult (7-10) or Old adult (11-26). Print \"Invalid\" for any age outside 0 to 26.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Cub</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>7</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Young adult</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>30</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2", "expected": "Cub", "hidden": false, "matchType": "normalized" },
+      { "input": "7", "expected": "Young adult", "hidden": false, "matchType": "normalized" },
+      { "input": "30", "expected": "Invalid", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "Cub", "hidden": true, "matchType": "normalized" },
+      { "input": "4", "expected": "Juvenile", "hidden": true, "matchType": "normalized" },
+      { "input": "6", "expected": "Subadult", "hidden": true, "matchType": "normalized" },
+      { "input": "15", "expected": "Old adult", "hidden": true, "matchType": "normalized" },
+      { "input": "-3", "expected": "Invalid", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-income-tax",
+    "title": "91. Income Tax",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an income amount. Calculate tax as 5% for income up to 10000, 10% for income up to 50000, and 20% above that. Print the tax as a dollar amount with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>8000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>$400.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>30000</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>$3000.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>100000</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>$20000.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "8000", "expected": "$400.00", "hidden": false, "matchType": "normalized" },
+      { "input": "30000", "expected": "$3000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "100000", "expected": "$20000.00", "hidden": false, "matchType": "normalized" },
+      { "input": "10000", "expected": "$500.00", "hidden": true, "matchType": "normalized" },
+      { "input": "50000", "expected": "$5000.00", "hidden": true, "matchType": "normalized" },
+      { "input": "50001", "expected": "$10000.20", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "$0.00", "hidden": true, "matchType": "normalized" },
+      { "input": "9999.99", "expected": "$500.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-wage-calculator",
+    "title": "92. Wage Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an age, a gender character (M or F) and the number of working days, each on its own line. Workers aged 18-29 earn 700 (M) or 750 (F) per day; workers aged 30-40 earn 800 (M) or 850 (F) per day. Print \"Invalid\" for any other age or gender, otherwise print the total wage.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>25\nM\n20</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>14000</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>35\nF\n10</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>8500</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>17\nM\n5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "25\nM\n20", "expected": "14000", "hidden": false, "matchType": "normalized" },
+      { "input": "35\nF\n10", "expected": "8500", "hidden": false, "matchType": "normalized" },
+      { "input": "17\nM\n5", "expected": "Invalid", "hidden": false, "matchType": "normalized" },
+      { "input": "18\nF\n30", "expected": "22500", "hidden": true, "matchType": "normalized" },
+      { "input": "30\nM\n7", "expected": "5600", "hidden": true, "matchType": "normalized" },
+      { "input": "40\nF\n1", "expected": "850", "hidden": true, "matchType": "normalized" },
+      { "input": "29\nX\n10", "expected": "Invalid", "hidden": true, "matchType": "normalized" },
+      { "input": "41\nM\n10", "expected": "Invalid", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-revenue-deduction",
+    "title": "93. Revenue After Deduction",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the unit price, quantity and a middleman category character (A, B or C), each on its own line. Apply a deduction of 10% for A, 20% for B and 30% for C to the total revenue. For any other category print \"Invalid middleman\" and use the total without deduction. Print the final revenue with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>100\n5\nA</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>450.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>50\n4\nB</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>160.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>25\n2\nZ</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid middleman\n50.00</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "100\n5\nA", "expected": "450.00", "hidden": false, "matchType": "normalized" },
+      { "input": "50\n4\nB", "expected": "160.00", "hidden": false, "matchType": "normalized" },
+      { "input": "25\n2\nZ", "expected": "Invalid middleman\n50.00", "hidden": false, "matchType": "normalized" },
+      { "input": "10\n10\nC", "expected": "70.00", "hidden": true, "matchType": "normalized" },
+      { "input": "99.99\n3\nA", "expected": "269.97", "hidden": true, "matchType": "normalized" },
+      { "input": "20\n1\nB", "expected": "16.00", "hidden": true, "matchType": "normalized" },
+      { "input": "5.5\n6\nC", "expected": "23.10", "hidden": true, "matchType": "normalized" },
+      { "input": "7\n2\nD", "expected": "Invalid middleman\n14.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-day-of-week",
+    "title": "94. Day of Week",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a day number from 1 to 7. Print the day name, followed by \"Week day\" for Monday to Friday or \"Holiday\" for Saturday and Sunday. Print \"Invalid Input\" for any other number.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Monday\nWeek day</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>6</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Saturday\nHoliday</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>9</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid Input</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1", "expected": "Monday\nWeek day", "hidden": false, "matchType": "normalized" },
+      { "input": "6", "expected": "Saturday\nHoliday", "hidden": false, "matchType": "normalized" },
+      { "input": "9", "expected": "Invalid Input", "hidden": false, "matchType": "normalized" },
+      { "input": "3", "expected": "Wednesday\nWeek day", "hidden": true, "matchType": "normalized" },
+      { "input": "5", "expected": "Friday\nWeek day", "hidden": true, "matchType": "normalized" },
+      { "input": "7", "expected": "Sunday\nHoliday", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "Invalid Input", "hidden": true, "matchType": "normalized" },
+      { "input": "2", "expected": "Tuesday\nWeek day", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-cola-vending-machine",
+    "title": "95. Cola Vending Machine",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>A cola costs 2 and the machine holds 5 colas. Read the desired quantity: print \"Invalid quantity\" if it is 1 or less, or \"Full quantity not available\" if it exceeds 5. Otherwise read the payment and print \"Dispensing\" for exact payment, \"Insufficient payment\" for less, or \"Over payment\" for more.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3\n6.00</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Dispensing</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>2\n3.00</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Insufficient payment</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>1</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Invalid quantity</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3\n6.00", "expected": "Dispensing", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n3.00", "expected": "Insufficient payment", "hidden": false, "matchType": "normalized" },
+      { "input": "1", "expected": "Invalid quantity", "hidden": false, "matchType": "normalized" },
+      { "input": "4\n10.00", "expected": "Over payment", "hidden": true, "matchType": "normalized" },
+      { "input": "5\n10.00", "expected": "Dispensing", "hidden": true, "matchType": "normalized" },
+      { "input": "6", "expected": "Full quantity not available", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "Invalid quantity", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n4.00", "expected": "Dispensing", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-switch-calculator",
+    "title": "96. Switch Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an operation code (1-4) and two integers, each on its own line. Operation 1 computes num1 % num2, 2 computes num1 raised to num2, 3 multiplies, and 4 performs integer division. Print \"Division by zero!\" when dividing or taking modulo by zero, and \"Invalid operation!\" for any other code.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1\n10\n3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>1</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>3\n7\n6</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>42</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>4\n10\n0</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Division by zero!</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1\n10\n3", "expected": "1", "hidden": false, "matchType": "normalized" },
+      { "input": "3\n7\n6", "expected": "42", "hidden": false, "matchType": "normalized" },
+      { "input": "4\n10\n0", "expected": "Division by zero!", "hidden": false, "matchType": "normalized" },
+      { "input": "2\n2\n10", "expected": "1024", "hidden": true, "matchType": "normalized" },
+      { "input": "1\n7\n0", "expected": "Division by zero!", "hidden": true, "matchType": "normalized" },
+      { "input": "4\n20\n4", "expected": "5", "hidden": true, "matchType": "normalized" },
+      { "input": "9\n1\n1", "expected": "Invalid operation!", "hidden": true, "matchType": "normalized" },
+      { "input": "2\n3\n3", "expected": "27", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-savings-calculator-float",
+    "title": "97. Savings Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the total income and allowances. The saving amount is income minus allowances, and the saving percentage is the saving amount divided by income times 100. Print both values with two decimal places in the shown format.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5000\n2000</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Saving Amount: 3000.00\nSaving Percentage: 60.00%</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>10000\n2500</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Saving Amount: 7500.00\nSaving Percentage: 75.00%</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>800\n800</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Saving Amount: 0.00\nSaving Percentage: 0.00%</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5000\n2000", "expected": "Saving Amount: 3000.00\nSaving Percentage: 60.00%", "hidden": false, "matchType": "normalized" },
+      { "input": "10000\n2500", "expected": "Saving Amount: 7500.00\nSaving Percentage: 75.00%", "hidden": false, "matchType": "normalized" },
+      { "input": "800\n800", "expected": "Saving Amount: 0.00\nSaving Percentage: 0.00%", "hidden": false, "matchType": "normalized" },
+      { "input": "1200\n300", "expected": "Saving Amount: 900.00\nSaving Percentage: 75.00%", "hidden": true, "matchType": "normalized" },
+      { "input": "3333\n1111", "expected": "Saving Amount: 2222.00\nSaving Percentage: 66.67%", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n33", "expected": "Saving Amount: 67.00\nSaving Percentage: 67.00%", "hidden": true, "matchType": "normalized" },
+      { "input": "500\n125", "expected": "Saving Amount: 375.00\nSaving Percentage: 75.00%", "hidden": true, "matchType": "normalized" },
+      { "input": "2500\n625", "expected": "Saving Amount: 1875.00\nSaving Percentage: 75.00%", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-buzz-number",
+    "title": "98. Buzz Number",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read a non-negative integer. A buzz number is divisible by 9 or ends with the digit 9. Print whether the number is a buzz number in the shown format.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>27</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>27 is a buzz number.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>19</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>19 is a buzz number.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>25</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>25 is not a buzz number.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "27", "expected": "27 is a buzz number.", "hidden": false, "matchType": "normalized" },
+      { "input": "19", "expected": "19 is a buzz number.", "hidden": false, "matchType": "normalized" },
+      { "input": "25", "expected": "25 is not a buzz number.", "hidden": false, "matchType": "normalized" },
+      { "input": "9", "expected": "9 is a buzz number.", "hidden": true, "matchType": "normalized" },
+      { "input": "81", "expected": "81 is a buzz number.", "hidden": true, "matchType": "normalized" },
+      { "input": "29", "expected": "29 is a buzz number.", "hidden": true, "matchType": "normalized" },
+      { "input": "10", "expected": "10 is not a buzz number.", "hidden": true, "matchType": "normalized" },
+      { "input": "0", "expected": "0 is a buzz number.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-minimum-changes",
+    "title": "99. Minimum Changes",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Read five integers. Determine the minimum number of changes needed to make all five equal: 0 if all are equal, 1 if any four are equal, 2 if any three are equal, 3 if any two are equal, and 4 if all are distinct. Print the number of changes.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>5 5 5 5 5</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>0</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>5 5 5 5 3</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>1</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>1 2 3 4 5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>4</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "5 5 5 5 5", "expected": "0", "hidden": false, "matchType": "normalized" },
+      { "input": "5 5 5 5 3", "expected": "1", "hidden": false, "matchType": "normalized" },
+      { "input": "1 2 3 4 5", "expected": "4", "hidden": false, "matchType": "normalized" },
+      { "input": "5 5 5 3 3", "expected": "2", "hidden": true, "matchType": "normalized" },
+      { "input": "5 5 3 3 2", "expected": "3", "hidden": true, "matchType": "normalized" },
+      { "input": "7 7 7 3 5", "expected": "2", "hidden": true, "matchType": "normalized" },
+      { "input": "4 4 5 6 7", "expected": "3", "hidden": true, "matchType": "normalized" },
+      { "input": "9 9 9 9 8", "expected": "1", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-job-eligibility",
+    "title": "100. Job Eligibility",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an age and years of experience, each on its own line. Candidates must be aged 13 to 18. With 1-3 years of experience print \"Junior\", with more than 3 print \"Intermediate\", otherwise print \"You are not eligible\".</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>15\n2</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Junior</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>16\n5</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Intermediate</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>12\n2</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>You are not eligible</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "15\n2", "expected": "Junior", "hidden": false, "matchType": "normalized" },
+      { "input": "16\n5", "expected": "Intermediate", "hidden": false, "matchType": "normalized" },
+      { "input": "12\n2", "expected": "You are not eligible", "hidden": false, "matchType": "normalized" },
+      { "input": "13\n1", "expected": "Junior", "hidden": true, "matchType": "normalized" },
+      { "input": "18\n3", "expected": "Junior", "hidden": true, "matchType": "normalized" },
+      { "input": "14\n0", "expected": "You are not eligible", "hidden": true, "matchType": "normalized" },
+      { "input": "20\n5", "expected": "You are not eligible", "hidden": true, "matchType": "normalized" },
+      { "input": "17\n10", "expected": "Intermediate", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-profit-or-loss",
+    "title": "101. Profit or Loss",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read the initial investment, purchase price and current value, each on its own line. Compute profit/loss as ((current - purchase) x initial) / 100. Print \"Profit\" or \"Loss\" followed by the absolute amount with two decimals, or \"No change\" when it is zero.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>1000\n50\n60</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Profit\n100.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>1000\n60\n50</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Loss\n100.00</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>500\n40\n40</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>No change</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "1000\n50\n60", "expected": "Profit\n100.00", "hidden": false, "matchType": "normalized" },
+      { "input": "1000\n60\n50", "expected": "Loss\n100.00", "hidden": false, "matchType": "normalized" },
+      { "input": "500\n40\n40", "expected": "No change", "hidden": false, "matchType": "normalized" },
+      { "input": "200\n10\n15", "expected": "Profit\n10.00", "hidden": true, "matchType": "normalized" },
+      { "input": "200\n15\n10", "expected": "Loss\n10.00", "hidden": true, "matchType": "normalized" },
+      { "input": "1500\n100\n90", "expected": "Loss\n150.00", "hidden": true, "matchType": "normalized" },
+      { "input": "100\n25\n30", "expected": "Profit\n5.00", "hidden": true, "matchType": "normalized" },
+      { "input": "750\n80\n80", "expected": "No change", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-positive-negative-analyzer",
+    "title": "102. Positive Negative Analyzer",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read an integer. If it is greater than 1, print \"P\" and its cube; if it is 0, print \"0\"; otherwise print \"N\" and its square. Each value goes on its own line.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>3</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>P\n27</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>0</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>0</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>-4</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>N\n16</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "3", "expected": "P\n27", "hidden": false, "matchType": "normalized" },
+      { "input": "0", "expected": "0", "hidden": false, "matchType": "normalized" },
+      { "input": "-4", "expected": "N\n16", "hidden": false, "matchType": "normalized" },
+      { "input": "1", "expected": "N\n1", "hidden": true, "matchType": "normalized" },
+      { "input": "5", "expected": "P\n125", "hidden": true, "matchType": "normalized" },
+      { "input": "-3", "expected": "N\n9", "hidden": true, "matchType": "normalized" },
+      { "input": "2", "expected": "P\n8", "hidden": true, "matchType": "normalized" },
+      { "input": "-1", "expected": "N\n1", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-linear-equation-solver",
+    "title": "103. Linear Equation Solver",
+    "difficulty": "Medium",
+    "level": 1,
+    "description": "<p>Read integers a and b for the equation ax + b = 0, each on its own line. Print \"Infinite Solutions\" if both are zero, \"No Solution\" if only a is zero, otherwise print x = -b/a with two decimal places.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2\n4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>-2.00</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>0\n0</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Infinite Solutions</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0\n5</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>No Solution</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2\n4", "expected": "-2.00", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n0", "expected": "Infinite Solutions", "hidden": false, "matchType": "normalized" },
+      { "input": "0\n5", "expected": "No Solution", "hidden": false, "matchType": "normalized" },
+      { "input": "1\n-3", "expected": "3.00", "hidden": true, "matchType": "normalized" },
+      { "input": "4\n2", "expected": "-0.50", "hidden": true, "matchType": "normalized" },
+      { "input": "3\n1", "expected": "-0.33", "hidden": true, "matchType": "normalized" },
+      { "input": "6\n4", "expected": "-0.67", "hidden": true, "matchType": "normalized" },
+      { "input": "5\n0", "expected": "0.00", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-product-sign",
+    "title": "104. Product Sign",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read three integers. Compute their product and print whether it is positive, negative or zero in the shown format.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>2 3 4</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>Product is positive.</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>-2 3 4</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>Product is negative.</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>0 5 7</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>Product is zero.</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "2 3 4", "expected": "Product is positive.", "hidden": false, "matchType": "normalized" },
+      { "input": "-2 3 4", "expected": "Product is negative.", "hidden": false, "matchType": "normalized" },
+      { "input": "0 5 7", "expected": "Product is zero.", "hidden": false, "matchType": "normalized" },
+      { "input": "1 1 1", "expected": "Product is positive.", "hidden": true, "matchType": "normalized" },
+      { "input": "-1 -2 -3", "expected": "Product is negative.", "hidden": true, "matchType": "normalized" },
+      { "input": "5 -5 2", "expected": "Product is negative.", "hidden": true, "matchType": "normalized" },
+      { "input": "-4 -4 4", "expected": "Product is positive.", "hidden": true, "matchType": "normalized" },
+      { "input": "10 0 -3", "expected": "Product is zero.", "hidden": true, "matchType": "normalized" }
+    ]
+  },
+  {
+    "id": "l1-average-grade-calculator",
+    "title": "105. Grade Calculator",
+    "difficulty": "Easy",
+    "level": 1,
+    "description": "<p>Read five subject scores. Compute the average and print it with two decimals followed by a space and the grade on the same line: A for 81 and above, B for 71 and above, C for 66 and above, D for 61 and above, otherwise F.</p>\n      <br/>\n      <p><strong>Sample Input 1:</strong></p>\n      <pre>80 80 80 80 80</pre>\n      <p><strong>Sample Output 1:</strong></p>\n      <pre>80.00 B</pre>\n      <br/>\n      <p><strong>Sample Input 2:</strong></p>\n      <pre>90 85 92 88 95</pre>\n      <p><strong>Sample Output 2:</strong></p>\n      <pre>90.00 A</pre>\n      <br/>\n      <p><strong>Sample Input 3:</strong></p>\n      <pre>50 55 45 60 52</pre>\n      <p><strong>Sample Output 3:</strong></p>\n      <pre>52.40 F</pre>",
+    "functionName": "main",
+    "starterCode": "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}",
+    "testCases": [
+      { "input": "80 80 80 80 80", "expected": "80.00 B", "hidden": false, "matchType": "normalized" },
+      { "input": "90 85 92 88 95", "expected": "90.00 A", "hidden": false, "matchType": "normalized" },
+      { "input": "50 55 45 60 52", "expected": "52.40 F", "hidden": false, "matchType": "normalized" },
+      { "input": "81 81 81 81 81", "expected": "81.00 A", "hidden": true, "matchType": "normalized" },
+      { "input": "71 71 71 71 71", "expected": "71.00 B", "hidden": true, "matchType": "normalized" },
+      { "input": "66 66 66 66 66", "expected": "66.00 C", "hidden": true, "matchType": "normalized" },
+      { "input": "61 61 61 61 61", "expected": "61.00 D", "hidden": true, "matchType": "normalized" },
+      { "input": "70 70 70 70 70", "expected": "70.00 C", "hidden": true, "matchType": "normalized" }
+    ]
+  },
 ];
 
 export const LEVELS: number[] = Array.from(new Set(problems.map(p => Number(p.level)))).sort((a, b) => a - b);
