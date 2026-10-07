@@ -80,9 +80,35 @@ service cloud.firestore {
       }
     }
 
-    // NOTE: top-level collections custom_problems, problem_overrides, problems,
-    // announcements, batches, and leaderboard/{studentId} were removed —
-    // the app does not read or write them (it uses settings/* single docs and
-    // computes the leaderboard client-side), so they now fall under default deny.
+    // Top-level collections allow blocks for college-domain users and faculty admins
+    match /custom_problems/{problemId} {
+      allow read: if isCollegeDomain();
+      allow write: if isAdmin();
+    }
+
+    match /problem_overrides/{problemId} {
+      allow read: if isCollegeDomain();
+      allow write: if isAdmin();
+    }
+
+    match /problems/{problemId} {
+      allow read: if isCollegeDomain();
+      allow write: if isAdmin();
+    }
+
+    match /batches/{batchId} {
+      allow read: if isCollegeDomain();
+      allow write: if isAdmin();
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if isCollegeDomain();
+      allow write: if isAdmin();
+    }
+
+    match /leaderboard/{studentId} {
+      allow read: if isCollegeDomain();
+      allow write: if isAdmin();
+    }
   }
 }

@@ -177,6 +177,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // Status & Toast
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+  const [generatingReportUid, setGeneratingReportUid] = useState<string | null>(null);
 
   const isDeveloper = currentUser.role === 'developer' || currentUser.email.toLowerCase() === DEVELOPER_EMAIL.toLowerCase();
   const isPrimaryAdmin = currentUser.role === 'primary_admin';
@@ -461,11 +462,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       confirmText: 'Reset Progress',
       confirmVariant: 'danger',
       onConfirm: async () => {
-        await bulkResetProgress(Array.from(selectedUids));
-        setSelectedUids(new Set());
-        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
-        showToast(`Reset progress for ${selectedUids.size} students`);
-        await refreshData();
+        const count = selectedUids.size;
+        try {
+          await bulkResetProgress(Array.from(selectedUids));
+          setSelectedUids(new Set());
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`Reset progress for ${count} students`);
+          await refreshData();
+        } catch (err: any) {
+          showToast(err?.message || 'Failed to reset progress', 'error');
+        }
       }
     });
   };
@@ -488,22 +494,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       confirmVariant: 'danger',
       requireTextMatch: 'DELETE',
       onConfirm: async () => {
-        await bulkDeleteStudents(Array.from(selectedUids));
-        setSelectedUids(new Set());
-        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
-        showToast(`Deleted ${selectedUids.size} students`);
-        await refreshData();
+        const count = selectedUids.size;
+        try {
+          await bulkDeleteStudents(Array.from(selectedUids));
+          setSelectedUids(new Set());
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`Deleted ${count} students`);
+          await refreshData();
+        } catch (err: any) {
+          showToast(err?.message || 'Failed to delete students', 'error');
+        }
       }
     });
   };
 
   const handleBulkAssignBatchSubmit = async () => {
     if (!bulkBatchChoice) return;
-    await bulkAssignBatch(Array.from(selectedUids), bulkBatchChoice);
-    setBulkBatchModalOpen(false);
-    setSelectedUids(new Set());
-    showToast(`Assigned ${selectedUids.size} students to ${bulkBatchChoice}`);
-    await refreshData();
+    const count = selectedUids.size;
+    try {
+      await bulkAssignBatch(Array.from(selectedUids), bulkBatchChoice);
+      setBulkBatchModalOpen(false);
+      setSelectedUids(new Set());
+      showToast(`Assigned ${count} students to ${bulkBatchChoice}`);
+      await refreshData();
+    } catch (err: any) {
+      showToast(err?.message || 'Failed to assign batch', 'error');
+    }
   };
 
   // Row Action Handlers with Confirmation Dialogs
@@ -524,10 +540,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       confirmText: 'Reset Progress',
       confirmVariant: 'danger',
       onConfirm: async () => {
-        await resetStudentProgress(st.uid);
-        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
-        showToast(`Reset progress for ${st.displayName}`);
-        await refreshData();
+        try {
+          await resetStudentProgress(st.uid);
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`Reset progress for ${st.displayName}`);
+          await refreshData();
+        } catch (err: any) {
+          showToast(err?.message || `Failed to reset progress for ${st.displayName}`, 'error');
+        }
       }
     });
   };
@@ -545,10 +565,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       confirmText: isCurrentlyUnlocked ? 'Lock Level' : 'Unlock Level',
       confirmVariant: 'primary',
       onConfirm: async () => {
-        await toggleStudentLevelUnlock(st.uid, lvl);
-        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
-        showToast(`Updated Level ${lvl} unlock override for ${st.displayName}`);
-        await refreshData();
+        try {
+          await toggleStudentLevelUnlock(st.uid, lvl);
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`Updated Level ${lvl} unlock override for ${st.displayName}`);
+          await refreshData();
+        } catch (err: any) {
+          showToast(err?.message || 'Failed to update level unlock', 'error');
+        }
       }
     });
   };
@@ -570,10 +594,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       confirmText: willSuspend ? 'Suspend Student' : 'Reactivate Student',
       confirmVariant: willSuspend ? 'danger' : 'primary',
       onConfirm: async () => {
-        await toggleStudentSuspension(st.uid, willSuspend);
-        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
-        showToast(`${willSuspend ? 'Suspended' : 'Reactivated'} ${st.displayName}`);
-        await refreshData();
+        try {
+          await toggleStudentSuspension(st.uid, willSuspend);
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`${willSuspend ? 'Suspended' : 'Reactivated'} ${st.displayName}`);
+          await refreshData();
+        } catch (err: any) {
+          showToast(err?.message || `Failed to update suspension status for ${st.displayName}`, 'error');
+        }
       }
     });
   };
@@ -595,10 +623,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       confirmText: 'Delete Permanently',
       confirmVariant: 'danger',
       onConfirm: async () => {
-        await deleteStudent(st.uid);
-        setConfirmModalState(prev => ({ ...prev, isOpen: false }));
-        showToast(`Deleted ${st.displayName}`);
-        await refreshData();
+        try {
+          await deleteStudent(st.uid);
+          setConfirmModalState(prev => ({ ...prev, isOpen: false }));
+          showToast(`Deleted ${st.displayName}`);
+          await refreshData();
+        } catch (err: any) {
+          showToast(err?.message || `Failed to delete ${st.displayName}`, 'error');
+        }
       }
     });
   };
@@ -1151,9 +1183,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                   <FileCode size={12} className="text-neutral-600" />
                                   <span>View Status</span>
                                 </button>
-
                                 <button
                                   onClick={async () => {
+                                    if (generatingReportUid) return;
+                                    setGeneratingReportUid(st.uid);
                                     try {
                                       await generateReport({
                                         userId: st.uid,
@@ -1169,12 +1202,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                       showToast(`Generated PDF for ${st.displayName}`);
                                     } catch (err: any) {
                                       showToast(err?.message || `Failed to generate PDF for ${st.displayName}`, 'error');
+                                    } finally {
+                                      setGeneratingReportUid(null);
                                     }
                                   }}
-                                  className="p-1 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-md transition-colors cursor-pointer"
+                                  disabled={generatingReportUid === st.uid}
+                                  className="p-1 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 disabled:opacity-50 rounded-md transition-colors cursor-pointer"
                                   title="Download Performance PDF"
                                 >
-                                  <FileDown size={14} />
+                                  {generatingReportUid === st.uid ? (
+                                    <div className="w-3.5 h-3.5 rounded-full border-2 border-neutral-400 border-t-neutral-800 animate-spin" />
+                                  ) : (
+                                    <FileDown size={14} />
+                                  )}
                                 </button>
 
                                 {/* More Row Actions Dropdown */}
@@ -1464,7 +1504,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
 
               <div className="bg-white border border-neutral-200/90 rounded-xl divide-y divide-neutral-100 overflow-hidden shadow-2xs">
-                <table className="w-full text-left text-xs">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
                   <thead className="bg-neutral-50/75 text-neutral-500 font-medium border-b border-neutral-200/80">
                     <tr>
                       <th className="py-2 px-4 w-16">Rank</th>
@@ -1507,6 +1548,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     )}
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
 
@@ -1551,7 +1593,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             {/* Problem Table */}
             <div className="bg-white border border-neutral-200/90 rounded-xl divide-y divide-neutral-100 overflow-hidden shadow-2xs">
-              <table className="w-full text-left text-xs">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
                 <thead className="bg-neutral-50/75 text-neutral-500 font-medium border-b border-neutral-200/80">
                   <tr>
                     <th className="py-2.5 px-4 w-20">Level</th>
@@ -1600,6 +1643,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   })}
                 </tbody>
               </table>
+              </div>
             </div>
 
           </div>

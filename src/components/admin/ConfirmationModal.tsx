@@ -25,21 +25,33 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onClose
 }) => {
   const [typedInput, setTypedInput] = useState('');
+  const [internalProcessing, setInternalProcessing] = useState(false);
 
   // The modal stays mounted across confirmation sessions, so clear the typed
   // confirmation phrase every time it opens — otherwise a previously typed
   // "DELETE" would pre-enable the confirm button on the next use.
   useEffect(() => {
-    if (isOpen) setTypedInput('');
+    if (isOpen) {
+      setTypedInput('');
+      setInternalProcessing(false);
+    }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const busy = isProcessing || internalProcessing;
   const isConfirmDisabled = requireTextMatch ? typedInput.trim() !== requireTextMatch : false;
 
   const handleConfirm = async () => {
-    if (isConfirmDisabled || isProcessing) return;
-    await onConfirm();
+    if (isConfirmDisabled || busy) return;
+    setInternalProcessing(true);
+    try {
+      await onConfirm();
+    } catch (err) {
+      console.error('Confirmation action error:', err);
+    } finally {
+      setInternalProcessing(false);
+    }
   };
 
   const getConfirmButtonClasses = () => {
@@ -91,7 +103,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 value={typedInput}
                 onChange={(e) => setTypedInput(e.target.value)}
                 placeholder={requireTextMatch}
-                disabled={isProcessing}
+                disabled={busy}
                 className="w-full px-3 py-1.5 text-xs font-mono bg-neutral-50 border border-neutral-300 rounded-lg focus:outline-none focus:border-neutral-900"
                 autoFocus
               />
@@ -103,17 +115,17 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <div className="px-5 py-3 border-t border-neutral-100 bg-neutral-50/50 flex items-center justify-end gap-2">
           <button
             onClick={onClose}
-            disabled={isProcessing}
+            disabled={busy}
             className="px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-100 border border-neutral-200 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={handleConfirm}
-            disabled={isConfirmDisabled || isProcessing}
+            disabled={isConfirmDisabled || busy}
             className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 ${getConfirmButtonClasses()}`}
           >
-            {isProcessing && <div className="w-3 h-3 rounded-full border-2 border-white/40 border-t-white animate-spin" />}
+            {busy && <div className="w-3 h-3 rounded-full border-2 border-white/40 border-t-white animate-spin" />}
             <span>{confirmText}</span>
           </button>
         </div>

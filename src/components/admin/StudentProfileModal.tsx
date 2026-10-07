@@ -23,6 +23,7 @@ import {
 import { generateReport } from '../../utils/report';
 import { 
   resetStudentProgress, 
+  resetStudentProblemProgress,
   toggleStudentLevelUnlock, 
   toggleStudentSuspension 
 } from '../../utils/adminStore';
@@ -55,11 +56,12 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
   const [activeLeftTab, setActiveLeftTab] = useState<'problems' | 'timeline'>('problems');
   const [copied, setCopied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [reportError, setReportError] = useState<string | null>(null);
 
   // Confirmation dialog states
   const [confirmResetOpen, setConfirmResetOpen] = useState(false);
-  const [resetLevelChoice, setResetLevelChoice] = useState<'all' | 1 | 2 | 3>('all');
+  const [resetLevelChoice, setResetLevelChoice] = useState<'problem' | 'all' | 1 | 2 | 3>('all');
   const [confirmSuspendOpen, setConfirmSuspendOpen] = useState(false);
   const [confirmUnlockOpen, setConfirmUnlockOpen] = useState<number | null>(null);
 
@@ -108,6 +110,8 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
   };
 
   const handleDownloadReport = async () => {
+    if (isGeneratingReport) return;
+    setIsGeneratingReport(true);
     setReportError(null);
     try {
       await generateReport({
@@ -125,21 +129,26 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
       });
     } catch (e: any) {
       setReportError(e?.message || 'Failed to generate PDF report');
+    } finally {
+      setIsGeneratingReport(false);
     }
   };
 
   const handleConfirmReset = async () => {
     setIsProcessing(true);
+    setReportError(null);
     try {
-      if (resetLevelChoice === 'all') {
+      if (resetLevelChoice === 'problem' && activeProblem) {
+        await resetStudentProblemProgress(student.uid, activeProblem.id);
+      } else if (resetLevelChoice === 'all' || resetLevelChoice === 'problem') {
         await resetStudentProgress(student.uid);
       } else {
         await resetStudentProgress(student.uid, resetLevelChoice, problems);
       }
       setConfirmResetOpen(false);
       onRefresh();
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      setReportError(e?.message || 'Failed to reset progress');
     } finally {
       setIsProcessing(false);
     }
@@ -237,11 +246,16 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
               <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleDownloadReport}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-50 border border-neutral-200 rounded-lg shadow-2xs transition-colors cursor-pointer"
+                  disabled={isGeneratingReport}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-neutral-700 bg-white hover:bg-neutral-50 disabled:opacity-60 border border-neutral-200 rounded-lg shadow-2xs transition-colors cursor-pointer"
                   title="Download Individual Performance PDF"
                 >
-                  <FileDown size={13} className="text-neutral-500" />
-                  <span>PDF Report</span>
+                  {isGeneratingReport ? (
+                    <div className="w-3.5 h-3.5 rounded-full border-2 border-neutral-400 border-t-neutral-800 animate-spin" />
+                  ) : (
+                    <FileDown size={13} className="text-neutral-500" />
+                  )}
+                  <span>{isGeneratingReport ? 'Generating...' : 'PDF Report'}</span>
                 </button>
 
                 {/* Level Unlock Toggle Button */}
@@ -544,6 +558,20 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
               Choose scope to reset for <span className="font-semibold text-neutral-900">{student.displayName}</span>:
             </p>
             <div className="space-y-1.5 pt-1">
+              {activeProblem && (
+                <label className="flex items-center gap-2 cursor-pointer bg-neutral-50 p-2 rounded-lg border border-neutral-200">
+                  <input
+                    type="radio"
+                    name="resetLevelChoice"
+                    checked={resetLevelChoice === 'problem'}
+                    onChange={() => setResetLevelChoice('problem')}
+                    className="accent-neutral-900"
+                  />
+                  <span>
+                    Current Problem Only: <strong className="text-neutral-900">{activeProblem.title}</strong> (L{activeProblem.level})
+                  </span>
+                </label>
+              )}
               <label className="flex items-center gap-2 cursor-pointer bg-neutral-50 p-2 rounded-lg border border-neutral-200">
                 <input
                   type="radio"

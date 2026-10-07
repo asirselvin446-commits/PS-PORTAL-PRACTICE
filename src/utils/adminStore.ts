@@ -792,6 +792,48 @@ export async function resetStudentProgress(uid: string, level?: number, allProbl
   }
 }
 
+export async function resetStudentProblemProgress(uid: string, problemId: string): Promise<void> {
+  const students = getStoredStudents();
+  const idx = students.findIndex(s => s.uid === uid);
+  if (idx < 0) return;
+
+  const student = students[idx];
+  student.solvedProblems = (student.solvedProblems || []).filter(pid => pid !== problemId);
+  student.attemptedProblems = (student.attemptedProblems || []).filter(pid => pid !== problemId);
+  if (student.submissions && student.submissions[problemId]) {
+    delete student.submissions[problemId];
+  }
+  localStorage.removeItem(`passed_code_${uid}_${problemId}`);
+  localStorage.removeItem(`code_${uid}_${problemId}`);
+  student.lastActive = new Date().toISOString();
+  students[idx] = student;
+  saveStudents(students);
+
+  try {
+    const batch = writeBatch(db);
+    const userRef = doc(db, 'users', uid);
+    batch.set(userRef, {
+      solvedProblems: student.solvedProblems,
+      attemptedProblems: student.attemptedProblems,
+      lastActive: student.lastActive,
+      updatedAt: new Date().toISOString(),
+      [`submissions.${problemId}`]: deleteField()
+    }, { merge: true });
+
+    const progressRef = doc(db, 'users', uid, 'progress', 'current');
+    batch.set(progressRef, {
+      userId: uid,
+      solvedProblems: student.solvedProblems,
+      attemptedProblems: student.attemptedProblems,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+
+    await batch.commit();
+  } catch (err) {
+    console.warn('Firestore reset single problem sync warning:', err);
+  }
+}
+
 export async function toggleStudentLevelUnlock(uid: string, level: number): Promise<number[]> {
   const students = getStoredStudents();
   const idx = students.findIndex(s => s.uid === uid);
@@ -1135,6 +1177,29 @@ export async function createAnnouncement(
 export async function deleteAnnouncement(id: string): Promise<void> {
   const announcements = getStoredAnnouncements().filter(a => a.id !== id);
   await saveAnnouncements(announcements);
+}
+
+export async function updateAnnouncement(
+  id: string,
+  updates: { title?: string; message?: string; targetUids?: string[] }
+): Promise<Announcement | null> {
+  const announcements = getStoredAnnouncements();
+  const idx = announcements.findIndex(a => a.id === id);
+  if (idx < 0) return null;
+
+  const existing = announcements[idx];
+  const updatedAnn: Announcement = {
+    ...existing,
+    title: updates.title !== undefined ? updates.title.trim() : existing.title,
+    message: updates.message !== undefined ? updates.message.trim() : existing.message,
+    targetUids: updates.targetUids !== undefined
+      ? (updates.targetUids.length > 0 ? updates.targetUids : undefined)
+      : existing.targetUids
+  };
+  const updatedList = [...announcements];
+  updatedList[idx] = updatedAnn;
+  await saveAnnouncements(updatedList);
+  return updatedAnn;
 }
 
 export function dismissAnnouncement(id: string): void {

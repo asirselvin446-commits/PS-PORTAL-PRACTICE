@@ -141,6 +141,9 @@ export default function App() {
   
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'solved' | 'unsolved'>('all');
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showStudentProfileModal, setShowStudentProfileModal] = useState(false);
   const [solvedProblems, setSolvedProblems] = useState<Set<string>>(new Set());
   const [attemptedProblems, setAttemptedProblems] = useState<Set<string>>(new Set());
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
@@ -636,6 +639,35 @@ export default function App() {
     }
   };
 
+  const handleResetCode = () => {
+    if (!activeProblem) return;
+    const starter = activeProblem.starterCode || '// Write your C code here\n#include <stdio.h>\n\nint main() {\n    return 0;\n}';
+    setCode(starter);
+    if (currentUser) {
+      localStorage.removeItem(`code_${currentUser.uid}_${activeProblem.id}`);
+      const uid = currentUser.uid;
+      const passedCode = localStorage.getItem(`passed_code_${uid}_${activeProblem.id}`);
+      if (passedCode !== null && starter.trim() !== passedCode.trim() && solvedProblems.has(activeProblem.id)) {
+        const newSolved = new Set<string>(solvedProblems);
+        newSolved.delete(activeProblem.id);
+        setSolvedProblems(newSolved);
+        const newAttempted = new Set<string>(attemptedProblems);
+        newAttempted.add(activeProblem.id);
+        setAttemptedProblems(newAttempted);
+        persistProgress(newSolved, newAttempted);
+      }
+    }
+    setResults(null);
+    setError(null);
+    setCustomOutput(null);
+    setShowResetConfirm(false);
+    setReportNotification({
+      message: 'Code reset to original starter template.',
+      type: 'success'
+    });
+    setTimeout(() => setReportNotification(null), 3500);
+  };
+
   // Central level-lock check — single source of truth for the admin lock,
   // the progressive unlock rule, and per-student manual overrides.
   // Used by the problem-list gate AND re-checked on problem open and on
@@ -1072,10 +1104,16 @@ export default function App() {
   const displayedProblems = allProblems.filter(p => {
     const matchesLevel = p.level === selectedLevel;
     const matchesDiff = difficultyFilter === 'All' || p.difficulty === difficultyFilter;
+    const isSolved = solvedProblems.has(p.id);
+    const matchesStatus = statusFilter === 'all'
+      ? true
+      : statusFilter === 'solved'
+      ? isSolved
+      : !isSolved;
     const matchesSearch = !searchQuery.trim() || 
       p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.id.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesLevel && matchesDiff && matchesSearch;
+    return matchesLevel && matchesDiff && matchesStatus && matchesSearch;
   });
 
   const levelTotalProblems = allProblems.filter(p => p.level === selectedLevel);
@@ -1217,14 +1255,23 @@ export default function App() {
               </button>
             )}
 
-            <div className="text-right hidden sm:block">
-              <div className="text-xs font-medium text-neutral-900 leading-tight">
-                {displayName}
+            <button
+              onClick={() => setShowStudentProfileModal(true)}
+              className="flex items-center gap-2 p-1 sm:px-2 sm:py-1 rounded-lg hover:bg-neutral-100 transition-colors text-left cursor-pointer"
+              title="View student profile & progress summary"
+            >
+              <div className="w-7 h-7 rounded-full bg-neutral-900 text-white flex items-center justify-center text-xs font-semibold shrink-0">
+                {displayName.charAt(0).toUpperCase()}
               </div>
-              <div className="text-[11px] text-neutral-500 font-mono">
-                {currentUser.rollNumber ? `${currentUser.rollNumber} · ` : ''}{currentUser.department.split('&')[0].trim()}
+              <div className="text-right hidden sm:block">
+                <div className="text-xs font-medium text-neutral-900 leading-tight">
+                  {displayName}
+                </div>
+                <div className="text-[11px] text-neutral-500 font-mono">
+                  {currentUser.rollNumber ? `${currentUser.rollNumber} · ` : ''}{currentUser.department.split('&')[0].trim()}
+                </div>
               </div>
-            </div>
+            </button>
 
             <button
               onClick={handleGenerateReport}
@@ -1338,21 +1385,44 @@ export default function App() {
             <>
               {/* Filter Bar & Search */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
-                {/* Difficulty Filter */}
-                <div className="inline-flex items-center gap-1 bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80 self-start">
-                  {(['All', 'Easy', 'Medium', 'Hard'] as const).map(diff => (
-                    <button
-                      key={diff}
-                      onClick={() => setDifficultyFilter(diff)}
-                      className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
-                        difficultyFilter === diff
-                          ? 'bg-white text-neutral-900 shadow-xs'
-                          : 'text-neutral-600 hover:text-neutral-900'
-                      }`}
-                    >
-                      {diff}
-                    </button>
-                  ))}
+                <div className="flex flex-wrap items-center gap-2 self-start">
+                  {/* Difficulty Filter */}
+                  <div className="inline-flex items-center gap-1 bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80">
+                    {(['All', 'Easy', 'Medium', 'Hard'] as const).map(diff => (
+                      <button
+                        key={diff}
+                        onClick={() => setDifficultyFilter(diff)}
+                        className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                          difficultyFilter === diff
+                            ? 'bg-white text-neutral-900 shadow-xs'
+                            : 'text-neutral-600 hover:text-neutral-900'
+                        }`}
+                      >
+                        {diff}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Status Filter */}
+                  <div className="inline-flex items-center gap-1 bg-neutral-100 p-0.5 rounded-lg border border-neutral-200/80">
+                    {([
+                      { id: 'all', label: 'All' },
+                      { id: 'solved', label: 'Solved' },
+                      { id: 'unsolved', label: 'Unsolved' }
+                    ] as const).map(st => (
+                      <button
+                        key={st.id}
+                        onClick={() => setStatusFilter(st.id)}
+                        className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                          statusFilter === st.id
+                            ? 'bg-white text-neutral-900 shadow-xs'
+                            : 'text-neutral-600 hover:text-neutral-900'
+                        }`}
+                      >
+                        {st.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Search Input */}
@@ -1469,6 +1539,101 @@ export default function App() {
           />
         )}
 
+        {/* Student Account & Progress Profile Modal */}
+        {showStudentProfileModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs font-sans animate-in fade-in">
+            <div className="bg-white border border-neutral-200 rounded-xl w-full max-w-md shadow-2xl overflow-hidden animate-in zoom-in-95">
+              <div className="px-5 py-4 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/70">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-neutral-900 text-white flex items-center justify-center text-sm font-semibold">
+                    {displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm text-neutral-900">{displayName}</h3>
+                    <p className="text-[11px] text-neutral-500 font-mono">{currentUser.rollNumber} · {currentUser.email}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowStudentProfileModal(false)}
+                  className="p-1 text-neutral-400 hover:text-neutral-700 rounded-lg hover:bg-neutral-100 cursor-pointer"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="p-5 space-y-4 text-xs">
+                <div className="grid grid-cols-2 gap-2 text-left bg-neutral-50 p-3 rounded-lg border border-neutral-200/80">
+                  <div>
+                    <span className="text-neutral-500 text-[11px] block">Department</span>
+                    <span className="font-medium text-neutral-800">{currentUser.department}</span>
+                  </div>
+                  <div>
+                    <span className="text-neutral-500 text-[11px] block">Batch Cohort</span>
+                    <span className="font-medium text-neutral-800">{currentUser.batch || 'General'}</span>
+                  </div>
+                  <div className="mt-1">
+                    <span className="text-neutral-500 text-[11px] block">Account Role</span>
+                    <span className="font-medium capitalize text-neutral-800">{currentUser.role || 'Student'}</span>
+                  </div>
+                  <div className="mt-1">
+                    <span className="text-neutral-500 text-[11px] block">Platform Total</span>
+                    <span className="font-medium text-neutral-800">{allProblems.length} challenges</span>
+                  </div>
+                </div>
+
+                {/* Progress Breakdown */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between font-semibold text-neutral-800">
+                    <span>Performance Summary</span>
+                    <span className="font-mono text-neutral-900">{solvedProblems.size} / {allProblems.length} solved</span>
+                  </div>
+
+                  {levels.map(lvl => {
+                    const lvlProbs = allProblems.filter(p => p.level === lvl);
+                    const lvlSolved = lvlProbs.filter(p => solvedProblems.has(p.id)).length;
+                    const lvlPct = lvlProbs.length > 0 ? Math.round((lvlSolved / lvlProbs.length) * 100) : 0;
+                    return (
+                      <div key={lvl} className="space-y-1">
+                        <div className="flex justify-between text-[11px] text-neutral-600">
+                          <span>Level {lvl}</span>
+                          <span className="font-mono">{lvlSolved} / {lvlProbs.length} ({lvlPct}%)</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-900 rounded-full transition-all" style={{ width: `${lvlPct}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="pt-2 border-t border-neutral-100 flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => {
+                      setShowStudentProfileModal(false);
+                      handleGenerateReport();
+                    }}
+                    disabled={isGeneratingReport}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-neutral-800 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <FileDown size={13} />
+                    <span>Download Report</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowStudentProfileModal(false);
+                      handleLogout();
+                    }}
+                    className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <LogOut size={13} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
 
 
       </div>
@@ -1510,8 +1675,18 @@ export default function App() {
           </div>
         </div>
         
-        {/* Run & Submit Actions */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Reset, Run & Submit Actions */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button
+            onClick={() => setShowResetConfirm(true)}
+            disabled={isRunning}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-neutral-300 hover:text-white text-xs font-medium rounded-md transition-colors cursor-pointer border border-neutral-700/60"
+            title="Reset code to original starter template"
+          >
+            <RotateCcw size={12} />
+            <span className="hidden sm:inline">Reset</span>
+          </button>
+
           <button
             onClick={handleRunCustom}
             disabled={isRunning}
@@ -1618,6 +1793,34 @@ export default function App() {
               <ShieldAlert size={14} className="text-rose-400 shrink-0" />
             )}
             <span>{reportNotification.message}</span>
+          </div>
+        )}
+        {/* Reset Code Confirmation Modal */}
+        {showResetConfirm && (
+          <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-sans animate-in fade-in">
+            <div className="bg-[#18191f] border border-neutral-700 rounded-xl w-full max-w-sm shadow-2xl p-5 text-neutral-200 space-y-4">
+              <div className="flex items-center gap-2.5 text-amber-400">
+                <RotateCcw size={18} />
+                <h3 className="font-semibold text-sm text-white">Reset Code to Template?</h3>
+              </div>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Are you sure you want to revert your code for <strong className="text-white">{activeProblem?.title}</strong> back to the initial starter template? Your unsubmitted draft will be cleared.
+              </p>
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <button
+                  onClick={() => setShowResetConfirm(false)}
+                  className="px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleResetCode}
+                  className="px-3 py-1.5 text-xs font-medium text-white bg-rose-600 hover:bg-rose-500 rounded-lg transition-colors cursor-pointer"
+                >
+                  Reset Code
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

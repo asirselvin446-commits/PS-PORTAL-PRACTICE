@@ -8,9 +8,10 @@ import {
   Users, 
   CheckCircle2, 
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Edit2
 } from 'lucide-react';
-import { createAnnouncement, deleteAnnouncement } from '../../utils/adminStore';
+import { createAnnouncement, updateAnnouncement, deleteAnnouncement } from '../../utils/adminStore';
 
 interface AnnouncementModalProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
   const [selectedBatch, setSelectedBatch] = useState<string>(batches[0]?.name || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // The modal stays mounted while closed, so re-sync the audience every time it
   // opens — otherwise a Broadcast Notice to selected students would silently go
@@ -49,12 +51,33 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
     if (isOpen) {
       setTargetType(initialTargetUids && initialTargetUids.length > 0 ? 'selected' : 'all');
       setError(null);
+      setEditingId(null);
     }
   }, [isOpen, initialTargetUids]);
 
   if (!isOpen) return null;
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const handleStartEdit = (ann: Announcement) => {
+    setEditingId(ann.id);
+    setTitle(ann.title);
+    setMessage(ann.message);
+    setError(null);
+    if (ann.targetUids && ann.targetUids.length > 0) {
+      setTargetType('selected');
+    } else {
+      setTargetType('all');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setTitle('');
+    setMessage('');
+    setError(null);
+    setTargetType(initialTargetUids && initialTargetUids.length > 0 ? 'selected' : 'all');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !message.trim()) {
       setError('Please provide both an announcement title and message.');
@@ -63,12 +86,15 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
 
     let targets: string[] | undefined = undefined;
     if (targetType === 'selected') {
+      if (!initialTargetUids || initialTargetUids.length === 0) {
+        setError('No students were selected from the roster. Choose "All Students" or select students from the roster first.');
+        return;
+      }
       targets = initialTargetUids;
     } else if (targetType === 'batch') {
       const batchTargets = students.filter(s => s.batch === selectedBatch).map(s => s.uid);
       if (batchTargets.length === 0) {
-        // createAnnouncement treats an empty target list as "all students" —
-        // refuse rather than broadcasting an empty-batch notice to everyone.
+        // Refuse rather than broadcasting an empty-batch notice to everyone
         setError(`No students are currently assigned to batch "${selectedBatch}". Choose a batch with members or change the audience.`);
         return;
       }
@@ -78,12 +104,21 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
     setIsSubmitting(true);
     setError(null);
     try {
-      await createAnnouncement(title.trim(), message.trim(), targets, currentUserEmail);
+      if (editingId) {
+        await updateAnnouncement(editingId, {
+          title: title.trim(),
+          message: message.trim(),
+          targetUids: targets
+        });
+        setEditingId(null);
+      } else {
+        await createAnnouncement(title.trim(), message.trim(), targets, currentUserEmail);
+      }
       setTitle('');
       setMessage('');
       onRefresh();
     } catch (err: any) {
-      setError(err?.message || 'Failed to publish announcement');
+      setError(err?.message || (editingId ? 'Failed to update announcement' : 'Failed to publish announcement'));
     } finally {
       setIsSubmitting(false);
     }
@@ -124,10 +159,19 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar text-xs">
           
-          {/* Create Form */}
-          <form onSubmit={handleCreate} className="space-y-3 bg-neutral-50/50 p-4 border border-neutral-200/80 rounded-xl">
-            <div className="font-semibold text-xs text-neutral-900 flex items-center gap-1.5">
-              <span>Compose Announcement</span>
+          {/* Create / Edit Form */}
+          <form onSubmit={handleSubmit} className="space-y-3 bg-neutral-50/50 p-4 border border-neutral-200/80 rounded-xl">
+            <div className="font-semibold text-xs text-neutral-900 flex items-center justify-between">
+              <span>{editingId ? 'Edit Announcement' : 'Compose Announcement'}</span>
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="text-[11px] text-neutral-500 hover:text-neutral-900 cursor-pointer"
+                >
+                  Cancel Edit
+                </button>
+              )}
             </div>
 
             {error && (
@@ -216,7 +260,16 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end">
+            <div className="pt-2 flex justify-end gap-2">
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-100 border border-neutral-200 rounded-lg transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+              )}
               <button
                 type="submit"
                 disabled={isSubmitting || !title.trim() || !message.trim()}
@@ -227,7 +280,7 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
                 ) : (
                   <Send size={12} />
                 )}
-                <span>Broadcast Notice</span>
+                <span>{editingId ? 'Update Notice' : 'Broadcast Notice'}</span>
               </button>
             </div>
           </form>
@@ -248,13 +301,22 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
                   <div key={ann.id} className="p-3 bg-white border border-neutral-200 rounded-lg space-y-1 relative group">
                     <div className="flex items-start justify-between gap-2">
                       <div className="font-semibold text-neutral-900 text-xs">{ann.title}</div>
-                      <button
-                        onClick={() => handleDelete(ann.id)}
-                        className="p-1 text-neutral-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer shrink-0"
-                        title="Delete announcement"
-                      >
-                        <Trash2 size={13} />
-                      </button>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          onClick={() => handleStartEdit(ann)}
+                          className="p-1 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded transition-colors cursor-pointer"
+                          title="Edit announcement"
+                        >
+                          <Edit2 size={13} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(ann.id)}
+                          className="p-1 text-neutral-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+                          title="Delete announcement"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </div>
 
                     <p className="text-xs text-neutral-600 whitespace-pre-wrap leading-relaxed">
