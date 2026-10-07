@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TestResult, ExecutionResult } from '../utils/executor';
 import { CheckCircle2, XCircle, Eye, EyeOff, Terminal, Loader2, AlertCircle, Lock } from 'lucide-react';
 import { HiddenTestVisibilityMode } from '../types/admin';
@@ -25,6 +25,13 @@ export const Console: React.FC<ConsoleProps> = ({
   hiddenTestVisibility = 'allow_reveal'
 }) => {
   const [revealedTests, setRevealedTests] = useState<Set<number>>(new Set());
+
+  // A new submission replaces `results` wholesale; any tests the student
+  // revealed on the previous result set must not stay revealed for the new
+  // one (reveals are keyed by index, not identity).
+  useEffect(() => {
+    setRevealedTests(new Set());
+  }, [results]);
 
   const toggleReveal = (index: number) => {
     if (hiddenTestVisibility === 'strictly_hidden') return;
